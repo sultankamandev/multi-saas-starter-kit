@@ -44,11 +44,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-org/saas-starter-kit.git"
+    "url": "git+https://github.com/your-org/multi-saas-starter-kit.git"
   },
-  "homepage": "https://github.com/your-org/saas-starter-kit#readme",
+  "homepage": "https://github.com/your-org/multi-saas-starter-kit#readme",
   "bugs": {
-    "url": "https://github.com/your-org/saas-starter-kit/issues"
+    "url": "https://github.com/your-org/multi-saas-starter-kit/issues"
   },
   "engines": {
     "node": ">=18"
