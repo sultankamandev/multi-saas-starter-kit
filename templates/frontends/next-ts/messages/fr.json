@@ -1,0 +1,398 @@
+{
+  "title": "Bienvenue sur SaaS Starter",
+  "language": "Langue",
+  "nav": {
+    "appName": "SaaS Starter",
+    "welcome": "Bienvenue, {name}",
+    "dashboard": "Tableau de bord",
+    "profile": "Profil",
+    "logout": "Déconnexion",
+    "login": "Connexion",
+    "register": "S'inscrire"
+  },
+  "login": {
+    "title": "Connexion",
+    "email": "E-mail ou nom d'utilisateur",
+    "emailOrUsername": "E-mail ou nom d'utilisateur",
+    "password": "Mot de passe",
+    "submit": "Se connecter",
+    "submitting": "Connexion en cours...",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "registerLink": "S'inscrire ici",
+    "forgotPassword": "Mot de passe oublié ?",
+    "rememberMe": "Se souvenir de moi",
+    "emailOrUsernameHelper": "Vous pouvez vous connecter avec votre adresse e-mail ou votre nom d'utilisateur",
+    "success": "Connexion réussie !",
+    "failed": "Échec de la connexion",
+    "orContinueWith": "Ou continuer avec",
+    "googleLoginSuccess": "Bon retour, {name} 🌙",
+    "googleLoginSuccessGeneric": "Connexion réussie 🌙",
+    "googleLoginFailed": "Échec de la connexion Google",
+    "validation": {
+      "emailRequired": "L'e-mail est requis",
+      "emailInvalid": "Adresse e-mail invalide",
+      "passwordRequired": "Le mot de passe est requis"
+    }
+  },
+  "register": {
+    "title": "S'inscrire",
+    "username": "Nom d'utilisateur",
+    "usernamePlaceholder": "nomutilisateur",
+    "usernameHelper": "3-30 caractères, uniquement des lettres, chiffres, underscores et tirets",
+    "firstName": "Prénom",
+    "lastName": "Nom de famille",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "country": "Pays",
+    "submit": "S'inscrire",
+    "submitting": "Inscription en cours...",
+    "hasAccount": "Vous avez déjà un compte ?",
+    "loginLink": "Connectez-vous ici",
+    "success": "Inscription réussie ! Veuillez vous connecter.",
+    "failed": "Échec de l'inscription",
+    "validationFailed": "Veuillez vérifier le formulaire pour les erreurs",
+    "validation": {
+      "firstNameRequired": "Le prénom est requis",
+      "lastNameRequired": "Le nom de famille est requis",
+      "emailRequired": "L'e-mail est requis",
+      "emailInvalid": "Adresse e-mail invalide",
+      "passwordRequired": "Le mot de passe est requis",
+      "passwordMinLength": "Le mot de passe doit contenir au moins 8 caractères",
+      "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
+      "passwordsNotMatch": "Les mots de passe ne correspondent pas",
+      "usernameRequired": "Le nom d'utilisateur est requis",
+      "usernameMinLength": "Le nom d'utilisateur doit contenir au moins 3 caractères",
+      "usernameMaxLength": "Le nom d'utilisateur ne doit pas dépasser 30 caractères",
+      "usernameInvalid": "Le nom d'utilisateur ne peut contenir que des lettres, chiffres, underscores et tirets. Doit commencer et se terminer par une lettre ou un chiffre."
+    }
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcomeBack": "Bon retour !",
+    "name": "Nom",
+    "email": "E-mail",
+    "role": "Rôle",
+    "editProfile": "Modifier le profil",
+    "features": {
+      "title": "Fonctionnalités de la plateforme",
+      "description": "Votre tableau de bord personnel. Accédez à la gestion des utilisateurs, aux analyses et aux paramètres."
+    },
+    "logout": "Déconnexion"
+  },
+  "landing": {
+    "hero": {
+      "title": "Lancez votre SaaS plus vite",
+      "subtitle": "Modèle prêt pour la production avec authentification, console d'administration, internationalisation et intégration API.",
+      "ctaPrimary": "Commencer",
+      "ctaSecondary": "En savoir plus"
+    },
+    "features": {
+      "title": "Tout ce dont vous avez besoin",
+      "items": {
+        "auth": {
+          "title": "Authentification",
+          "description": "Connexion, inscription, 2FA, OAuth, réinitialisation de mot de passe — tout est intégré."
+        },
+        "admin": {
+          "title": "Console d'administration",
+          "description": "Gestion des utilisateurs, tableau de bord analytique, IPs bloquées et paramètres."
+        },
+        "i18n": {
+          "title": "Internationalisation",
+          "description": "Support multilingue avec 4 langues prêtes. Routage par domaine et gestion des cookies."
+        },
+        "api": {
+          "title": "Intégration API",
+          "description": "Couche de services typée, actualisation de tokens, gestion d'erreurs et intercepteurs Axios."
+        }
+      }
+    },
+    "cta": {
+      "title": "Prêt à construire ?",
+      "description": "Clonez le dépôt, configurez votre environnement et commencez à construire votre produit SaaS en quelques minutes.",
+      "button": "Commencer",
+      "register": "Créer un compte",
+      "login": "Vous avez déjà un compte ?"
+    }
+  },
+  "common": {
+    "loading": "Chargement...",
+    "logoutSuccess": "Déconnexion réussie"
+  },
+  "errors": {
+    "title": "Quelque chose s'est mal passé",
+    "message": "Une erreur inattendue s'est produite. Veuillez réessayer.",
+    "tryAgain": "Réessayer",
+    "goHome": "Aller à l'accueil",
+    "errorDetailsDevelopment": "Détails de l'erreur (Développement)"
+  },
+  "forgotPassword": {
+    "title": "Mot de passe oublié",
+    "description": "Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+    "email": "E-mail",
+    "submit": "Envoyer le lien",
+    "submitting": "Envoi en cours...",
+    "success": "Lien de réinitialisation envoyé à votre e-mail.",
+    "failed": "Échec de l'envoi du lien",
+    "backToLogin": "Retour à la connexion",
+    "validation": {
+      "emailRequired": "L'e-mail est requis",
+      "emailInvalid": "Adresse e-mail invalide"
+    }
+  },
+  "resetPassword": {
+    "title": "Réinitialiser le mot de passe",
+    "description": "Entrez votre nouveau mot de passe ci-dessous.",
+    "newPassword": "Nouveau mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "submit": "Réinitialiser le mot de passe",
+    "submitting": "Réinitialisation en cours...",
+    "success": "Votre mot de passe a été réinitialisé avec succès.",
+    "failed": "Échec de la réinitialisation du mot de passe",
+    "missingToken": "Jeton de réinitialisation invalide ou expiré.",
+    "loadingToken": "Chargement...",
+    "backToLogin": "Retour à la connexion",
+    "validation": {
+      "passwordRequired": "Le mot de passe est requis",
+      "passwordMinLength": "Le mot de passe doit contenir au moins 8 caractères",
+      "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
+      "passwordsNotMatch": "Les mots de passe ne correspondent pas"
+    }
+  },
+  "verifyEmail": {
+    "title": "Vérifier l'e-mail",
+    "verifying": "Vérification de votre e-mail...",
+    "success": "E-mail vérifié avec succès 🌙",
+    "successTitle": "Votre e-mail a été vérifié 🌟",
+    "successMessage": "Vous pouvez maintenant vous connecter à votre compte.",
+    "failed": "Échec de la vérification",
+    "failedTitle": "Échec de la vérification ❌",
+    "failedMessage": "Veuillez vérifier votre lien ou réessayer de vous inscrire.",
+    "missingToken": "Jeton de vérification invalide ou manquant.",
+    "goToLogin": "Aller à la connexion",
+    "registerAgain": "S'inscrire à nouveau"
+  },
+  "verify2FA": {
+    "title": "Authentification à deux facteurs",
+    "description": "Entrez le code à 6 chiffres que nous avons envoyé à votre e-mail.",
+    "emailDescription": "Un code à 6 chiffres a été envoyé à votre e-mail. Veuillez l'entrer ci-dessous.",
+    "totpDescription": "Entrez le code à 6 chiffres de votre application d'authentification.",
+    "codeLabel": "Code de vérification",
+    "submit": "Vérifier le code",
+    "submitting": "Vérification en cours...",
+    "success": "Connexion réussie 🌙",
+    "failed": "Code invalide ou expiré",
+    "missingUserId": "Demande de vérification invalide. Veuillez réessayer de vous connecter.",
+    "loading": "Chargement...",
+    "noCode": "Vous n'avez pas reçu de code ?",
+    "useRecoveryCode": "Utiliser un code de récupération",
+    "backToLogin": "Retour à la connexion",
+    "codeComplete": "Code saisi ✓",
+    "codeExpired": "Le code de vérification a expiré.",
+    "codeExpiredOrInvalid": "Le code de vérification a expiré ou est invalide.",
+    "resendCode": "Renvoyer le code",
+    "resending": "Envoi en cours...",
+    "codeResent": "Un nouveau code a été envoyé à votre e-mail.",
+    "resendFailed": "Échec de l'envoi du code. Veuillez réessayer.",
+    "validation": {
+      "codeRequired": "Le code de vérification est requis",
+      "codeLength": "Le code doit contenir exactement 6 chiffres",
+      "codeInvalid": "Le code ne doit contenir que des chiffres"
+    }
+  },
+  "setup2FA": {
+    "title": "Activer l'authentification à deux facteurs",
+    "description": "Sécurisez votre compte avec une couche de protection supplémentaire",
+    "generateQR": "Générer le code QR",
+    "generating": "Génération en cours...",
+    "qrGenerated": "Code QR généré avec succès",
+    "generateFailed": "Échec de la génération du code QR",
+    "scanInstructions": "Scannez ce code QR avec Google Authenticator ou une application TOTP",
+    "backupCode": "Code de secours (Enregistrez-le dans un endroit sûr) :",
+    "backupCodeNote": "Utilisez ce code pour accéder à votre compte si vous perdez votre appareil",
+    "codeLabel": "Entrez le code à 6 chiffres de votre application d'authentification",
+    "verifyAndEnable": "Vérifier et activer 2FA",
+    "verifying": "Vérification en cours...",
+    "success": "2FA activé avec succès 🌙",
+    "verifyFailed": "Code invalide. Veuillez réessayer.",
+    "noSecret": "Veuillez d'abord générer le code QR",
+    "enabledSuccess": "Authentification à deux facteurs activée",
+    "redirecting": "Redirection vers le tableau de bord...",
+    "loading": "Chargement...",
+    "loadingQRCode": "Chargement du code QR...",
+    "recoveryCodesTitle": "Vos codes de récupération",
+    "recoveryCodesDescription": "Enregistrez ces codes dans un endroit sûr. Chacun ne peut être utilisé qu'une seule fois pour accéder à votre compte si vous perdez votre appareil 2FA.",
+    "recoveryCodesWarning": "⚠️ Ces codes ne seront affichés qu'une seule fois. Assurez-vous de les enregistrer en toute sécurité !",
+    "copyCodes": "Copier tous les codes",
+    "codesCopied": "Codes de récupération copiés dans le presse-papiers",
+    "continueToDashboard": "Continuer vers le tableau de bord",
+    "validation": {
+      "codeRequired": "Le code de vérification est requis",
+      "codeLength": "Le code doit contenir exactement 6 chiffres",
+      "codeInvalid": "Le code ne doit contenir que des chiffres"
+    }
+  },
+  "recoveryLogin": {
+    "title": "Se connecter avec un code de récupération",
+    "description": "Si vous avez perdu l'accès à votre appareil 2FA, utilisez l'un de vos codes de récupération.",
+    "codeLabel": "Code de récupération",
+    "codeHint": "Entrez l'un de vos codes de récupération (alphanumérique)",
+    "submit": "Se connecter",
+    "submitting": "Connexion en cours...",
+    "success": "Connecté avec le code de récupération 🌙",
+    "failed": "Code de récupération invalide ou déjà utilisé",
+    "missingUserId": "Demande de récupération invalide. Veuillez réessayer de vous connecter.",
+    "loading": "Chargement...",
+    "noRecoveryCode": "Vous n'avez pas de code de récupération ?",
+    "backToLogin": "Retour à la connexion",
+    "validation": {
+      "codeRequired": "Le code de récupération est requis",
+      "codeMinLength": "Le code de récupération est trop court"
+    }
+  },
+  "admin": {
+    "auditLog": "Journal d'audit",
+    "blockedIPs": "IP bloquées",
+    "settings": "Paramètres",
+    "users": "Utilisateurs",
+    "firstName": "Prénom",
+    "lastName": "Nom de famille",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "role": "Rôle",
+    "user": "Utilisateur",
+    "admin": "Administrateur",
+    "emailVerified": "E-mail vérifié",
+    "emailVerificationRequirement": "Exigence de vérification de l'e-mail",
+    "twoFARequirement": "Exigence 2FA",
+    "useGlobalSetting": "Utiliser le paramètre global",
+    "required": "Requis",
+    "notRequired": "Non requis",
+    "newPassword": "Nouveau mot de passe (laisser vide pour conserver l'actuel)",
+    "toggleVerifyEmail": "Basculer pour vérifier ou annuler la vérification de l'e-mail de l'utilisateur",
+    "overrideEmailVerification": "Remplacer le paramètre global de vérification de l'e-mail pour cet utilisateur",
+    "override2FA": "Remplacer le paramètre global 2FA pour cet utilisateur",
+    "passwordHelper": "Remplir uniquement si vous souhaitez changer le mot de passe",
+    "passwordMinLength": "Le mot de passe doit contenir au moins 8 caractères",
+    "createUserVerified": "Cocher pour créer un utilisateur avec e-mail vérifié",
+    "performedBy": "Effectué par",
+    "targetUser": "Utilisateur cible",
+    "createdAt": "Créé le",
+    "unblock": "Débloquer",
+    "ipUnblockedSuccess": "Adresse IP débloquée avec succès",
+    "ipUnblockFailed": "Échec du déblocage de l'adresse IP",
+    "applicationSettings": "Paramètres de l'application",
+    "emailVerification": "Vérification de l'e-mail",
+    "emailVerificationInfo": "Lorsque la vérification de l'e-mail est désactivée, les nouveaux utilisateurs peuvent se connecter immédiatement après l'inscription sans vérifier leur e-mail. Vous pouvez toujours vérifier manuellement les utilisateurs individuels depuis la page Utilisateurs.",
+    "requireEmailVerification": "Exiger la vérification de l'e-mail",
+    "emailVerificationEnabled": "Les nouveaux utilisateurs doivent vérifier leur e-mail avant de se connecter",
+    "emailVerificationDisabled": "Les nouveaux utilisateurs peuvent se connecter immédiatement après l'inscription",
+    "twoFactorAuthentication": "Authentification à deux facteurs (2FA)",
+    "twoFAInfo": "Lorsque 2FA est requis globalement, tous les utilisateurs doivent activer 2FA avant de pouvoir se connecter. Les utilisateurs peuvent configurer 2FA en utilisant TOTP (applications d'authentification) ou des codes basés sur l'e-mail. Vous pouvez toujours gérer les paramètres 2FA des utilisateurs individuels depuis la page Utilisateurs.",
+    "require2FAForAll": "Exiger 2FA pour tous les utilisateurs",
+    "twoFAEnabled": "Tous les utilisateurs doivent activer 2FA avant de se connecter",
+    "twoFADisabled": "2FA est facultatif - les utilisateurs peuvent l'activer individuellement",
+    "emailVerificationEnabledSuccess": "Vérification de l'e-mail activée avec succès",
+    "emailVerificationDisabledSuccess": "Vérification de l'e-mail désactivée avec succès",
+    "twoFAEnabledSuccess": "Exigence 2FA activée avec succès",
+    "twoFADisabledSuccess": "Exigence 2FA désactivée avec succès",
+    "failedToLoadSettings": "Échec du chargement des paramètres",
+    "failedToUpdateSetting": "Échec de la mise à jour du paramètre",
+    "analytics": {
+      "title": "Analytique des utilisateurs 🌙",
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "refresh": "Actualiser",
+      "loading": "Chargement...",
+      "noData": "Aucune donnée disponible pour la plage de dates sélectionnée.",
+      "registrations": "Inscriptions",
+      "verified": "Vérifiés",
+      "totalRegistrations": "Total des inscriptions",
+      "totalVerified": "Total vérifiés",
+      "verificationRate": "Taux de vérification",
+      "kpi": {
+        "totalUsers": "Total des utilisateurs",
+        "verifiedUsers": "Utilisateurs vérifiés",
+        "newUsers7Days": "Nouveaux utilisateurs (7 jours)",
+        "verified": "vérifiés",
+        "active24h": "Actifs (24h)",
+        "activeThisWeek": "actifs cette semaine"
+      },
+      "activeUsers": {
+        "title": "Utilisateurs actifs quotidiens 🔥",
+        "daily": "Utilisateurs actifs"
+      },
+      "retention": {
+        "title": "Analyse de rétention des utilisateurs 🔁",
+        "average7d": "Rétention moyenne 7 jours",
+        "average30d": "Rétention moyenne 30 jours",
+        "rate7d": "Rétention 7 jours %",
+        "rate30d": "Rétention 30 jours %"
+      },
+      "cohort": {
+        "title": "Carte de chaleur de rétention des cohortes 🔥",
+        "description": "Chaque ligne montre une cohorte d'inscription. Couleur plus foncée = meilleure rétention.",
+        "signupDate": "Date d'inscription",
+        "newUsers": "Nouveaux utilisateurs",
+        "day": "Jour {day, number}",
+        "legend": "Légende:"
+      },
+      "segmentation": {
+        "country": "Pays",
+        "language": "Langue",
+        "allCountries": "Tous les pays",
+        "allLanguages": "Toutes les langues",
+        "countries": {
+          "TR": "Turquie",
+          "US": "États-Unis",
+          "GB": "Royaume-Uni",
+          "DE": "Allemagne",
+          "FR": "France"
+        },
+        "languages": {
+          "tr": "Turc",
+          "en": "Anglais",
+          "de": "Allemand",
+          "fr": "Français"
+        }
+      }
+    }
+  },
+  "profile": {
+    "title": "Paramètres du profil",
+    "loadingProfile": "Chargement du profil...",
+    "failedToLoadProfile": "Échec du chargement du profil",
+    "profileUpdatedSuccessfully": "Profil mis à jour avec succès",
+    "failedToUpdateProfile": "Échec de la mise à jour du profil",
+    "personalInfo": "Informations personnelles",
+    "username": "Nom d'utilisateur",
+    "usernamePlaceholder": "nomutilisateur",
+    "usernameHelper": "3-30 caractères, uniquement des lettres, chiffres, underscores et tirets",
+    "firstName": "Prénom",
+    "lastName": "Nom de famille",
+    "language": "Langue",
+    "country": "Pays",
+    "selectCountry": "Sélectionner un pays...",
+    "phone": "Téléphone",
+    "address": "Adresse",
+    "securitySettings": "Paramètres de sécurité",
+    "overrideGlobalSettings": "Remplacer les paramètres globaux pour votre compte. Laissez \"Utiliser le paramètre global\" pour suivre la configuration à l'échelle du système.",
+    "useGlobalEmailVerification": "Utiliser le paramètre global pour la vérification de l'e-mail",
+    "followSystemEmailVerification": "Suivre la configuration de vérification de l'e-mail à l'échelle du système",
+    "requireEmailVerification": "Exiger la vérification de l'e-mail",
+    "emailVerificationRequired": "La vérification de l'e-mail est requise",
+    "emailVerificationNotRequired": "La vérification de l'e-mail n'est pas requise",
+    "useGlobal2FA": "Utiliser le paramètre global pour 2FA",
+    "followSystem2FA": "Suivre la configuration 2FA à l'échelle du système",
+    "require2FA": "Exiger 2FA",
+    "twoFARequired": "2FA est requis",
+    "twoFANotRequired": "2FA n'est pas requis",
+    "enable2FA": "Activer l'authentification à deux facteurs",
+    "twoFAEnabledDescription": "2FA est activé. Vous recevrez un code de vérification par e-mail lors de la connexion.",
+    "twoFADisabledDescription": "Activez 2FA pour ajouter une couche de sécurité supplémentaire à votre compte.",
+    "cancel": "Annuler",
+    "saving": "Enregistrement...",
+    "saveChanges": "Enregistrer les modifications"
+  }
+}

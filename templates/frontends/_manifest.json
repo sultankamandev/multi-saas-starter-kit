@@ -1,0 +1,46 @@
+{
+  "templates": [
+    {
+      "id": "next-ts",
+      "name": "Next.js (App Router, SSR)",
+      "dir": "next-ts",
+      "port": 3000,
+      "language": "typescript",
+      "variants": ["ts"],
+      "status": "stable",
+      "apiUrlEnv": "NEXT_PUBLIC_API_URL",
+      "installCmd": "npm install",
+      "devCmd": "npm run dev",
+      "dockerfile": "next-web.Dockerfile",
+      "prodCmd": "npm start"
+    },
+    {
+      "id": "react-vite-ts",
+      "name": "React (Vite SPA)",
+      "dir": "react-vite-ts",
+      "port": 5173,
+      "language": "typescript",
+      "variants": ["ts"],
+      "status": "stable",
+      "apiUrlEnv": "VITE_API_URL",
+      "installCmd": "npm install",
+      "devCmd": "npm run dev",
+      "dockerfile": "react-web.Dockerfile",
+      "prodPort": 80
+    },
+    {
+      "id": "vue-vite-ts",
+      "name": "Vue (Vite SPA)",
+      "dir": "vue-vite-ts",
+      "port": 5173,
+      "language": "typescript",
+      "variants": ["ts"],
+      "status": "beta",
+      "apiUrlEnv": "VITE_API_URL",
+      "installCmd": "npm install",
+      "devCmd": "npm run dev",
+      "dockerfile": "vue-web.Dockerfile",
+      "prodPort": 80
+    }
+  ]
+}

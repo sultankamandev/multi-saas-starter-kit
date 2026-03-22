@@ -1,0 +1,403 @@
+﻿{
+  "title": "SaaS Starter'a HoÅŸ Geldiniz",
+  "language": "Dil",
+  "nav": {
+    "appName": "SaaS Starter",
+    "welcome": "HoÅŸ geldin, {name}",
+    "dashboard": "Kontrol Paneli",
+    "profile": "Profil",
+    "logout": "Ã‡Ä±kÄ±ÅŸ Yap",
+    "login": "GiriÅŸ Yap",
+    "register": "KayÄ±t Ol"
+  },
+  "login": {
+    "title": "GiriÅŸ Yap",
+    "email": "E-posta veya KullanÄ±cÄ± AdÄ±",
+    "emailOrUsername": "E-posta veya KullanÄ±cÄ± AdÄ±",
+    "password": "Åžifre",
+    "submit": "GiriÅŸ Yap",
+    "submitting": "GiriÅŸ yapÄ±lÄ±yor...",
+    "noAccount": "HesabÄ±nÄ±z yok mu?",
+    "registerLink": "Buradan kayÄ±t olun",
+    "forgotPassword": "Åžifremi Unuttum?",
+    "rememberMe": "Beni HatÄ±rla",
+    "emailOrUsernameHelper": "E-posta adresiniz veya kullanÄ±cÄ± adÄ±nÄ±z ile giriÅŸ yapabilirsiniz",
+    "success": "GiriÅŸ baÅŸarÄ±lÄ±!",
+    "failed": "GiriÅŸ baÅŸarÄ±sÄ±z",
+    "orContinueWith": "Veya ÅŸununla devam et",
+    "googleLoginSuccess": "Tekrar hoÅŸ geldin, {name} ðŸŒ™",
+    "googleLoginSuccessGeneric": "GiriÅŸ baÅŸarÄ±lÄ± ðŸŒ™",
+    "googleLoginFailed": "Google giriÅŸi baÅŸarÄ±sÄ±z",
+    "validation": {
+      "emailRequired": "E-posta gereklidir",
+      "emailInvalid": "GeÃ§ersiz e-posta adresi",
+      "passwordRequired": "Åžifre gereklidir"
+    }
+  },
+  "register": {
+    "title": "KayÄ±t Ol",
+    "username": "KullanÄ±cÄ± AdÄ±",
+    "usernamePlaceholder": "kullaniciadi",
+    "usernameHelper": "3-30 karakter, sadece harf, rakam, alt Ã§izgi ve tire",
+    "firstName": "Ad",
+    "lastName": "Soyad",
+    "email": "E-posta",
+    "password": "Åžifre",
+    "confirmPassword": "Åžifreyi Onayla",
+    "country": "Ãœlke",
+    "submit": "KayÄ±t Ol",
+    "submitting": "KayÄ±t yapÄ±lÄ±yor...",
+    "hasAccount": "Zaten hesabÄ±nÄ±z var mÄ±?",
+    "loginLink": "Buradan giriÅŸ yapÄ±n",
+    "success": "KayÄ±t baÅŸarÄ±lÄ±! LÃ¼tfen giriÅŸ yapÄ±n.",
+    "failed": "KayÄ±t baÅŸarÄ±sÄ±z",
+    "validationFailed": "LÃ¼tfen formdaki hatalarÄ± kontrol edin",
+    "validation": {
+      "firstNameRequired": "Ad gereklidir",
+      "lastNameRequired": "Soyad gereklidir",
+      "emailRequired": "E-posta gereklidir",
+      "emailInvalid": "GeÃ§ersiz e-posta adresi",
+      "passwordRequired": "Åžifre gereklidir",
+      "passwordMinLength": "Åžifre en az 8 karakter olmalÄ±dÄ±r",
+      "confirmPasswordRequired": "LÃ¼tfen ÅŸifrenizi onaylayÄ±n",
+      "passwordsNotMatch": "Åžifreler eÅŸleÅŸmiyor",
+      "usernameRequired": "KullanÄ±cÄ± adÄ± gereklidir",
+      "usernameMinLength": "KullanÄ±cÄ± adÄ± en az 3 karakter olmalÄ±dÄ±r",
+      "usernameMaxLength": "KullanÄ±cÄ± adÄ± en fazla 30 karakter olmalÄ±dÄ±r",
+      "usernameInvalid": "KullanÄ±cÄ± adÄ± sadece harf, rakam, alt Ã§izgi ve tire iÃ§erebilir. Harf veya rakamla baÅŸlayÄ±p bitmelidir."
+    }
+  },
+  "dashboard": {
+    "title": "Kontrol Paneli",
+    "welcomeBack": "Tekrar hoÅŸ geldin!",
+    "name": "Ad",
+    "email": "E-posta",
+    "role": "Rol",
+    "editProfile": "Profili DÃ¼zenle",
+    "features": {
+      "title": "Platform Ã–zellikleri",
+      "description": "KiÅŸisel kontrol paneliniz. KullanÄ±cÄ± yÃ¶netimi, analitik ve platform ayarlarÄ±na eriÅŸin."
+    },
+    "logout": "Ã‡Ä±kÄ±ÅŸ Yap",
+    "adminPanel": "YÃ¶netici Paneli"
+  },
+  "landing": {
+    "hero": {
+      "title": "SaaS ÃœrÃ¼nÃ¼nÃ¼zÃ¼ HÄ±zla BaÅŸlatÄ±n",
+      "subtitle": "Kimlik doÄŸrulama, yÃ¶netici konsolu, Ã§oklu dil desteÄŸi ve API entegrasyonu iÃ§eren Ã¼retime hazÄ±r ÅŸablon.",
+      "ctaPrimary": "BaÅŸlayÄ±n",
+      "ctaSecondary": "Daha Fazla Bilgi"
+    },
+    "features": {
+      "title": "Ä°htiyacÄ±nÄ±z Olan Her Åžey",
+      "items": {
+        "auth": {
+          "title": "Kimlik DoÄŸrulama",
+          "description": "GiriÅŸ, kayÄ±t, 2FA, OAuth, ÅŸifre sÄ±fÄ±rlama â€” tÃ¼mÃ¼ hazÄ±r."
+        },
+        "admin": {
+          "title": "YÃ¶netici Konsolu",
+          "description": "KullanÄ±cÄ± yÃ¶netimi, analitik paneli, engelli IP'ler ve uygulama ayarlarÄ±."
+        },
+        "i18n": {
+          "title": "Ã‡oklu Dil DesteÄŸi",
+          "description": "4 dil desteÄŸi hazÄ±r. Alan adÄ±na dayalÄ± yÃ¶nlendirme ve Ã§erez yÃ¶netimi."
+        },
+        "api": {
+          "title": "API Entegrasyonu",
+          "description": "Tip gÃ¼venli servis katmanÄ±, token yenileme, hata yÃ¶netimi ve Axios interceptor'larÄ±."
+        }
+      }
+    },
+    "cta": {
+      "title": "BaÅŸlamaya HazÄ±r MÄ±sÄ±nÄ±z?",
+      "description": "Repo'yu klonlayÄ±n, ortamÄ±nÄ±zÄ± yapÄ±landÄ±rÄ±n ve dakikalar iÃ§inde SaaS Ã¼rÃ¼nÃ¼nÃ¼zÃ¼ oluÅŸturmaya baÅŸlayÄ±n.",
+      "button": "BaÅŸlayÄ±n",
+      "register": "Hesap OluÅŸtur",
+      "login": "Zaten hesabÄ±nÄ±z var mÄ±?"
+    }
+  },
+  "common": {
+    "loading": "YÃ¼kleniyor...",
+    "logoutSuccess": "BaÅŸarÄ±yla Ã§Ä±kÄ±ÅŸ yapÄ±ldÄ±",
+    "unauthorized": "Bu sayfaya eriÅŸmek iÃ§in lÃ¼tfen giriÅŸ yapÄ±n",
+    "adminOnly": "YÃ¶netici eriÅŸimi gerekli",
+    "loginRequired": "Bu sayfaya eriÅŸmek iÃ§in lÃ¼tfen giriÅŸ yapÄ±n"
+  },
+  "errors": {
+    "title": "Bir ÅŸeyler yanlÄ±ÅŸ gitti",
+    "message": "Beklenmeyen bir hata oluÅŸtu. LÃ¼tfen tekrar deneyin.",
+    "tryAgain": "Tekrar Dene",
+    "goHome": "Ana Sayfaya DÃ¶n",
+    "errorDetailsDevelopment": "Hata DetaylarÄ± (GeliÅŸtirme)"
+  },
+  "forgotPassword": {
+    "title": "Åžifremi Unuttum",
+    "description": "E-posta adresinizi girin, size ÅŸifre sÄ±fÄ±rlama baÄŸlantÄ±sÄ± gÃ¶ndereceÄŸiz.",
+    "email": "E-posta",
+    "submit": "BaÄŸlantÄ± GÃ¶nder",
+    "submitting": "GÃ¶nderiliyor...",
+    "success": "Åžifre sÄ±fÄ±rlama baÄŸlantÄ±sÄ± e-postanÄ±za gÃ¶nderildi.",
+    "failed": "BaÄŸlantÄ± gÃ¶nderilemedi",
+    "backToLogin": "GiriÅŸ SayfasÄ±na DÃ¶n",
+    "validation": {
+      "emailRequired": "E-posta gereklidir",
+      "emailInvalid": "GeÃ§ersiz e-posta adresi"
+    }
+  },
+  "resetPassword": {
+    "title": "Åžifreyi SÄ±fÄ±rla",
+    "description": "Yeni ÅŸifrenizi aÅŸaÄŸÄ±ya girin.",
+    "newPassword": "Yeni Åžifre",
+    "confirmPassword": "Åžifreyi Onayla",
+    "submit": "Åžifreyi SÄ±fÄ±rla",
+    "submitting": "SÄ±fÄ±rlanÄ±yor...",
+    "success": "Åžifreniz baÅŸarÄ±yla sÄ±fÄ±rlandÄ±.",
+    "failed": "Åžifre sÄ±fÄ±rlama baÅŸarÄ±sÄ±z",
+    "missingToken": "GeÃ§ersiz veya sÃ¼resi dolmuÅŸ baÄŸlantÄ±.",
+    "loadingToken": "YÃ¼kleniyor...",
+    "backToLogin": "GiriÅŸ SayfasÄ±na DÃ¶n",
+    "validation": {
+      "passwordRequired": "Åžifre gereklidir",
+      "passwordMinLength": "Åžifre en az 8 karakter olmalÄ±dÄ±r",
+      "confirmPasswordRequired": "LÃ¼tfen ÅŸifrenizi onaylayÄ±n",
+      "passwordsNotMatch": "Åžifreler eÅŸleÅŸmiyor"
+    }
+  },
+  "verifyEmail": {
+    "title": "E-posta DoÄŸrula",
+    "verifying": "E-postanÄ±z doÄŸrulanÄ±yor...",
+    "success": "E-posta baÅŸarÄ±yla doÄŸrulandÄ± ðŸŒ™",
+    "successTitle": "E-postanÄ±z doÄŸrulandÄ± ðŸŒŸ",
+    "successMessage": "ArtÄ±k hesabÄ±nÄ±za giriÅŸ yapabilirsiniz.",
+    "failed": "DoÄŸrulama baÅŸarÄ±sÄ±z",
+    "failedTitle": "DoÄŸrulama baÅŸarÄ±sÄ±z âŒ",
+    "failedMessage": "LÃ¼tfen baÄŸlantÄ±nÄ±zÄ± kontrol edin veya tekrar kayÄ±t olmayÄ± deneyin.",
+    "missingToken": "GeÃ§ersiz veya eksik doÄŸrulama baÄŸlantÄ±sÄ±.",
+    "goToLogin": "GiriÅŸ SayfasÄ±na Git",
+    "registerAgain": "Tekrar KayÄ±t Ol"
+  },
+  "verify2FA": {
+    "title": "Ä°ki FaktÃ¶rlÃ¼ Kimlik DoÄŸrulama",
+    "description": "E-postanÄ±za gÃ¶nderdiÄŸimiz 6 haneli kodu girin.",
+    "emailDescription": "E-postanÄ±za 6 haneli bir kod gÃ¶nderildi. LÃ¼tfen aÅŸaÄŸÄ±ya girin.",
+    "totpDescription": "Authenticator uygulamanÄ±zdan 6 haneli kodu girin.",
+    "codeLabel": "DoÄŸrulama Kodu",
+    "submit": "Kodu DoÄŸrula",
+    "submitting": "DoÄŸrulanÄ±yor...",
+    "success": "GiriÅŸ baÅŸarÄ±lÄ± ðŸŒ™",
+    "failed": "GeÃ§ersiz veya sÃ¼resi dolmuÅŸ kod",
+    "missingUserId": "GeÃ§ersiz doÄŸrulama isteÄŸi. LÃ¼tfen tekrar giriÅŸ yapmayÄ± deneyin.",
+    "loading": "YÃ¼kleniyor...",
+    "noCode": "Kod almadÄ±nÄ±z mÄ±?",
+    "useRecoveryCode": "Yedek Kod Kullan",
+    "backToLogin": "GiriÅŸ SayfasÄ±na DÃ¶n",
+    "codeComplete": "Kod girildi âœ“",
+    "codeExpired": "DoÄŸrulama kodu sÃ¼resi doldu.",
+    "codeExpiredOrInvalid": "DoÄŸrulama kodu sÃ¼resi dolmuÅŸ veya geÃ§ersiz.",
+    "resendCode": "Yeni Kod GÃ¶nder",
+    "resending": "GÃ¶nderiliyor...",
+    "codeResent": "Yeni bir kod e-postanÄ±za gÃ¶nderildi.",
+    "resendFailed": "Kod gÃ¶nderilemedi. LÃ¼tfen tekrar deneyin.",
+    "validation": {
+      "codeRequired": "DoÄŸrulama kodu gereklidir",
+      "codeLength": "Kod tam olarak 6 haneli olmalÄ±dÄ±r",
+      "codeInvalid": "Kod sadece rakam iÃ§ermelidir"
+    }
+  },
+  "setup2FA": {
+    "title": "Ä°ki FaktÃ¶rlÃ¼ Kimlik DoÄŸrulamayÄ± EtkinleÅŸtir",
+    "description": "HesabÄ±nÄ±zÄ± ekstra bir koruma katmanÄ± ile gÃ¼vence altÄ±na alÄ±n",
+    "generateQR": "QR Kodu OluÅŸtur",
+    "generating": "OluÅŸturuluyor...",
+    "qrGenerated": "QR kodu baÅŸarÄ±yla oluÅŸturuldu",
+    "generateFailed": "QR kodu oluÅŸturulamadÄ±",
+    "scanInstructions": "Bu QR kodunu Google Authenticator veya herhangi bir TOTP uygulamasÄ± ile tarayÄ±n",
+    "backupCode": "Yedek Kod (Bunu gÃ¼venli bir yerde saklayÄ±n):",
+    "backupCodeNote": "CihazÄ±nÄ±zÄ± kaybederseniz hesabÄ±nÄ±za eriÅŸmek iÃ§in bu kodu kullanÄ±n",
+    "codeLabel": "Authenticator uygulamanÄ±zdan 6 haneli kodu girin",
+    "verifyAndEnable": "DoÄŸrula ve 2FA'yÄ± EtkinleÅŸtir",
+    "verifying": "DoÄŸrulanÄ±yor...",
+    "success": "2FA baÅŸarÄ±yla etkinleÅŸtirildi ðŸŒ™",
+    "verifyFailed": "GeÃ§ersiz kod. LÃ¼tfen tekrar deneyin.",
+    "noSecret": "LÃ¼tfen Ã¶nce QR kodu oluÅŸturun",
+    "enabledSuccess": "Ä°ki FaktÃ¶rlÃ¼ Kimlik DoÄŸrulama EtkinleÅŸtirildi",
+    "redirecting": "Kontrol paneline yÃ¶nlendiriliyor...",
+    "loading": "YÃ¼kleniyor...",
+    "loadingQRCode": "QR kodu yÃ¼kleniyor...",
+    "recoveryCodesTitle": "Yedek KodlarÄ±nÄ±z",
+    "recoveryCodesDescription": "Bu kodlarÄ± gÃ¼venli bir yerde saklayÄ±n. Her biri 2FA cihazÄ±nÄ±zÄ± kaybettiÄŸinizde hesabÄ±nÄ±za eriÅŸmek iÃ§in yalnÄ±zca bir kez kullanÄ±labilir.",
+    "recoveryCodesWarning": "âš ï¸ Bu kodlar yalnÄ±zca bir kez gÃ¶sterilecek. GÃ¼venli bir ÅŸekilde kaydettiÄŸinizden emin olun!",
+    "copyCodes": "TÃ¼m KodlarÄ± Kopyala",
+    "codesCopied": "Yedek kodlar panoya kopyalandÄ±",
+    "continueToDashboard": "Kontrol Paneline Devam Et",
+    "validation": {
+      "codeRequired": "DoÄŸrulama kodu gereklidir",
+      "codeLength": "Kod tam olarak 6 haneli olmalÄ±dÄ±r",
+      "codeInvalid": "Kod sadece rakam iÃ§ermelidir"
+    }
+  },
+  "recoveryLogin": {
+    "title": "Yedek Kod ile GiriÅŸ Yap",
+    "description": "2FA cihazÄ±nÄ±za eriÅŸimi kaybettiyseniz, yedek kodlarÄ±nÄ±zdan birini kullanÄ±n.",
+    "codeLabel": "Yedek Kod",
+    "codeHint": "Yedek kodlarÄ±nÄ±zdan birini girin (alfanumerik)",
+    "submit": "GiriÅŸ Yap",
+    "submitting": "GiriÅŸ yapÄ±lÄ±yor...",
+    "success": "Yedek kod ile baÅŸarÄ±yla giriÅŸ yapÄ±ldÄ± ðŸŒ™",
+    "failed": "GeÃ§ersiz veya kullanÄ±lmÄ±ÅŸ yedek kod",
+    "missingUserId": "GeÃ§ersiz yedek isteÄŸi. LÃ¼tfen tekrar giriÅŸ yapmayÄ± deneyin.",
+    "loading": "YÃ¼kleniyor...",
+    "noRecoveryCode": "Yedek kodunuz yok mu?",
+    "backToLogin": "GiriÅŸ SayfasÄ±na DÃ¶n",
+    "validation": {
+      "codeRequired": "Yedek kod gereklidir",
+      "codeMinLength": "Yedek kod Ã§ok kÄ±sa"
+    }
+  },
+  "admin": {
+    "auditLog": "Denetim GÃ¼nlÃ¼ÄŸÃ¼",
+    "blockedIPs": "Engellenen IP'ler",
+    "settings": "Ayarlar",
+    "users": "KullanÄ±cÄ±lar",
+    "firstName": "Ad",
+    "lastName": "Soyad",
+    "email": "E-posta",
+    "password": "Åžifre",
+    "role": "Rol",
+    "user": "KullanÄ±cÄ±",
+    "admin": "YÃ¶netici",
+    "emailVerified": "E-posta DoÄŸrulandÄ±",
+    "emailVerificationRequirement": "E-posta DoÄŸrulama Gereksinimi",
+    "twoFARequirement": "2FA Gereksinimi",
+    "useGlobalSetting": "Global AyarÄ± Kullan",
+    "required": "Gerekli",
+    "notRequired": "Gerekli DeÄŸil",
+    "newPassword": "Yeni Åžifre (mevcut ÅŸifreyi korumak iÃ§in boÅŸ bÄ±rakÄ±n)",
+    "toggleVerifyEmail": "KullanÄ±cÄ±nÄ±n e-postasÄ±nÄ± doÄŸrulamak veya doÄŸrulamayÄ± kaldÄ±rmak iÃ§in deÄŸiÅŸtir",
+    "overrideEmailVerification": "Bu kullanÄ±cÄ± iÃ§in global e-posta doÄŸrulama ayarÄ±nÄ± geÃ§ersiz kÄ±l",
+    "override2FA": "Bu kullanÄ±cÄ± iÃ§in global 2FA ayarÄ±nÄ± geÃ§ersiz kÄ±l",
+    "passwordHelper": "Sadece ÅŸifreyi deÄŸiÅŸtirmek istiyorsanÄ±z bunu doldurun",
+    "passwordMinLength": "Åžifre en az 8 karakter olmalÄ±dÄ±r",
+    "createUserVerified": "DoÄŸrulanmÄ±ÅŸ e-posta ile kullanÄ±cÄ± oluÅŸturmak iÃ§in iÅŸaretle",
+    "performedBy": "TarafÄ±ndan gerÃ§ekleÅŸtirildi",
+    "targetUser": "Hedef KullanÄ±cÄ±",
+    "createdAt": "OluÅŸturulma Tarihi",
+    "unblock": "Engeli KaldÄ±r",
+    "ipUnblockedSuccess": "IP adresi baÅŸarÄ±yla engellenmekten Ã§Ä±karÄ±ldÄ±",
+    "ipUnblockFailed": "IP adresi engeli kaldÄ±rÄ±lamadÄ±",
+    "applicationSettings": "Uygulama AyarlarÄ±",
+    "emailVerification": "E-posta DoÄŸrulama",
+    "emailVerificationInfo": "E-posta doÄŸrulama devre dÄ±ÅŸÄ± bÄ±rakÄ±ldÄ±ÄŸÄ±nda, yeni kullanÄ±cÄ±lar e-postalarÄ±nÄ± doÄŸrulamadan kayÄ±t olduktan hemen sonra giriÅŸ yapabilir. KullanÄ±cÄ±lar sayfasÄ±ndan bireysel kullanÄ±cÄ±larÄ± manuel olarak doÄŸrulayabilirsiniz.",
+    "requireEmailVerification": "E-posta DoÄŸrulamasÄ± Gerekli",
+    "emailVerificationEnabled": "Yeni kullanÄ±cÄ±lar giriÅŸ yapmadan Ã¶nce e-postalarÄ±nÄ± doÄŸrulamalÄ±dÄ±r",
+    "emailVerificationDisabled": "Yeni kullanÄ±cÄ±lar kayÄ±t olduktan hemen sonra giriÅŸ yapabilir",
+    "twoFactorAuthentication": "Ä°ki FaktÃ¶rlÃ¼ Kimlik DoÄŸrulama (2FA)",
+    "twoFAInfo": "2FA global olarak gerekli olduÄŸunda, tÃ¼m kullanÄ±cÄ±lar giriÅŸ yapmadan Ã¶nce 2FA'yÄ± etkinleÅŸtirmelidir. KullanÄ±cÄ±lar TOTP (authenticator uygulamalarÄ±) veya e-posta tabanlÄ± kodlar kullanarak 2FA'yÄ± ayarlayabilir. KullanÄ±cÄ±lar sayfasÄ±ndan bireysel kullanÄ±cÄ± 2FA ayarlarÄ±nÄ± yÃ¶netebilirsiniz.",
+    "require2FAForAll": "TÃ¼m KullanÄ±cÄ±lar Ä°Ã§in 2FA Gerekli",
+    "twoFAEnabled": "TÃ¼m kullanÄ±cÄ±lar giriÅŸ yapmadan Ã¶nce 2FA'yÄ± etkinleÅŸtirmelidir",
+    "twoFADisabled": "2FA isteÄŸe baÄŸlÄ±dÄ±r - kullanÄ±cÄ±lar bunu bireysel olarak etkinleÅŸtirebilir",
+    "emailVerificationEnabledSuccess": "E-posta doÄŸrulama baÅŸarÄ±yla etkinleÅŸtirildi",
+    "emailVerificationDisabledSuccess": "E-posta doÄŸrulama baÅŸarÄ±yla devre dÄ±ÅŸÄ± bÄ±rakÄ±ldÄ±",
+    "twoFAEnabledSuccess": "2FA gereksinimi baÅŸarÄ±yla etkinleÅŸtirildi",
+    "twoFADisabledSuccess": "2FA gereksinimi baÅŸarÄ±yla devre dÄ±ÅŸÄ± bÄ±rakÄ±ldÄ±",
+    "failedToLoadSettings": "Ayarlar yÃ¼klenemedi",
+    "failedToUpdateSetting": "Ayar gÃ¼ncellenemedi",
+    "analytics": {
+      "title": "KullanÄ±cÄ± AnalitiÄŸi ðŸŒ™",
+      "startDate": "BaÅŸlangÄ±Ã§ Tarihi",
+      "endDate": "BitiÅŸ Tarihi",
+      "refresh": "Yenile",
+      "loading": "YÃ¼kleniyor...",
+      "noData": "SeÃ§ilen tarih aralÄ±ÄŸÄ± iÃ§in veri bulunamadÄ±.",
+      "registrations": "KayÄ±tlar",
+      "verified": "DoÄŸrulanmÄ±ÅŸ",
+      "totalRegistrations": "Toplam KayÄ±t",
+      "totalVerified": "Toplam DoÄŸrulanmÄ±ÅŸ",
+      "verificationRate": "DoÄŸrulama OranÄ±",
+      "kpi": {
+        "totalUsers": "Toplam KullanÄ±cÄ±",
+        "verifiedUsers": "DoÄŸrulanmÄ±ÅŸ KullanÄ±cÄ±lar",
+        "newUsers7Days": "Yeni KullanÄ±cÄ±lar (7 GÃ¼n)",
+        "verified": "doÄŸrulanmÄ±ÅŸ",
+        "active24h": "Aktif (24 Saat)",
+        "activeThisWeek": "bu hafta aktif"
+      },
+      "activeUsers": {
+        "title": "GÃ¼nlÃ¼k Aktif KullanÄ±cÄ±lar ðŸ”¥",
+        "daily": "Aktif KullanÄ±cÄ±lar"
+      },
+      "retention": {
+        "title": "KullanÄ±cÄ± Tutma AnalitiÄŸi ðŸ”",
+        "average7d": "Ortalama 7 GÃ¼nlÃ¼k Tutma",
+        "average30d": "Ortalama 30 GÃ¼nlÃ¼k Tutma",
+        "rate7d": "7 GÃ¼nlÃ¼k Tutma %",
+        "rate30d": "30 GÃ¼nlÃ¼k Tutma %"
+      },
+      "cohort": {
+        "title": "Kohort Tutma IsÄ± HaritasÄ± ðŸ”¥",
+        "description": "Her satÄ±r bir kayÄ±t kohortunu gÃ¶sterir. Daha koyu renk = daha iyi tutma.",
+        "signupDate": "KayÄ±t Tarihi",
+        "newUsers": "Yeni KullanÄ±cÄ±lar",
+        "day": "GÃ¼n {day, number}",
+        "legend": "AÃ§Ä±klama:"
+      },
+      "segmentation": {
+        "country": "Ãœlke",
+        "language": "Dil",
+        "allCountries": "TÃ¼m Ãœlkeler",
+        "allLanguages": "TÃ¼m Diller",
+        "countries": {
+          "TR": "TÃ¼rkiye",
+          "US": "ABD",
+          "GB": "Ä°ngiltere",
+          "DE": "Almanya",
+          "FR": "Fransa"
+        },
+        "languages": {
+          "tr": "TÃ¼rkÃ§e",
+          "en": "Ä°ngilizce",
+          "de": "Almanca",
+          "fr": "FransÄ±zca"
+        }
+      }
+    }
+  },
+  "profile": {
+    "title": "Profil AyarlarÄ±",
+    "loadingProfile": "Profil yÃ¼kleniyor...",
+    "failedToLoadProfile": "Profil yÃ¼klenemedi",
+    "profileUpdatedSuccessfully": "Profil baÅŸarÄ±yla gÃ¼ncellendi",
+    "failedToUpdateProfile": "Profil gÃ¼ncellenemedi",
+    "personalInfo": "KiÅŸisel Bilgiler",
+    "username": "KullanÄ±cÄ± AdÄ±",
+    "usernamePlaceholder": "kullaniciadi",
+    "usernameHelper": "3-30 karakter, sadece harf, rakam, alt Ã§izgi ve tire",
+    "firstName": "Ad",
+    "lastName": "Soyad",
+    "language": "Dil",
+    "country": "Ãœlke",
+    "selectCountry": "Bir Ã¼lke seÃ§in...",
+    "phone": "Telefon",
+    "address": "Adres",
+    "securitySettings": "GÃ¼venlik AyarlarÄ±",
+    "overrideGlobalSettings": "HesabÄ±nÄ±z iÃ§in global ayarlarÄ± geÃ§ersiz kÄ±lÄ±n. Sistem genelindeki yapÄ±landÄ±rmayÄ± takip etmek iÃ§in \"Global AyarÄ± Kullan\" olarak bÄ±rakÄ±n.",
+    "useGlobalEmailVerification": "E-posta DoÄŸrulama iÃ§in Global AyarÄ± Kullan",
+    "followSystemEmailVerification": "Sistem genelindeki e-posta doÄŸrulama yapÄ±landÄ±rmasÄ±nÄ± takip edin",
+    "requireEmailVerification": "E-posta DoÄŸrulamasÄ± Gerekli",
+    "emailVerificationRequired": "E-posta doÄŸrulamasÄ± gereklidir",
+    "emailVerificationNotRequired": "E-posta doÄŸrulamasÄ± gerekli deÄŸildir",
+    "useGlobal2FA": "2FA iÃ§in Global AyarÄ± Kullan",
+    "followSystem2FA": "Sistem genelindeki 2FA yapÄ±landÄ±rmasÄ±nÄ± takip edin",
+    "require2FA": "2FA Gerekli",
+    "twoFARequired": "2FA gereklidir",
+    "twoFANotRequired": "2FA gerekli deÄŸildir",
+    "enable2FA": "Ä°ki FaktÃ¶rlÃ¼ Kimlik DoÄŸrulamayÄ± EtkinleÅŸtir",
+    "twoFAEnabledDescription": "2FA etkinleÅŸtirildi. GiriÅŸ yaparken e-posta ile doÄŸrulama kodu alacaksÄ±nÄ±z.",
+    "twoFADisabledDescription": "HesabÄ±nÄ±za ekstra bir gÃ¼venlik katmanÄ± eklemek iÃ§in 2FA'yÄ± etkinleÅŸtirin.",
+    "cancel": "Ä°ptal",
+    "saving": "Kaydediliyor...",
+    "saveChanges": "DeÄŸiÅŸiklikleri Kaydet"
+  }
+}
+

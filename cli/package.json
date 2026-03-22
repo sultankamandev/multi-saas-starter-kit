@@ -1,0 +1,69 @@
+{
+  "name": "create-saas-app",
+  "version": "1.0.0",
+  "description": "Scaffold a production-ready SaaS application with your choice of backend and frontend",
+  "type": "module",
+  "bin": {
+    "create-saas-app": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "templates",
+    "contract",
+    "docs"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "bundle-pack-assets": "node scripts/bundle-pack-assets.mjs",
+    "clean-pack-assets": "node scripts/clean-pack-assets.mjs",
+    "prepublishOnly": "npm run build && npm run bundle-pack-assets",
+    "postpublish": "npm run clean-pack-assets",
+    "verify-pack": "node scripts/verify-pack.mjs",
+    "smoke-scaffold": "node scripts/smoke-scaffold.mjs"
+  },
+  "keywords": [
+    "saas",
+    "starter",
+    "boilerplate",
+    "scaffold",
+    "cli",
+    "fullstack",
+    "go",
+    "gin",
+    "python",
+    "fastapi",
+    "nextjs",
+    "react",
+    "vite",
+    "openapi",
+    "typescript",
+    "docker"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/saas-starter-kit.git"
+  },
+  "homepage": "https://github.com/your-org/saas-starter-kit#readme",
+  "bugs": {
+    "url": "https://github.com/your-org/saas-starter-kit/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.9.1",
+    "ejs": "^3.1.10",
+    "fs-extra": "^11.2.0",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/ejs": "^3.1.5",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

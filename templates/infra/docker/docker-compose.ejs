@@ -1,0 +1,47 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: saas_app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/<%= backend.dockerfile %>
+    ports:
+      - "<%= backend.port %>:<%= backend.port %>"
+    environment:
+<% if (backend.id === 'go-gin') { -%>
+      DATABASE_URL: "host=postgres user=postgres password=postgres dbname=saas_app port=5432 sslmode=disable"
+<% } else if (backend.id === 'python-fastapi') { -%>
+      DATABASE_URL: "postgresql+asyncpg://postgres:postgres@postgres:5432/saas_app"
+<% } else { -%>
+      DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/saas_app"
+<% } -%>
+      JWT_SECRET: change-me-in-production
+      FRONTEND_URL: http://localhost:<%= frontend.prodPort || frontend.port %>
+      CORS_ORIGINS: http://localhost:<%= frontend.prodPort || frontend.port %>
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/<%= frontend.dockerfile %>
+    ports:
+      - "<%= frontend.prodPort || frontend.port %>:<%= frontend.prodPort || frontend.port %>"
+<% if (frontend.apiUrlEnv) { -%>
+    environment:
+      <%= frontend.apiUrlEnv %>: http://backend:<%= backend.port %>
+<% } -%>
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:

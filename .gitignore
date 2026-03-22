@@ -1,0 +1,60 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.cursor/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Go
+*.test
+*.out
+coverage.txt
+*.exe
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+.eggs/
+*.egg
+
+# Logs
+*.log
+npm-debug.log*
+
+# Misc
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Ephemeral copies for npm publish (see cli/scripts/bundle-pack-assets.mjs)
+/cli/templates
+/cli/contract
+/cli/docs

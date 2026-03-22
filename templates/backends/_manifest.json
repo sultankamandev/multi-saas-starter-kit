@@ -1,0 +1,49 @@
+{
+  "templates": [
+    {
+      "id": "go-gin",
+      "name": "Go (Gin + GORM)",
+      "dir": "go-gin",
+      "port": 8080,
+      "language": "go",
+      "variants": [],
+      "status": "stable",
+      "healthCheck": "/ping",
+      "envFile": ".env.example",
+      "installCmd": "go mod download",
+      "devCmd": "go run cmd/server/main.go",
+      "dockerfile": "go-api.Dockerfile",
+      "dbUrlEnvFormat": "host=${DB_HOST} user=${DB_USER} password=${DB_PASS} dbname=${DB_NAME} port=${DB_PORT} sslmode=disable"
+    },
+    {
+      "id": "python-fastapi",
+      "name": "Python (FastAPI + SQLAlchemy)",
+      "dir": "python-fastapi",
+      "port": 8000,
+      "language": "python",
+      "variants": [],
+      "status": "stable",
+      "healthCheck": "/ping",
+      "envFile": ".env.example",
+      "installCmd": "pip install -r requirements.txt",
+      "devCmd": "uvicorn app.main:app --reload",
+      "dockerfile": "python-api.Dockerfile",
+      "dbUrlEnvFormat": "postgresql+asyncpg://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
+    },
+    {
+      "id": "node-express",
+      "name": "Node.js (Express + Drizzle)",
+      "dir": "node-express",
+      "port": 8080,
+      "language": "typescript",
+      "variants": ["ts"],
+      "status": "beta",
+      "healthCheck": "/ping",
+      "envFile": ".env.example",
+      "installCmd": "npm install",
+      "devCmd": "npm run dev",
+      "dockerfile": "node-express.Dockerfile",
+      "dbUrlEnvFormat": "postgresql://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
+    }
+  ]
+}

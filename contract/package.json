@@ -1,0 +1,14 @@
+{
+  "name": "@saas-starter/contract",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shared API contract and generated types for SaaS Starter Kit",
+  "type": "module",
+  "scripts": {
+    "generate": "openapi-typescript openapi.yaml -o generated/types.ts",
+    "validate": "npx @redocly/cli lint openapi.yaml"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^7.4.0"
+  }
+}

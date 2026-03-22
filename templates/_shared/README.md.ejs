@@ -1,0 +1,65 @@
+# <%= projectName %>
+
+Built with [SaaS Starter Kit](https://github.com/your-org/saas-starter).
+
+## Tech Stack
+
+| Layer    | Choice |
+| -------- | ------ |
+| Backend  | **<%= backend.name %>** |
+| Frontend | **<%= frontend.name %>** |
+| Database | PostgreSQL 16 |
+| Auth     | JWT, 2FA (email + TOTP), Google OAuth, recovery codes |
+| i18n     | 7 locales (en, tr, de, fr, es, it, ru) |
+
+## Quick Start
+
+### Backend
+
+```bash
+cd backend/
+<% if (backend.language === 'python') { -%>
+python -m venv .venv
+# Windows: .venv\Scripts\activate | macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt
+<% } else if (backend.language === 'go') { -%>
+go mod download
+<% } else { -%>
+npm install
+<% } -%>
+cp .env.example .env
+<%= backend.devCmd %>
+```
+
+### Frontend
+
+```bash
+cd frontend/
+npm install
+npm run dev
+```
+
+<% if (includeDocker) { -%>
+### Docker
+
+```bash
+docker compose up --build
+```
+<% } -%>
+
+## Features
+
+- **Authentication** -- Register, login, JWT access/refresh tokens, secure logout
+- **Two-Factor Auth** -- Email-based 2FA, TOTP (authenticator apps), recovery codes
+- **Google OAuth** -- Sign in with Google
+- **Password Management** -- Forgot/reset password, email verification
+- **User Profile** -- View and update profile
+- **Admin Console** -- User CRUD, role management, audit log
+- **Analytics Dashboard** -- Registration trends, active users, retention, cohort heatmap
+- **App Settings** -- Runtime configuration (email verification, 2FA toggles)
+- **IP Blocking** -- Rate limiting with admin unblock
+- **Internationalization** -- 7 locales (en, tr, de, fr, es, it, ru)
+
+## API Documentation
+
+See [docs/API_REFERENCE.md](docs/API_REFERENCE.md) for the full endpoint list.

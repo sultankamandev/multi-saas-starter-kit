@@ -1,0 +1,108 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  cli:
+    name: CLI Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+        working-directory: cli
+      - run: npm run build
+        working-directory: cli
+
+  contract:
+    name: Generate Types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+        working-directory: contract
+      - run: npm run generate
+        working-directory: contract
+
+  node-express:
+    name: Node.js Express Template
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+        working-directory: templates/backends/node-express
+      - run: npx tsc --noEmit
+        working-directory: templates/backends/node-express
+
+  go-gin-template:
+    name: Go Gin Template
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: templates/backends/go-gin/go.mod
+      - run: go build -o /dev/null .
+        working-directory: templates/backends/go-gin
+
+  python-fastapi-template:
+    name: Python FastAPI Template
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+        working-directory: templates/backends/python-fastapi
+      - run: python -m compileall app
+        working-directory: templates/backends/python-fastapi
+
+  react-vite-template:
+    name: React Vite Template
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+        working-directory: templates/frontends/react-vite-ts
+      - run: npm run build
+        working-directory: templates/frontends/react-vite-ts
+
+  next-ts-template:
+    name: Next.js Template
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+        working-directory: templates/frontends/next-ts
+      - run: npm run build
+        working-directory: templates/frontends/next-ts
+
+  cli-pack-smoke:
+    name: CLI Pack and Smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci && npm run build && npm run bundle-pack-assets && npm run verify-pack && npm run smoke-scaffold
+        working-directory: cli

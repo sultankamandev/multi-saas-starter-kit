@@ -1,0 +1,402 @@
+{
+  "title": "SaaS Starter'a Hoş Geldiniz",
+  "language": "Dil",
+  "nav": {
+    "appName": "SaaS Starter",
+    "welcome": "Hoş geldin, {name}",
+    "dashboard": "Kontrol Paneli",
+    "profile": "Profil",
+    "logout": "Çıkış Yap",
+    "login": "Giriş Yap",
+    "register": "Kayıt Ol"
+  },
+  "login": {
+    "title": "Giriş Yap",
+    "email": "E-posta veya Kullanıcı Adı",
+    "emailOrUsername": "E-posta veya Kullanıcı Adı",
+    "password": "Şifre",
+    "submit": "Giriş Yap",
+    "submitting": "Giriş yapılıyor...",
+    "noAccount": "Hesabınız yok mu?",
+    "registerLink": "Buradan kayıt olun",
+    "forgotPassword": "Şifremi Unuttum?",
+    "rememberMe": "Beni Hatırla",
+    "emailOrUsernameHelper": "E-posta adresiniz veya kullanıcı adınız ile giriş yapabilirsiniz",
+    "success": "Giriş başarılı!",
+    "failed": "Giriş başarısız",
+    "orContinueWith": "Veya şununla devam et",
+    "googleLoginSuccess": "Tekrar hoş geldin, {name} 🌙",
+    "googleLoginSuccessGeneric": "Giriş başarılı 🌙",
+    "googleLoginFailed": "Google girişi başarısız",
+    "validation": {
+      "emailRequired": "E-posta gereklidir",
+      "emailInvalid": "Geçersiz e-posta adresi",
+      "passwordRequired": "Şifre gereklidir"
+    }
+  },
+  "register": {
+    "title": "Kayıt Ol",
+    "username": "Kullanıcı Adı",
+    "usernamePlaceholder": "kullaniciadi",
+    "usernameHelper": "3-30 karakter, sadece harf, rakam, alt çizgi ve tire",
+    "firstName": "Ad",
+    "lastName": "Soyad",
+    "email": "E-posta",
+    "password": "Şifre",
+    "confirmPassword": "Şifreyi Onayla",
+    "country": "Ülke",
+    "submit": "Kayıt Ol",
+    "submitting": "Kayıt yapılıyor...",
+    "hasAccount": "Zaten hesabınız var mı?",
+    "loginLink": "Buradan giriş yapın",
+    "success": "Kayıt başarılı! Lütfen giriş yapın.",
+    "failed": "Kayıt başarısız",
+    "validationFailed": "Lütfen formdaki hataları kontrol edin",
+    "validation": {
+      "firstNameRequired": "Ad gereklidir",
+      "lastNameRequired": "Soyad gereklidir",
+      "emailRequired": "E-posta gereklidir",
+      "emailInvalid": "Geçersiz e-posta adresi",
+      "passwordRequired": "Şifre gereklidir",
+      "passwordMinLength": "Şifre en az 8 karakter olmalıdır",
+      "confirmPasswordRequired": "Lütfen şifrenizi onaylayın",
+      "passwordsNotMatch": "Şifreler eşleşmiyor",
+      "usernameRequired": "Kullanıcı adı gereklidir",
+      "usernameMinLength": "Kullanıcı adı en az 3 karakter olmalıdır",
+      "usernameMaxLength": "Kullanıcı adı en fazla 30 karakter olmalıdır",
+      "usernameInvalid": "Kullanıcı adı sadece harf, rakam, alt çizgi ve tire içerebilir. Harf veya rakamla başlayıp bitmelidir."
+    }
+  },
+  "dashboard": {
+    "title": "Kontrol Paneli",
+    "welcomeBack": "Tekrar hoş geldin!",
+    "name": "Ad",
+    "email": "E-posta",
+    "role": "Rol",
+    "editProfile": "Profili Düzenle",
+    "features": {
+      "title": "Platform Özellikleri",
+      "description": "Kişisel kontrol paneliniz. Kullanıcı yönetimi, analitik ve platform ayarlarına erişin."
+    },
+    "logout": "Çıkış Yap",
+    "adminPanel": "Yönetici Paneli"
+  },
+  "landing": {
+    "hero": {
+      "title": "SaaS Ürününüzü Hızla Başlatın",
+      "subtitle": "Kimlik doğrulama, yönetici konsolu, çoklu dil desteği ve API entegrasyonu içeren üretime hazır şablon.",
+      "ctaPrimary": "Başlayın",
+      "ctaSecondary": "Daha Fazla Bilgi"
+    },
+    "features": {
+      "title": "İhtiyacınız Olan Her Şey",
+      "items": {
+        "auth": {
+          "title": "Kimlik Doğrulama",
+          "description": "Giriş, kayıt, 2FA, OAuth, şifre sıfırlama — tümü hazır."
+        },
+        "admin": {
+          "title": "Yönetici Konsolu",
+          "description": "Kullanıcı yönetimi, analitik paneli, engelli IP'ler ve uygulama ayarları."
+        },
+        "i18n": {
+          "title": "Çoklu Dil Desteği",
+          "description": "4 dil desteği hazır. Alan adına dayalı yönlendirme ve çerez yönetimi."
+        },
+        "api": {
+          "title": "API Entegrasyonu",
+          "description": "Tip güvenli servis katmanı, token yenileme, hata yönetimi ve Axios interceptor'ları."
+        }
+      }
+    },
+    "cta": {
+      "title": "Başlamaya Hazır Mısınız?",
+      "description": "Repo'yu klonlayın, ortamınızı yapılandırın ve dakikalar içinde SaaS ürününüzü oluşturmaya başlayın.",
+      "button": "Başlayın",
+      "register": "Hesap Oluştur",
+      "login": "Zaten hesabınız var mı?"
+    }
+  },
+  "common": {
+    "loading": "Yükleniyor...",
+    "logoutSuccess": "Başarıyla çıkış yapıldı",
+    "unauthorized": "Bu sayfaya erişmek için lütfen giriş yapın",
+    "adminOnly": "Yönetici erişimi gerekli",
+    "loginRequired": "Bu sayfaya erişmek için lütfen giriş yapın"
+  },
+  "errors": {
+    "title": "Bir şeyler yanlış gitti",
+    "message": "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.",
+    "tryAgain": "Tekrar Dene",
+    "goHome": "Ana Sayfaya Dön",
+    "errorDetailsDevelopment": "Hata Detayları (Geliştirme)"
+  },
+  "forgotPassword": {
+    "title": "Şifremi Unuttum",
+    "description": "E-posta adresinizi girin, size şifre sıfırlama bağlantısı göndereceğiz.",
+    "email": "E-posta",
+    "submit": "Bağlantı Gönder",
+    "submitting": "Gönderiliyor...",
+    "success": "Şifre sıfırlama bağlantısı e-postanıza gönderildi.",
+    "failed": "Bağlantı gönderilemedi",
+    "backToLogin": "Giriş Sayfasına Dön",
+    "validation": {
+      "emailRequired": "E-posta gereklidir",
+      "emailInvalid": "Geçersiz e-posta adresi"
+    }
+  },
+  "resetPassword": {
+    "title": "Şifreyi Sıfırla",
+    "description": "Yeni şifrenizi aşağıya girin.",
+    "newPassword": "Yeni Şifre",
+    "confirmPassword": "Şifreyi Onayla",
+    "submit": "Şifreyi Sıfırla",
+    "submitting": "Sıfırlanıyor...",
+    "success": "Şifreniz başarıyla sıfırlandı.",
+    "failed": "Şifre sıfırlama başarısız",
+    "missingToken": "Geçersiz veya süresi dolmuş bağlantı.",
+    "loadingToken": "Yükleniyor...",
+    "backToLogin": "Giriş Sayfasına Dön",
+    "validation": {
+      "passwordRequired": "Şifre gereklidir",
+      "passwordMinLength": "Şifre en az 8 karakter olmalıdır",
+      "confirmPasswordRequired": "Lütfen şifrenizi onaylayın",
+      "passwordsNotMatch": "Şifreler eşleşmiyor"
+    }
+  },
+  "verifyEmail": {
+    "title": "E-posta Doğrula",
+    "verifying": "E-postanız doğrulanıyor...",
+    "success": "E-posta başarıyla doğrulandı 🌙",
+    "successTitle": "E-postanız doğrulandı 🌟",
+    "successMessage": "Artık hesabınıza giriş yapabilirsiniz.",
+    "failed": "Doğrulama başarısız",
+    "failedTitle": "Doğrulama başarısız ❌",
+    "failedMessage": "Lütfen bağlantınızı kontrol edin veya tekrar kayıt olmayı deneyin.",
+    "missingToken": "Geçersiz veya eksik doğrulama bağlantısı.",
+    "goToLogin": "Giriş Sayfasına Git",
+    "registerAgain": "Tekrar Kayıt Ol"
+  },
+  "verify2FA": {
+    "title": "İki Faktörlü Kimlik Doğrulama",
+    "description": "E-postanıza gönderdiğimiz 6 haneli kodu girin.",
+    "emailDescription": "E-postanıza 6 haneli bir kod gönderildi. Lütfen aşağıya girin.",
+    "totpDescription": "Authenticator uygulamanızdan 6 haneli kodu girin.",
+    "codeLabel": "Doğrulama Kodu",
+    "submit": "Kodu Doğrula",
+    "submitting": "Doğrulanıyor...",
+    "success": "Giriş başarılı 🌙",
+    "failed": "Geçersiz veya süresi dolmuş kod",
+    "missingUserId": "Geçersiz doğrulama isteği. Lütfen tekrar giriş yapmayı deneyin.",
+    "loading": "Yükleniyor...",
+    "noCode": "Kod almadınız mı?",
+    "useRecoveryCode": "Yedek Kod Kullan",
+    "backToLogin": "Giriş Sayfasına Dön",
+    "codeComplete": "Kod girildi ✓",
+    "codeExpired": "Doğrulama kodu süresi doldu.",
+    "codeExpiredOrInvalid": "Doğrulama kodu süresi dolmuş veya geçersiz.",
+    "resendCode": "Yeni Kod Gönder",
+    "resending": "Gönderiliyor...",
+    "codeResent": "Yeni bir kod e-postanıza gönderildi.",
+    "resendFailed": "Kod gönderilemedi. Lütfen tekrar deneyin.",
+    "validation": {
+      "codeRequired": "Doğrulama kodu gereklidir",
+      "codeLength": "Kod tam olarak 6 haneli olmalıdır",
+      "codeInvalid": "Kod sadece rakam içermelidir"
+    }
+  },
+  "setup2FA": {
+    "title": "İki Faktörlü Kimlik Doğrulamayı Etkinleştir",
+    "description": "Hesabınızı ekstra bir koruma katmanı ile güvence altına alın",
+    "generateQR": "QR Kodu Oluştur",
+    "generating": "Oluşturuluyor...",
+    "qrGenerated": "QR kodu başarıyla oluşturuldu",
+    "generateFailed": "QR kodu oluşturulamadı",
+    "scanInstructions": "Bu QR kodunu Google Authenticator veya herhangi bir TOTP uygulaması ile tarayın",
+    "backupCode": "Yedek Kod (Bunu güvenli bir yerde saklayın):",
+    "backupCodeNote": "Cihazınızı kaybederseniz hesabınıza erişmek için bu kodu kullanın",
+    "codeLabel": "Authenticator uygulamanızdan 6 haneli kodu girin",
+    "verifyAndEnable": "Doğrula ve 2FA'yı Etkinleştir",
+    "verifying": "Doğrulanıyor...",
+    "success": "2FA başarıyla etkinleştirildi 🌙",
+    "verifyFailed": "Geçersiz kod. Lütfen tekrar deneyin.",
+    "noSecret": "Lütfen önce QR kodu oluşturun",
+    "enabledSuccess": "İki Faktörlü Kimlik Doğrulama Etkinleştirildi",
+    "redirecting": "Kontrol paneline yönlendiriliyor...",
+    "loading": "Yükleniyor...",
+    "loadingQRCode": "QR kodu yükleniyor...",
+    "recoveryCodesTitle": "Yedek Kodlarınız",
+    "recoveryCodesDescription": "Bu kodları güvenli bir yerde saklayın. Her biri 2FA cihazınızı kaybettiğinizde hesabınıza erişmek için yalnızca bir kez kullanılabilir.",
+    "recoveryCodesWarning": "⚠️ Bu kodlar yalnızca bir kez gösterilecek. Güvenli bir şekilde kaydettiğinizden emin olun!",
+    "copyCodes": "Tüm Kodları Kopyala",
+    "codesCopied": "Yedek kodlar panoya kopyalandı",
+    "continueToDashboard": "Kontrol Paneline Devam Et",
+    "validation": {
+      "codeRequired": "Doğrulama kodu gereklidir",
+      "codeLength": "Kod tam olarak 6 haneli olmalıdır",
+      "codeInvalid": "Kod sadece rakam içermelidir"
+    }
+  },
+  "recoveryLogin": {
+    "title": "Yedek Kod ile Giriş Yap",
+    "description": "2FA cihazınıza erişimi kaybettiyseniz, yedek kodlarınızdan birini kullanın.",
+    "codeLabel": "Yedek Kod",
+    "codeHint": "Yedek kodlarınızdan birini girin (alfanumerik)",
+    "submit": "Giriş Yap",
+    "submitting": "Giriş yapılıyor...",
+    "success": "Yedek kod ile başarıyla giriş yapıldı 🌙",
+    "failed": "Geçersiz veya kullanılmış yedek kod",
+    "missingUserId": "Geçersiz yedek isteği. Lütfen tekrar giriş yapmayı deneyin.",
+    "loading": "Yükleniyor...",
+    "noRecoveryCode": "Yedek kodunuz yok mu?",
+    "backToLogin": "Giriş Sayfasına Dön",
+    "validation": {
+      "codeRequired": "Yedek kod gereklidir",
+      "codeMinLength": "Yedek kod çok kısa"
+    }
+  },
+  "admin": {
+    "auditLog": "Denetim Günlüğü",
+    "blockedIPs": "Engellenen IP'ler",
+    "settings": "Ayarlar",
+    "users": "Kullanıcılar",
+    "firstName": "Ad",
+    "lastName": "Soyad",
+    "email": "E-posta",
+    "password": "Şifre",
+    "role": "Rol",
+    "user": "Kullanıcı",
+    "admin": "Yönetici",
+    "emailVerified": "E-posta Doğrulandı",
+    "emailVerificationRequirement": "E-posta Doğrulama Gereksinimi",
+    "twoFARequirement": "2FA Gereksinimi",
+    "useGlobalSetting": "Global Ayarı Kullan",
+    "required": "Gerekli",
+    "notRequired": "Gerekli Değil",
+    "newPassword": "Yeni Şifre (mevcut şifreyi korumak için boş bırakın)",
+    "toggleVerifyEmail": "Kullanıcının e-postasını doğrulamak veya doğrulamayı kaldırmak için değiştir",
+    "overrideEmailVerification": "Bu kullanıcı için global e-posta doğrulama ayarını geçersiz kıl",
+    "override2FA": "Bu kullanıcı için global 2FA ayarını geçersiz kıl",
+    "passwordHelper": "Sadece şifreyi değiştirmek istiyorsanız bunu doldurun",
+    "passwordMinLength": "Şifre en az 8 karakter olmalıdır",
+    "createUserVerified": "Doğrulanmış e-posta ile kullanıcı oluşturmak için işaretle",
+    "performedBy": "Tarafından gerçekleştirildi",
+    "targetUser": "Hedef Kullanıcı",
+    "createdAt": "Oluşturulma Tarihi",
+    "unblock": "Engeli Kaldır",
+    "ipUnblockedSuccess": "IP adresi başarıyla engellenmekten çıkarıldı",
+    "ipUnblockFailed": "IP adresi engeli kaldırılamadı",
+    "applicationSettings": "Uygulama Ayarları",
+    "emailVerification": "E-posta Doğrulama",
+    "emailVerificationInfo": "E-posta doğrulama devre dışı bırakıldığında, yeni kullanıcılar e-postalarını doğrulamadan kayıt olduktan hemen sonra giriş yapabilir. Kullanıcılar sayfasından bireysel kullanıcıları manuel olarak doğrulayabilirsiniz.",
+    "requireEmailVerification": "E-posta Doğrulaması Gerekli",
+    "emailVerificationEnabled": "Yeni kullanıcılar giriş yapmadan önce e-postalarını doğrulamalıdır",
+    "emailVerificationDisabled": "Yeni kullanıcılar kayıt olduktan hemen sonra giriş yapabilir",
+    "twoFactorAuthentication": "İki Faktörlü Kimlik Doğrulama (2FA)",
+    "twoFAInfo": "2FA global olarak gerekli olduğunda, tüm kullanıcılar giriş yapmadan önce 2FA'yı etkinleştirmelidir. Kullanıcılar TOTP (authenticator uygulamaları) veya e-posta tabanlı kodlar kullanarak 2FA'yı ayarlayabilir. Kullanıcılar sayfasından bireysel kullanıcı 2FA ayarlarını yönetebilirsiniz.",
+    "require2FAForAll": "Tüm Kullanıcılar İçin 2FA Gerekli",
+    "twoFAEnabled": "Tüm kullanıcılar giriş yapmadan önce 2FA'yı etkinleştirmelidir",
+    "twoFADisabled": "2FA isteğe bağlıdır - kullanıcılar bunu bireysel olarak etkinleştirebilir",
+    "emailVerificationEnabledSuccess": "E-posta doğrulama başarıyla etkinleştirildi",
+    "emailVerificationDisabledSuccess": "E-posta doğrulama başarıyla devre dışı bırakıldı",
+    "twoFAEnabledSuccess": "2FA gereksinimi başarıyla etkinleştirildi",
+    "twoFADisabledSuccess": "2FA gereksinimi başarıyla devre dışı bırakıldı",
+    "failedToLoadSettings": "Ayarlar yüklenemedi",
+    "failedToUpdateSetting": "Ayar güncellenemedi",
+    "analytics": {
+      "title": "Kullanıcı Analitiği 🌙",
+      "startDate": "Başlangıç Tarihi",
+      "endDate": "Bitiş Tarihi",
+      "refresh": "Yenile",
+      "loading": "Yükleniyor...",
+      "noData": "Seçilen tarih aralığı için veri bulunamadı.",
+      "registrations": "Kayıtlar",
+      "verified": "Doğrulanmış",
+      "totalRegistrations": "Toplam Kayıt",
+      "totalVerified": "Toplam Doğrulanmış",
+      "verificationRate": "Doğrulama Oranı",
+      "kpi": {
+        "totalUsers": "Toplam Kullanıcı",
+        "verifiedUsers": "Doğrulanmış Kullanıcılar",
+        "newUsers7Days": "Yeni Kullanıcılar (7 Gün)",
+        "verified": "doğrulanmış",
+        "active24h": "Aktif (24 Saat)",
+        "activeThisWeek": "bu hafta aktif"
+      },
+      "activeUsers": {
+        "title": "Günlük Aktif Kullanıcılar 🔥",
+        "daily": "Aktif Kullanıcılar"
+      },
+      "retention": {
+        "title": "Kullanıcı Tutma Analitiği 🔁",
+        "average7d": "Ortalama 7 Günlük Tutma",
+        "average30d": "Ortalama 30 Günlük Tutma",
+        "rate7d": "7 Günlük Tutma %",
+        "rate30d": "30 Günlük Tutma %"
+      },
+      "cohort": {
+        "title": "Kohort Tutma Isı Haritası 🔥",
+        "description": "Her satır bir kayıt kohortunu gösterir. Daha koyu renk = daha iyi tutma.",
+        "signupDate": "Kayıt Tarihi",
+        "newUsers": "Yeni Kullanıcılar",
+        "day": "Gün {day, number}",
+        "legend": "Açıklama:"
+      },
+      "segmentation": {
+        "country": "Ülke",
+        "language": "Dil",
+        "allCountries": "Tüm Ülkeler",
+        "allLanguages": "Tüm Diller",
+        "countries": {
+          "TR": "Türkiye",
+          "US": "ABD",
+          "GB": "İngiltere",
+          "DE": "Almanya",
+          "FR": "Fransa"
+        },
+        "languages": {
+          "tr": "Türkçe",
+          "en": "İngilizce",
+          "de": "Almanca",
+          "fr": "Fransızca"
+        }
+      }
+    }
+  },
+  "profile": {
+    "title": "Profil Ayarları",
+    "loadingProfile": "Profil yükleniyor...",
+    "failedToLoadProfile": "Profil yüklenemedi",
+    "profileUpdatedSuccessfully": "Profil başarıyla güncellendi",
+    "failedToUpdateProfile": "Profil güncellenemedi",
+    "personalInfo": "Kişisel Bilgiler",
+    "username": "Kullanıcı Adı",
+    "usernamePlaceholder": "kullaniciadi",
+    "usernameHelper": "3-30 karakter, sadece harf, rakam, alt çizgi ve tire",
+    "firstName": "Ad",
+    "lastName": "Soyad",
+    "language": "Dil",
+    "country": "Ülke",
+    "selectCountry": "Bir ülke seçin...",
+    "phone": "Telefon",
+    "address": "Adres",
+    "securitySettings": "Güvenlik Ayarları",
+    "overrideGlobalSettings": "Hesabınız için global ayarları geçersiz kılın. Sistem genelindeki yapılandırmayı takip etmek için \"Global Ayarı Kullan\" olarak bırakın.",
+    "useGlobalEmailVerification": "E-posta Doğrulama için Global Ayarı Kullan",
+    "followSystemEmailVerification": "Sistem genelindeki e-posta doğrulama yapılandırmasını takip edin",
+    "requireEmailVerification": "E-posta Doğrulaması Gerekli",
+    "emailVerificationRequired": "E-posta doğrulaması gereklidir",
+    "emailVerificationNotRequired": "E-posta doğrulaması gerekli değildir",
+    "useGlobal2FA": "2FA için Global Ayarı Kullan",
+    "followSystem2FA": "Sistem genelindeki 2FA yapılandırmasını takip edin",
+    "require2FA": "2FA Gerekli",
+    "twoFARequired": "2FA gereklidir",
+    "twoFANotRequired": "2FA gerekli değildir",
+    "enable2FA": "İki Faktörlü Kimlik Doğrulamayı Etkinleştir",
+    "twoFAEnabledDescription": "2FA etkinleştirildi. Giriş yaparken e-posta ile doğrulama kodu alacaksınız.",
+    "twoFADisabledDescription": "Hesabınıza ekstra bir güvenlik katmanı eklemek için 2FA'yı etkinleştirin.",
+    "cancel": "İptal",
+    "saving": "Kaydediliyor...",
+    "saveChanges": "Değişiklikleri Kaydet"
+  }
+}

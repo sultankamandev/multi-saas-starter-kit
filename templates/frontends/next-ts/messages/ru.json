@@ -1,0 +1,404 @@
+{
+  "title": "Добро пожаловать в SaaS Starter",
+  "language": "Язык",
+  "nav": {
+    "appName": "SaaS Starter",
+    "welcome": "Добро пожаловать, {name}",
+    "dashboard": "Панель",
+    "profile": "Профиль",
+    "logout": "Выйти",
+    "login": "Войти",
+    "register": "Регистрация"
+  },
+  "login": {
+    "title": "Вход",
+    "email": "Email или имя пользователя",
+    "emailOrUsername": "Email или имя пользователя",
+    "password": "Пароль",
+    "submit": "Войти",
+    "submitting": "Вход...",
+    "noAccount": "Нет аккаунта?",
+    "registerLink": "Зарегистрироваться",
+    "forgotPassword": "Забыли пароль?",
+    "rememberMe": "Запомнить меня",
+    "emailOrUsernameHelper": "Можно войти по email или имени пользователя",
+    "success": "Вход выполнен!",
+    "failed": "Ошибка входа",
+    "orContinueWith": "Или продолжить с",
+    "googleLoginSuccess": "С возвращением, {name}",
+    "googleLoginSuccessGeneric": "Вход выполнен",
+    "googleLoginFailed": "Ошибка входа через Google",
+    "validation": {
+      "emailRequired": "Укажите email",
+      "emailInvalid": "Некорректный email",
+      "passwordRequired": "Укажите пароль"
+    }
+  },
+  "register": {
+    "title": "Регистрация",
+    "username": "Имя пользователя",
+    "usernamePlaceholder": "ivanov",
+    "usernameHelper": "3–30 символов: буквы, цифры, подчёркивание и дефис",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "email": "Email",
+    "password": "Пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "country": "Страна",
+    "submit": "Зарегистрироваться",
+    "submitting": "Регистрация...",
+    "hasAccount": "Уже есть аккаунт?",
+    "loginLink": "Войти",
+    "success": "Регистрация успешна! Войдите.",
+    "failed": "Ошибка регистрации",
+    "validationFailed": "Проверьте ошибки в форме",
+    "validation": {
+      "firstNameRequired": "Укажите имя",
+      "lastNameRequired": "Укажите фамилию",
+      "emailRequired": "Укажите email",
+      "emailInvalid": "Некорректный email",
+      "passwordRequired": "Укажите пароль",
+      "passwordMinLength": "Пароль не менее 8 символов",
+      "confirmPasswordRequired": "Подтвердите пароль",
+      "passwordsNotMatch": "Пароли не совпадают"
+    }
+  },
+  "dashboard": {
+    "title": "Панель",
+    "welcomeBack": "С возвращением!",
+    "name": "Имя",
+    "email": "Email",
+    "role": "Роль",
+    "editProfile": "Редактировать профиль",
+    "features": {
+      "title": "Возможности платформы",
+      "description": "Ваша панель: пользователи, аналитика и настройки."
+    },
+    "logout": "Выйти",
+    "adminPanel": "Панель администратора"
+  },
+  "landing": {
+    "hero": {
+      "title": "Запустите свой SaaS быстрее",
+      "subtitle": "Готовый к продакшену шаблон: аутентификация, админ-панель, i18n и API.",
+      "ctaPrimary": "Начать",
+      "ctaSecondary": "Подробнее"
+    },
+    "features": {
+      "title": "Всё для запуска",
+      "items": {
+        "auth": {
+          "title": "Аутентификация",
+          "description": "Вход, регистрация, 2FA, OAuth и сброс пароля из коробки."
+        },
+        "admin": {
+          "title": "Админ-панель",
+          "description": "Пользователи, аналитика, заблокированные IP и настройки приложения."
+        },
+        "i18n": {
+          "title": "Интернационализация",
+          "description": "7 языков. Маршрутизация по домену и сохранение в cookies."
+        },
+        "api": {
+          "title": "Интеграция API",
+          "description": "Типизированный слой сервисов, обновление токенов, обработка ошибок и Axios."
+        }
+      }
+    },
+    "cta": {
+      "title": "Готовы к разработке?",
+      "description": "Клонируйте репозиторий, настройте окружение и начните разработку за минуты.",
+      "button": "Начать",
+      "register": "Создать аккаунт",
+      "login": "Уже есть аккаунт?"
+    }
+  },
+  "common": {
+    "loading": "Загрузка...",
+    "logoutSuccess": "Выход выполнен",
+    "unauthorized": "Войдите, чтобы открыть эту страницу",
+    "adminOnly": "Требуются права администратора",
+    "loginRequired": "Войдите, чтобы открыть эту страницу"
+  },
+  "errors": {
+    "title": "Что-то пошло не так",
+    "message": "Произошла ошибка. Попробуйте снова.",
+    "tryAgain": "Повторить",
+    "goHome": "На главную",
+    "errorDetailsDevelopment": "Детали ошибки (разработка)"
+  },
+  "forgotPassword": {
+    "title": "Забыли пароль",
+    "description": "Введите email — мы отправим ссылку для сброса пароля.",
+    "email": "Email",
+    "submit": "Отправить ссылку",
+    "submitting": "Отправка...",
+    "success": "Ссылка для сброса отправлена на ваш email.",
+    "failed": "Не удалось отправить ссылку",
+    "backToLogin": "Вернуться ко входу",
+    "validation": {
+      "emailRequired": "Укажите email",
+      "emailInvalid": "Некорректный email"
+    }
+  },
+  "resetPassword": {
+    "title": "Сброс пароля",
+    "description": "Введите новый пароль ниже.",
+    "newPassword": "Новый пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "submit": "Сбросить пароль",
+    "submitting": "Сброс...",
+    "success": "Пароль успешно изменён.",
+    "failed": "Не удалось сбросить пароль",
+    "missingToken": "Недействительная или просроченная ссылка сброса.",
+    "loadingToken": "Загрузка...",
+    "backToLogin": "Вернуться ко входу",
+    "validation": {
+      "passwordRequired": "Укажите пароль",
+      "passwordMinLength": "Пароль не менее 8 символов",
+      "confirmPasswordRequired": "Подтвердите пароль",
+      "passwordsNotMatch": "Пароли не совпадают"
+    }
+  },
+  "verifyEmail": {
+    "title": "Подтверждение email",
+    "verifying": "Проверка email...",
+    "success": "Email подтверждён",
+    "successTitle": "Ваш email подтверждён",
+    "successMessage": "Теперь можно войти.",
+    "failed": "Ошибка проверки",
+    "failedTitle": "Проверка не удалась",
+    "failedMessage": "Проверьте ссылку или зарегистрируйтесь снова.",
+    "missingToken": "Недействительная или отсутствующая ссылка.",
+    "goToLogin": "Перейти ко входу",
+    "registerAgain": "Зарегистрироваться снова"
+  },
+  "verify2FA": {
+    "title": "Двухфакторная аутентификация",
+    "description": "Введите 6-значный код, отправленный на ваш email.",
+    "emailDescription": "Код из 6 цифр отправлен на ваш email. Введите его ниже.",
+    "totpDescription": "Введите 6-значный код из приложения аутентификации.",
+    "codeLabel": "Код подтверждения",
+    "submit": "Подтвердить код",
+    "submitting": "Проверка...",
+    "success": "Вход выполнен",
+    "failed": "Недействительный или просроченный код",
+    "missingUserId": "Недействительный запрос. Попробуйте войти снова.",
+    "loading": "Загрузка...",
+    "noCode": "Не пришёл код?",
+    "useRecoveryCode": "Использовать код восстановления",
+    "backToLogin": "Вернуться ко входу",
+    "codeComplete": "Код введён ✓",
+    "codeExpired": "Срок действия кода истёк.",
+    "codeExpiredOrInvalid": "Код истёк или недействителен.",
+    "resendCode": "Отправить код снова",
+    "resending": "Отправка...",
+    "codeResent": "Новый код отправлен на ваш email.",
+    "resendFailed": "Не удалось отправить. Попробуйте снова.",
+    "validation": {
+      "codeRequired": "Укажите код подтверждения",
+      "codeLength": "Код должен содержать 6 цифр",
+      "codeInvalid": "Код должен содержать только цифры"
+    }
+  },
+  "setup2FA": {
+    "title": "Включить двухфакторную аутентификацию",
+    "description": "Дополнительная защита вашего аккаунта",
+    "generateQR": "Создать QR-код",
+    "generating": "Создание...",
+    "qrGenerated": "QR-код создан",
+    "generateFailed": "Не удалось создать QR-код",
+    "scanInstructions": "Отсканируйте QR-код в Google Authenticator или другом TOTP-приложении",
+    "backupCode": "Резервный код (сохраните в надёжном месте):",
+    "backupCodeNote": "Используйте этот код, если потеряете устройство",
+    "codeLabel": "Введите 6-значный код из приложения",
+    "verifyAndEnable": "Проверить и включить 2FA",
+    "verifying": "Проверка...",
+    "success": "2FA включена",
+    "verifyFailed": "Неверный код. Попробуйте снова.",
+    "noSecret": "Сначала создайте QR-код",
+    "enabledSuccess": "Двухфакторная аутентификация включена",
+    "redirecting": "Переход в панель...",
+    "loading": "Загрузка...",
+    "loadingQRCode": "Загрузка QR-кода...",
+    "recoveryCodesTitle": "Коды восстановления",
+    "recoveryCodesDescription": "Сохраните коды в надёжном месте. Каждый можно использовать один раз.",
+    "recoveryCodesWarning": "⚠️ Коды показываются один раз. Обязательно сохраните их!",
+    "copyCodes": "Копировать все",
+    "codesCopied": "Коды скопированы",
+    "continueToDashboard": "Перейти в панель",
+    "validation": {
+      "codeRequired": "Укажите код подтверждения",
+      "codeLength": "Код должен содержать 6 цифр",
+      "codeInvalid": "Код должен содержать только цифры"
+    }
+  },
+  "recoveryLogin": {
+    "title": "Вход по коду восстановления",
+    "description": "Если нет доступа к устройству 2FA, введите один из кодов восстановления.",
+    "codeLabel": "Код восстановления",
+    "codeHint": "Введите один из ваших кодов (буквы и цифры)",
+    "submit": "Войти",
+    "submitting": "Вход...",
+    "success": "Вход по коду восстановления выполнен",
+    "failed": "Недействительный или использованный код",
+    "missingUserId": "Недействительный запрос. Попробуйте войти снова.",
+    "loading": "Загрузка...",
+    "noRecoveryCode": "Нет кода восстановления?",
+    "backToLogin": "Вернуться ко входу",
+    "validation": {
+      "codeRequired": "Укажите код восстановления",
+      "codeMinLength": "Код слишком короткий"
+    }
+  },
+  "admin": {
+    "auditLog": "Журнал аудита",
+    "blockedIPs": "Заблокированные IP",
+    "settings": "Настройки",
+    "users": "Пользователи",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "email": "Email",
+    "password": "Пароль",
+    "role": "Роль",
+    "user": "Пользователь",
+    "admin": "Администратор",
+    "emailVerified": "Email подтверждён",
+    "emailVerificationRequirement": "Требование проверки email",
+    "twoFARequirement": "Требование 2FA",
+    "useGlobalSetting": "Использовать глобальную настройку",
+    "required": "Обязательно",
+    "notRequired": "Не обязательно",
+    "newPassword": "Новый пароль (оставьте пустым, чтобы не менять)",
+    "toggleVerifyEmail": "Подтвердить или снять подтверждение email",
+    "overrideEmailVerification": "Переопределить глобальную проверку email для этого пользователя",
+    "override2FA": "Переопределить глобальную настройку 2FA для этого пользователя",
+    "passwordHelper": "Заполняйте только при смене пароля",
+    "passwordMinLength": "Пароль не менее 8 символов",
+    "createUserVerified": "Создать пользователя с подтверждённым email",
+    "performedBy": "Выполнено",
+    "targetUser": "Пользователь",
+    "createdAt": "Дата",
+    "unblock": "Разблокировать",
+    "ipUnblockedSuccess": "IP разблокирован",
+    "ipUnblockFailed": "Не удалось разблокировать IP",
+    "applicationSettings": "Настройки приложения",
+    "emailVerification": "Проверка email",
+    "emailVerificationInfo": "При отключённой проверке новые пользователи могут входить сразу после регистрации. Отдельных пользователей можно проверять вручную на странице Пользователи.",
+    "requireEmailVerification": "Требовать проверку email",
+    "emailVerificationEnabled": "Новые пользователи должны подтвердить email перед входом",
+    "emailVerificationDisabled": "Новые пользователи могут входить сразу после регистрации",
+    "twoFactorAuthentication": "Двухфакторная аутентификация (2FA)",
+    "twoFAInfo": "При включённой глобальной 2FA все должны её настроить. Доступны TOTP и коды по email. Настройки 2FA по пользователям — на странице Пользователи.",
+    "require2FAForAll": "Требовать 2FA для всех",
+    "twoFAEnabled": "Все должны включить 2FA перед входом",
+    "twoFADisabled": "2FA необязательна",
+    "emailVerificationEnabledSuccess": "Проверка email включена",
+    "emailVerificationDisabledSuccess": "Проверка email отключена",
+    "twoFAEnabledSuccess": "Требование 2FA включено",
+    "twoFADisabledSuccess": "Требование 2FA отключено",
+    "failedToLoadSettings": "Не удалось загрузить настройки",
+    "failedToUpdateSetting": "Не удалось обновить настройку",
+    "analytics": {
+      "title": "Аналитика пользователей",
+      "startDate": "Дата начала",
+      "endDate": "Дата окончания",
+      "refresh": "Обновить",
+      "loading": "Загрузка...",
+      "noData": "Нет данных за выбранный период.",
+      "registrations": "Регистрации",
+      "verified": "Подтверждённые",
+      "totalRegistrations": "Всего регистраций",
+      "totalVerified": "Всего подтверждённых",
+      "verificationRate": "Доля подтверждённых",
+      "kpi": {
+        "totalUsers": "Всего пользователей",
+        "verifiedUsers": "Подтверждённые",
+        "newUsers7Days": "Новые за 7 дней",
+        "verified": "подтверждённые",
+        "active24h": "Активные за 24 ч",
+        "activeThisWeek": "активные за неделю"
+      },
+      "activeUsers": {
+        "title": "Активные пользователи по дням",
+        "daily": "Активные пользователи"
+      },
+      "retention": {
+        "title": "Аналитика удержания",
+        "average7d": "Среднее удержание за 7 дней",
+        "average30d": "Среднее удержание за 30 дней",
+        "rate7d": "Удержание 7 дней %",
+        "rate30d": "Удержание 30 дней %"
+      },
+      "cohort": {
+        "title": "Тепловая карта удержания по когортам",
+        "description": "Каждая строка — когорта регистрации. Темнее — выше удержание.",
+        "signupDate": "Дата регистрации",
+        "newUsers": "Новые пользователи",
+        "day": "День {day, number}",
+        "legend": "Легенда:"
+      },
+      "segmentation": {
+        "country": "Страна",
+        "language": "Язык",
+        "allCountries": "Все страны",
+        "allLanguages": "Все языки",
+        "countries": {
+          "TR": "Турция",
+          "US": "США",
+          "GB": "Великобритания",
+          "DE": "Германия",
+          "FR": "Франция",
+          "ES": "Испания",
+          "IT": "Италия",
+          "RU": "Россия"
+        },
+        "languages": {
+          "tr": "Турецкий",
+          "en": "Английский",
+          "de": "Немецкий",
+          "fr": "Французский",
+          "es": "Испанский",
+          "it": "Итальянский",
+          "ru": "Русский"
+        }
+      }
+    }
+  },
+  "profile": {
+    "title": "Настройки профиля",
+    "loadingProfile": "Загрузка профиля...",
+    "failedToLoadProfile": "Не удалось загрузить профиль",
+    "profileUpdatedSuccessfully": "Профиль обновлён",
+    "failedToUpdateProfile": "Не удалось обновить профиль",
+    "personalInfo": "Личные данные",
+    "username": "Имя пользователя",
+    "usernamePlaceholder": "ivanov",
+    "usernameHelper": "3–30 символов: буквы, цифры, подчёркивание и дефис",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "language": "Язык",
+    "country": "Страна",
+    "selectCountry": "Выберите страну...",
+    "phone": "Телефон",
+    "address": "Адрес",
+    "securitySettings": "Безопасность",
+    "overrideGlobalSettings": "Переопределить глобальные настройки для вашего аккаунта. «Использовать глобальную» — следовать настройкам системы.",
+    "useGlobalEmailVerification": "Использовать глобальную настройку проверки email",
+    "followSystemEmailVerification": "Следовать глобальной настройке проверки email",
+    "requireEmailVerification": "Требовать проверку email",
+    "emailVerificationRequired": "Проверка email обязательна",
+    "emailVerificationNotRequired": "Проверка email не обязательна",
+    "useGlobal2FA": "Использовать глобальную настройку 2FA",
+    "followSystem2FA": "Следовать глобальной настройке 2FA",
+    "require2FA": "Требовать 2FA",
+    "twoFARequired": "2FA обязательна",
+    "twoFANotRequired": "2FA не обязательна",
+    "enable2FA": "Включить двухфакторную аутентификацию",
+    "twoFAEnabledDescription": "2FA включена. При входе вы получите код на email.",
+    "twoFADisabledDescription": "Включите 2FA для дополнительной защиты.",
+    "cancel": "Отмена",
+    "saving": "Сохранение...",
+    "saveChanges": "Сохранить изменения"
+  }
+}

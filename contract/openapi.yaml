@@ -1,0 +1,1522 @@
+openapi: 3.1.0
+info:
+  title: SaaS Starter API
+  version: 1.0.0
+  description: |
+    Shared API contract for the SaaS Starter Kit.
+    All backend implementations (Go, Python, Node.js, etc.) must conform to this spec.
+
+servers:
+  - url: http://localhost:8080
+    description: Default development server
+
+tags:
+  - name: Health
+  - name: Auth
+    description: Public authentication endpoints (rate-limited)
+  - name: Auth (Protected)
+    description: Authenticated auth endpoints
+  - name: User
+    description: User profile endpoints
+  - name: Admin - Users
+    description: Admin user management (requires admin role)
+  - name: Admin - Analytics
+    description: Admin analytics (requires admin role)
+  - name: Admin - Settings
+    description: Admin app settings (requires admin role)
+  - name: Admin - Blocked IPs
+    description: Admin IP blocking (requires admin role)
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    # ── Core ──────────────────────────────────────────────
+    User:
+      type: object
+      required: [id, email, role, verified, two_fa_enabled]
+      properties:
+        id:
+          type: string
+          description: Public UUID (never the internal serial ID)
+        username:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          enum: [user, admin]
+        language:
+          type: string
+        country:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        verified:
+          type: boolean
+        two_fa_enabled:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    TokenPair:
+      type: object
+      required: [access_token, refresh_token, expires_in, token_type]
+      properties:
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+        expires_in:
+          type: integer
+        token_type:
+          type: string
+          default: Bearer
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        error_code:
+          type: string
+        message:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
+
+    MessageResponse:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
+
+    # ── Auth ──────────────────────────────────────────────
+    RegisterRequest:
+      type: object
+      required: [username, first_name, last_name, email, password]
+      properties:
+        username:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+          maxLength: 255
+        recaptcha_token:
+          type: string
+        language:
+          type: string
+        country:
+          type: string
+
+    LoginRequest:
+      type: object
+      required: [email_or_username, password]
+      properties:
+        email_or_username:
+          type: string
+        password:
+          type: string
+        recaptcha_token:
+          type: string
+        remember_me:
+          type: boolean
+          default: false
+
+    LoginResponse:
+      type: object
+      required: [message, user, access_token, refresh_token, expires_in, token_type]
+      properties:
+        message:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+        expires_in:
+          type: integer
+        token_type:
+          type: string
+          default: Bearer
+
+    TwoFARequiredResponse:
+      type: object
+      required: [requires_2fa, two_fa_type, user_id, message]
+      properties:
+        requires_2fa:
+          type: boolean
+        two_fa_type:
+          type: string
+          enum: [email, totp]
+        user_id:
+          type: string
+        message:
+          type: string
+
+    Verify2FARequest:
+      type: object
+      required: [user_id, code]
+      properties:
+        user_id:
+          type: string
+        code:
+          type: string
+
+    Resend2FARequest:
+      type: object
+      required: [user_id]
+      properties:
+        user_id:
+          type: string
+
+    VerifyTOTPLoginRequest:
+      type: object
+      required: [user_id, code]
+      properties:
+        user_id:
+          type: string
+        code:
+          type: string
+        remember_me:
+          type: boolean
+          default: false
+
+    UseRecoveryCodeRequest:
+      type: object
+      required: [user_id, code]
+      properties:
+        user_id:
+          type: string
+        code:
+          type: string
+        remember_me:
+          type: boolean
+          default: false
+
+    Setup2FAResponse:
+      type: object
+      required: [otpauth_url, secret, message]
+      properties:
+        otpauth_url:
+          type: string
+        secret:
+          type: string
+        message:
+          type: string
+
+    Verify2FASetupRequest:
+      type: object
+      required: [code]
+      properties:
+        code:
+          type: string
+
+    Verify2FASetupResponse:
+      type: object
+      required: [message, recovery_codes, warning]
+      properties:
+        message:
+          type: string
+        recovery_codes:
+          type: array
+          items:
+            type: string
+        warning:
+          type: string
+
+    RefreshTokenRequest:
+      type: object
+      required: [refresh_token]
+      properties:
+        refresh_token:
+          type: string
+
+    RefreshTokenResponse:
+      $ref: "#/components/schemas/TokenPair"
+
+    LogoutRequest:
+      type: object
+      required: [refresh_token]
+      properties:
+        refresh_token:
+          type: string
+
+    ForgotPasswordRequest:
+      type: object
+      required: [email]
+      properties:
+        email:
+          type: string
+          format: email
+
+    ResetPasswordRequest:
+      type: object
+      required: [token, new_password]
+      properties:
+        token:
+          type: string
+        new_password:
+          type: string
+          minLength: 8
+          maxLength: 255
+
+    GoogleLoginRequest:
+      type: object
+      required: [token]
+      properties:
+        token:
+          type: string
+        remember_me:
+          type: boolean
+          default: false
+
+    # ── User Profile ──────────────────────────────────────
+    UpdateProfileRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        language:
+          type: string
+        country:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        two_fa_enabled:
+          type: boolean
+
+    ProfileResponse:
+      type: object
+      required: [user]
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+
+    # ── Admin ─────────────────────────────────────────────
+    AdminCreateUserRequest:
+      type: object
+      required: [first_name, last_name, email, password]
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+          maxLength: 255
+        role:
+          type: string
+        language:
+          type: string
+        verified:
+          type: boolean
+
+    AdminUpdateUserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+          maxLength: 255
+        role:
+          type: string
+        language:
+          type: string
+        country:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        verified:
+          type: boolean
+        two_fa_enabled:
+          type: boolean
+
+    AdminUpdateRoleRequest:
+      type: object
+      required: [role]
+      properties:
+        role:
+          type: string
+          enum: [admin, user]
+
+    AdminSummary:
+      type: object
+      required: [total_users, verified_users, new_users_7_days, verified_percent]
+      properties:
+        total_users:
+          type: integer
+        verified_users:
+          type: integer
+        new_users_7_days:
+          type: integer
+        verified_percent:
+          type: number
+          format: double
+
+    UserAnalytics:
+      type: object
+      required: [date, registrations, verified]
+      properties:
+        date:
+          type: string
+        registrations:
+          type: integer
+        verified:
+          type: integer
+
+    ActiveUserStats:
+      type: object
+      required: [date, active_users]
+      properties:
+        date:
+          type: string
+        active_users:
+          type: integer
+
+    ActiveUserAnalyticsResponse:
+      type: object
+      required: [daily, active_24h, active_7d]
+      properties:
+        daily:
+          type: array
+          items:
+            $ref: "#/components/schemas/ActiveUserStats"
+        active_24h:
+          type: integer
+        active_7d:
+          type: integer
+
+    RetentionStats:
+      type: object
+      required: [signup_date, new_users, retained_7d, retained_30d, retention_7_rate, retention_30_rate]
+      properties:
+        signup_date:
+          type: string
+        new_users:
+          type: integer
+        retained_7d:
+          type: integer
+        retained_30d:
+          type: integer
+        retention_7_rate:
+          type: number
+          format: double
+        retention_30_rate:
+          type: number
+          format: double
+
+    RetentionAnalyticsResponse:
+      type: object
+      required: [retention_data, average_7d, average_30d]
+      properties:
+        retention_data:
+          type: array
+          items:
+            $ref: "#/components/schemas/RetentionStats"
+        average_7d:
+          type: number
+          format: double
+        average_30d:
+          type: number
+          format: double
+
+    CohortRow:
+      type: object
+      required: [signup_date, new_users, day_1, day_3, day_7, day_14, day_30]
+      properties:
+        signup_date:
+          type: string
+        new_users:
+          type: integer
+        day_1:
+          type: number
+          format: double
+        day_3:
+          type: number
+          format: double
+        day_7:
+          type: number
+          format: double
+        day_14:
+          type: number
+          format: double
+        day_30:
+          type: number
+          format: double
+
+    AppSetting:
+      type: object
+      required: [id, key, value]
+      properties:
+        id:
+          type: integer
+        key:
+          type: string
+        value:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    AdminAction:
+      type: object
+      properties:
+        id:
+          type: integer
+        admin_id:
+          type: integer
+        admin_email:
+          type: string
+        action:
+          type: string
+        target_user_id:
+          type: integer
+        target_email:
+          type: string
+        message:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    PaginatedUsers:
+      type: object
+      required: [data, total, page, limit]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+
+  parameters:
+    AnalyticsStartDate:
+      name: start_date
+      in: query
+      schema:
+        type: string
+        format: date
+    AnalyticsEndDate:
+      name: end_date
+      in: query
+      schema:
+        type: string
+        format: date
+    AnalyticsCountry:
+      name: country
+      in: query
+      schema:
+        type: string
+    AnalyticsLanguage:
+      name: language
+      in: query
+      schema:
+        type: string
+
+paths:
+  # ── Health ────────────────────────────────────────────
+  /ping:
+    get:
+      tags: [Health]
+      summary: Health check
+      operationId: ping
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  # ── Auth (Public) ─────────────────────────────────────
+  /auth/register:
+    post:
+      tags: [Auth]
+      summary: Create a new account
+      operationId: register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+      responses:
+        "201":
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: Email or username already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Log in with email/username and password
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Login successful (or 2FA required)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/LoginResponse"
+                  - $ref: "#/components/schemas/TwoFARequiredResponse"
+        "401":
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/google-login:
+    post:
+      tags: [Auth]
+      summary: Log in with Google OAuth ID token
+      operationId: googleLogin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GoogleLoginRequest"
+      responses:
+        "200":
+          description: Login successful (or 2FA required)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/LoginResponse"
+                  - $ref: "#/components/schemas/TwoFARequiredResponse"
+
+  /auth/forgot-password:
+    post:
+      tags: [Auth]
+      summary: Request a password reset email
+      operationId: forgotPassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ForgotPasswordRequest"
+      responses:
+        "200":
+          description: Reset email sent (always 200 to prevent enumeration)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  /auth/reset-password:
+    post:
+      tags: [Auth]
+      summary: Reset password using email token
+      operationId: resetPassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResetPasswordRequest"
+      responses:
+        "200":
+          description: Password reset successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Invalid or expired token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/verify-email:
+    get:
+      tags: [Auth]
+      summary: Verify email address via token
+      operationId: verifyEmail
+      parameters:
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Email verified
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Invalid or expired token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/refresh-token:
+    post:
+      tags: [Auth]
+      summary: Refresh access token
+      operationId: refreshToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RefreshTokenRequest"
+      responses:
+        "200":
+          description: New token pair
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenPair"
+        "401":
+          description: Invalid or expired refresh token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/logout:
+    post:
+      tags: [Auth]
+      summary: Invalidate refresh token
+      operationId: logout
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LogoutRequest"
+      responses:
+        "200":
+          description: Logged out
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  /auth/verify-2fa:
+    post:
+      tags: [Auth]
+      summary: Verify email-based 2FA code
+      operationId: verify2FA
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Verify2FARequest"
+      responses:
+        "200":
+          description: 2FA verified, tokens returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        "401":
+          description: Invalid code
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/resend-2fa:
+    post:
+      tags: [Auth]
+      summary: Resend email-based 2FA code
+      operationId: resend2FA
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Resend2FARequest"
+      responses:
+        "200":
+          description: Code resent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  /auth/verify-totp-login:
+    post:
+      tags: [Auth]
+      summary: Verify TOTP code during login
+      operationId: verifyTOTPLogin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VerifyTOTPLoginRequest"
+      responses:
+        "200":
+          description: TOTP verified, tokens returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        "401":
+          description: Invalid TOTP code
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/verify-recovery-code:
+    post:
+      tags: [Auth]
+      summary: Log in using a recovery code
+      operationId: verifyRecoveryCode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UseRecoveryCodeRequest"
+      responses:
+        "200":
+          description: Recovery code accepted, tokens returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        "401":
+          description: Invalid recovery code
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ── Auth (Protected) ─────────────────────────────────
+  /auth/me:
+    get:
+      tags: [Auth (Protected)]
+      summary: Get current authenticated user
+      operationId: getMe
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: "#/components/schemas/User"
+        "401":
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/dashboard:
+    get:
+      tags: [Auth (Protected)]
+      summary: Get dashboard data
+      operationId: getDashboard
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Dashboard data
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /auth/logout-all:
+    post:
+      tags: [Auth (Protected)]
+      summary: Invalidate all sessions
+      operationId: logoutAll
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: All sessions invalidated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  /auth/2fa/setup:
+    post:
+      tags: [Auth (Protected)]
+      summary: Start TOTP 2FA setup
+      operationId: setup2FA
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: QR code and secret returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Setup2FAResponse"
+
+  /auth/2fa/verify-setup:
+    post:
+      tags: [Auth (Protected)]
+      summary: Confirm TOTP setup with a valid code
+      operationId: verify2FASetup
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Verify2FASetupRequest"
+      responses:
+        "200":
+          description: 2FA enabled, recovery codes returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Verify2FASetupResponse"
+        "400":
+          description: Invalid TOTP code
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ── User Profile ──────────────────────────────────────
+  /api/user/profile:
+    get:
+      tags: [User]
+      summary: Get user profile
+      operationId: getProfile
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProfileResponse"
+    put:
+      tags: [User]
+      summary: Update user profile
+      operationId: updateProfile
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProfileRequest"
+      responses:
+        "200":
+          description: Profile updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProfileResponse"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ── Admin - User Management ──────────────────────────
+  /api/admin/users:
+    get:
+      tags: [Admin - Users]
+      summary: List all users (paginated)
+      operationId: listUsers
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+        - name: sort_field
+          in: query
+          schema:
+            type: string
+            default: id
+        - name: sort_order
+          in: query
+          schema:
+            type: string
+            enum: [ASC, DESC]
+            default: ASC
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Paginated user list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedUsers"
+    post:
+      tags: [Admin - Users]
+      summary: Create a new user
+      operationId: adminCreateUser
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminCreateUserRequest"
+      responses:
+        "201":
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /api/admin/users/{id}:
+    get:
+      tags: [Admin - Users]
+      summary: Get user by ID
+      operationId: adminGetUser
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      tags: [Admin - Users]
+      summary: Update user
+      operationId: adminUpdateUser
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminUpdateUserRequest"
+      responses:
+        "200":
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    delete:
+      tags: [Admin - Users]
+      summary: Delete user
+      operationId: adminDeleteUser
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /api/admin/users/{id}/role:
+    put:
+      tags: [Admin - Users]
+      summary: Update user role
+      operationId: adminUpdateUserRole
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminUpdateRoleRequest"
+      responses:
+        "200":
+          description: Role updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  /api/admin/user-stats:
+    get:
+      tags: [Admin - Users]
+      summary: User statistics summary
+      operationId: getUserStats
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: User statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminSummary"
+
+  /api/admin/actions:
+    get:
+      tags: [Admin - Users]
+      summary: Admin audit log
+      operationId: getAdminActions
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 25
+      responses:
+        "200":
+          description: Admin actions list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/AdminAction"
+                  total:
+                    type: integer
+
+  # ── Admin - Analytics ─────────────────────────────────
+  /api/admin/analytics/user-registrations:
+    get:
+      tags: [Admin - Analytics]
+      summary: Daily user registration counts
+      operationId: getUserRegistrations
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/AnalyticsStartDate"
+        - $ref: "#/components/parameters/AnalyticsEndDate"
+        - $ref: "#/components/parameters/AnalyticsCountry"
+        - $ref: "#/components/parameters/AnalyticsLanguage"
+      responses:
+        "200":
+          description: Registration analytics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserAnalytics"
+
+  /api/admin/analytics/active-users:
+    get:
+      tags: [Admin - Analytics]
+      summary: Active user metrics
+      operationId: getActiveUsers
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/AnalyticsStartDate"
+        - $ref: "#/components/parameters/AnalyticsEndDate"
+      responses:
+        "200":
+          description: Active user analytics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActiveUserAnalyticsResponse"
+
+  /api/admin/analytics/retention:
+    get:
+      tags: [Admin - Analytics]
+      summary: User retention by cohort period
+      operationId: getRetention
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/AnalyticsStartDate"
+        - $ref: "#/components/parameters/AnalyticsEndDate"
+      responses:
+        "200":
+          description: Retention analytics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RetentionAnalyticsResponse"
+
+  /api/admin/analytics/cohort:
+    get:
+      tags: [Admin - Analytics]
+      summary: Cohort retention heatmap data
+      operationId: getCohort
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/AnalyticsStartDate"
+        - $ref: "#/components/parameters/AnalyticsEndDate"
+      responses:
+        "200":
+          description: Cohort heatmap data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CohortRow"
+
+  /api/admin/summary:
+    get:
+      tags: [Admin - Analytics]
+      summary: KPI summary
+      operationId: getAdminSummary
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Summary KPIs
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminSummary"
+
+  # ── Admin - Blocked IPs ──────────────────────────────
+  /api/admin/blocked-ips:
+    get:
+      tags: [Admin - Blocked IPs]
+      summary: List all blocked IPs
+      operationId: getBlockedIPs
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Blocked IP list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ip:
+                      type: string
+                    blocked_until:
+                      type: string
+                      format: date-time
+
+  /api/admin/blocked-ips/{ip}:
+    delete:
+      tags: [Admin - Blocked IPs]
+      summary: Unblock a specific IP
+      operationId: unblockIP
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: ip
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: IP unblocked
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  # ── Admin - Settings ──────────────────────────────────
+  /api/admin/settings:
+    get:
+      tags: [Admin - Settings]
+      summary: List all app settings
+      operationId: getAllSettings
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: All settings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AppSetting"
+
+  /api/admin/settings/{key}:
+    get:
+      tags: [Admin - Settings]
+      summary: Get a specific setting
+      operationId: getSetting
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Setting value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppSetting"
+    put:
+      tags: [Admin - Settings]
+      summary: Update a specific setting
+      operationId: updateSetting
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [value]
+              properties:
+                value:
+                  type: string
+      responses:
+        "200":
+          description: Setting updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppSetting"
+
+  /api/admin/settings/email-verification:
+    get:
+      tags: [Admin - Settings]
+      summary: Get email verification setting
+      operationId: getEmailVerificationSetting
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Email verification status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+    put:
+      tags: [Admin - Settings]
+      summary: Update email verification setting
+      operationId: updateEmailVerificationSetting
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [enabled]
+              properties:
+                enabled:
+                  type: boolean
+      responses:
+        "200":
+          description: Setting updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  /api/admin/settings/2fa:
+    get:
+      tags: [Admin - Settings]
+      summary: Get 2FA enforcement setting
+      operationId: get2FASetting
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: 2FA setting
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+    put:
+      tags: [Admin - Settings]
+      summary: Update 2FA enforcement setting
+      operationId: update2FASetting
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [enabled]
+              properties:
+                enabled:
+                  type: boolean
+      responses:
+        "200":
+          description: Setting updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"

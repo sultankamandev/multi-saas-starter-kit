@@ -1,0 +1,405 @@
+﻿{
+  "title": "Bienvenido a SaaS Starter",
+  "language": "Idioma",
+  "nav": {
+    "appName": "SaaS Starter",
+    "welcome": "Bienvenido, {name}",
+    "dashboard": "Panel",
+    "profile": "Perfil",
+    "logout": "Cerrar sesiÃ³n",
+    "login": "Iniciar sesiÃ³n",
+    "register": "Registrarse"
+  },
+  "login": {
+    "title": "Iniciar sesiÃ³n",
+    "email": "Email o nombre de usuario",
+    "emailOrUsername": "Email o nombre de usuario",
+    "password": "ContraseÃ±a",
+    "submit": "Iniciar sesiÃ³n",
+    "submitting": "Iniciando sesiÃ³n...",
+    "noAccount": "Â¿No tienes cuenta?",
+    "registerLink": "RegÃ­strate aquÃ­",
+    "forgotPassword": "Â¿Olvidaste tu contraseÃ±a?",
+    "rememberMe": "Recordarme",
+    "emailOrUsernameHelper": "Puedes iniciar sesiÃ³n con tu email o nombre de usuario",
+    "success": "Â¡SesiÃ³n iniciada!",
+    "failed": "Error al iniciar sesiÃ³n",
+    "orContinueWith": "O continuar con",
+    "googleLoginSuccess": "Bienvenido de nuevo, {name}",
+    "googleLoginSuccessGeneric": "SesiÃ³n iniciada correctamente",
+    "googleLoginFailed": "Error al iniciar sesiÃ³n con Google",
+    "validation": {
+      "emailRequired": "El email es obligatorio",
+      "emailInvalid": "Email no vÃ¡lido",
+      "passwordRequired": "La contraseÃ±a es obligatoria"
+    }
+  },
+  "register": {
+    "title": "Registrarse",
+    "username": "Nombre de usuario",
+    "usernamePlaceholder": "johndoe",
+    "usernameHelper": "3-30 caracteres, solo letras, nÃºmeros, guiones bajos y medios",
+    "firstName": "Nombre",
+    "lastName": "Apellidos",
+    "email": "Email",
+    "password": "ContraseÃ±a",
+    "confirmPassword": "Confirmar contraseÃ±a",
+    "country": "PaÃ­s",
+    "submit": "Registrarse",
+    "submitting": "Registrando...",
+    "hasAccount": "Â¿Ya tienes cuenta?",
+    "loginLink": "Inicia sesiÃ³n aquÃ­",
+    "success": "Â¡Registro completado! Inicia sesiÃ³n.",
+    "failed": "Error en el registro",
+    "validationFailed": "Revisa los errores del formulario",
+    "validation": {
+      "firstNameRequired": "El nombre es obligatorio",
+      "lastNameRequired": "Los apellidos son obligatorios",
+      "emailRequired": "El email es obligatorio",
+      "emailInvalid": "Email no vÃ¡lido",
+      "passwordRequired": "La contraseÃ±a es obligatoria",
+      "passwordMinLength": "La contraseÃ±a debe tener al menos 8 caracteres",
+      "confirmPasswordRequired": "Confirma tu contraseÃ±a",
+      "passwordsNotMatch": "Las contraseÃ±as no coinciden"
+    }
+  },
+  "dashboard": {
+    "title": "Panel",
+    "welcomeBack": "Â¡Bienvenido de nuevo!",
+    "name": "Nombre",
+    "email": "Email",
+    "role": "Rol",
+    "editProfile": "Editar perfil",
+    "features": {
+      "title": "Funciones del panel",
+      "description": "Tu panel personal. GestiÃ³n de usuarios, anÃ¡lisis y configuraciÃ³n."
+    },
+    "logout": "Cerrar sesiÃ³n",
+    "adminPanel": "Panel de administraciÃ³n"
+  },
+  "landing": {
+    "hero": {
+      "title": "Lanza tu SaaS mÃ¡s rÃ¡pido",
+      "subtitle": "Boilerplate listo para producciÃ³n con autenticaciÃ³n, consola de administraciÃ³n, internacionalizaciÃ³n e integraciÃ³n API.",
+      "ctaPrimary": "Comenzar",
+      "ctaSecondary": "Saber mÃ¡s"
+    },
+    "features": {
+      "title": "Todo lo que necesitas para lanzar",
+      "items": {
+        "auth": {
+          "title": "AutenticaciÃ³n",
+          "description": "Login, registro, 2FA, OAuth y restablecimiento de contraseÃ±a, listos para producciÃ³n."
+        },
+        "admin": {
+          "title": "Consola de administraciÃ³n",
+          "description": "GestiÃ³n de usuarios, panel de anÃ¡lisis, IPs bloqueadas y configuraciÃ³n."
+        },
+        "i18n": {
+          "title": "InternacionalizaciÃ³n",
+          "description": "Varios idiomas con 7 locales. Rutas por dominio y persistencia en cookies."
+        },
+        "api": {
+          "title": "IntegraciÃ³n API",
+          "description": "Capa de servicios tipada, refresco de tokens, manejo de errores e interceptores Axios."
+        }
+      }
+    },
+    "cta": {
+      "title": "Â¿Listo para construir?",
+      "description": "Clona el repo, configura tu entorno y empieza a construir tu SaaS en minutos.",
+      "button": "Comenzar",
+      "register": "Crear cuenta",
+      "login": "Â¿Ya tienes cuenta?"
+    }
+  },
+  "common": {
+    "loading": "Cargando...",
+    "logoutSuccess": "SesiÃ³n cerrada correctamente",
+    "unauthorized": "Inicia sesiÃ³n para acceder a esta pÃ¡gina",
+    "adminOnly": "Se requiere acceso de administrador",
+    "loginRequired": "Inicia sesiÃ³n para acceder a esta pÃ¡gina"
+  },
+  "errors": {
+    "title": "Algo ha ido mal",
+    "message": "Ha ocurrido un error. IntÃ©ntalo de nuevo.",
+    "tryAgain": "Reintentar",
+    "goHome": "Ir al inicio",
+    "errorDetailsDevelopment": "Detalles del error (desarrollo)"
+  },
+  "forgotPassword": {
+    "title": "OlvidÃ© mi contraseÃ±a",
+    "description": "Introduce tu email y te enviaremos un enlace para restablecerla.",
+    "email": "Email",
+    "submit": "Enviar enlace",
+    "submitting": "Enviando...",
+    "success": "Enlace de restablecimiento enviado a tu email.",
+    "failed": "Error al enviar el enlace",
+    "backToLogin": "Volver al inicio de sesiÃ³n",
+    "validation": {
+      "emailRequired": "El email es obligatorio",
+      "emailInvalid": "Email no vÃ¡lido"
+    }
+  },
+  "resetPassword": {
+    "title": "Restablecer contraseÃ±a",
+    "description": "Introduce tu nueva contraseÃ±a.",
+    "newPassword": "Nueva contraseÃ±a",
+    "confirmPassword": "Confirmar contraseÃ±a",
+    "submit": "Restablecer contraseÃ±a",
+    "submitting": "Restableciendo...",
+    "success": "Tu contraseÃ±a se ha restablecido correctamente.",
+    "failed": "Error al restablecer la contraseÃ±a",
+    "missingToken": "Token de restablecimiento invÃ¡lido o caducado.",
+    "loadingToken": "Cargando...",
+    "backToLogin": "Volver al inicio de sesiÃ³n",
+    "validation": {
+      "passwordRequired": "La contraseÃ±a es obligatoria",
+      "passwordMinLength": "La contraseÃ±a debe tener al menos 8 caracteres",
+      "confirmPasswordRequired": "Confirma tu contraseÃ±a",
+      "passwordsNotMatch": "Las contraseÃ±as no coinciden"
+    }
+  },
+  "verifyEmail": {
+    "title": "Verificar email",
+    "verifying": "Verificando tu email...",
+    "success": "Email verificado correctamente",
+    "successTitle": "Tu email ha sido verificado",
+    "successMessage": "Ya puedes iniciar sesiÃ³n.",
+    "failed": "Error de verificaciÃ³n",
+    "failedTitle": "VerificaciÃ³n fallida",
+    "failedMessage": "Comprueba el enlace o regÃ­strate de nuevo.",
+    "missingToken": "Token de verificaciÃ³n invÃ¡lido o faltante.",
+    "goToLogin": "Ir a iniciar sesiÃ³n",
+    "registerAgain": "Registrarse de nuevo"
+  },
+  "verify2FA": {
+    "title": "AutenticaciÃ³n de dos factores",
+    "description": "Introduce el cÃ³digo de 6 dÃ­gitos que hemos enviado a tu email.",
+    "emailDescription": "Se ha enviado un cÃ³digo de 6 dÃ­gitos a tu email. IntrodÃºcelo abajo.",
+    "totpDescription": "Introduce el cÃ³digo de 6 dÃ­gitos de tu app de autenticaciÃ³n.",
+    "codeLabel": "CÃ³digo de verificaciÃ³n",
+    "submit": "Verificar cÃ³digo",
+    "submitting": "Verificando...",
+    "success": "SesiÃ³n iniciada correctamente",
+    "failed": "CÃ³digo invÃ¡lido o caducado",
+    "missingUserId": "Solicitud de verificaciÃ³n invÃ¡lida. Intenta iniciar sesiÃ³n de nuevo.",
+    "loading": "Cargando...",
+    "noCode": "Â¿No has recibido el cÃ³digo?",
+    "useRecoveryCode": "Usar cÃ³digo de recuperaciÃ³n",
+    "backToLogin": "Volver al inicio de sesiÃ³n",
+    "codeComplete": "CÃ³digo introducido âœ“",
+    "codeExpired": "El cÃ³digo de verificaciÃ³n ha caducado.",
+    "codeExpiredOrInvalid": "El cÃ³digo ha caducado o no es vÃ¡lido.",
+    "resendCode": "Reenviar cÃ³digo",
+    "resending": "Enviando...",
+    "codeResent": "Se ha enviado un nuevo cÃ³digo a tu email.",
+    "resendFailed": "Error al reenviar. IntÃ©ntalo de nuevo.",
+    "validation": {
+      "codeRequired": "El cÃ³digo de verificaciÃ³n es obligatorio",
+      "codeLength": "El cÃ³digo debe tener exactamente 6 dÃ­gitos",
+      "codeInvalid": "El cÃ³digo solo puede contener nÃºmeros"
+    }
+  },
+  "setup2FA": {
+    "title": "Activar autenticaciÃ³n de dos factores",
+    "description": "Protege tu cuenta con una capa extra de seguridad",
+    "generateQR": "Generar cÃ³digo QR",
+    "generating": "Generando...",
+    "qrGenerated": "CÃ³digo QR generado correctamente",
+    "generateFailed": "Error al generar el cÃ³digo QR",
+    "scanInstructions": "Escanea este cÃ³digo QR con Google Authenticator o cualquier app TOTP",
+    "backupCode": "CÃ³digo de respaldo (guÃ¡rdalo en un lugar seguro):",
+    "backupCodeNote": "Usa este cÃ³digo si pierdes el dispositivo",
+    "codeLabel": "Introduce el cÃ³digo de 6 dÃ­gitos de tu app",
+    "verifyAndEnable": "Verificar y activar 2FA",
+    "verifying": "Verificando...",
+    "success": "2FA activada correctamente",
+    "verifyFailed": "CÃ³digo invÃ¡lido. IntÃ©ntalo de nuevo.",
+    "noSecret": "Genera primero el cÃ³digo QR",
+    "enabledSuccess": "AutenticaciÃ³n de dos factores activada",
+    "redirecting": "Redirigiendo al panel...",
+    "loading": "Cargando...",
+    "loadingQRCode": "Cargando cÃ³digo QR...",
+    "recoveryCodesTitle": "Tus cÃ³digos de recuperaciÃ³n",
+    "recoveryCodesDescription": "Guarda estos cÃ³digos en un lugar seguro. Cada uno solo puede usarse una vez.",
+    "recoveryCodesWarning": "âš ï¸ Estos cÃ³digos solo se mostrarÃ¡n una vez. Â¡GuÃ¡rdalos de forma segura!",
+    "copyCodes": "Copiar todos",
+    "codesCopied": "CÃ³digos copiados al portapapeles",
+    "continueToDashboard": "Continuar al panel",
+    "validation": {
+      "codeRequired": "El cÃ³digo de verificaciÃ³n es obligatorio",
+      "codeLength": "El cÃ³digo debe tener exactamente 6 dÃ­gitos",
+      "codeInvalid": "El cÃ³digo solo puede contener nÃºmeros"
+    }
+  },
+  "recoveryLogin": {
+    "title": "Iniciar sesiÃ³n con cÃ³digo de recuperaciÃ³n",
+    "description": "Si perdiste el acceso a tu dispositivo 2FA, usa uno de tus cÃ³digos de recuperaciÃ³n.",
+    "codeLabel": "CÃ³digo de recuperaciÃ³n",
+    "codeHint": "Introduce uno de tus cÃ³digos (alfanumÃ©rico)",
+    "submit": "Iniciar sesiÃ³n",
+    "submitting": "Iniciando sesiÃ³n...",
+    "success": "SesiÃ³n iniciada con cÃ³digo de recuperaciÃ³n",
+    "failed": "CÃ³digo invÃ¡lido o ya usado",
+    "missingUserId": "Solicitud invÃ¡lida. Intenta iniciar sesiÃ³n de nuevo.",
+    "loading": "Cargando...",
+    "noRecoveryCode": "Â¿No tienes cÃ³digo de recuperaciÃ³n?",
+    "backToLogin": "Volver al inicio de sesiÃ³n",
+    "validation": {
+      "codeRequired": "El cÃ³digo de recuperaciÃ³n es obligatorio",
+      "codeMinLength": "El cÃ³digo es demasiado corto"
+    }
+  },
+  "admin": {
+    "auditLog": "Registro de auditorÃ­a",
+    "blockedIPs": "IPs bloqueadas",
+    "settings": "ConfiguraciÃ³n",
+    "users": "Usuarios",
+    "firstName": "Nombre",
+    "lastName": "Apellidos",
+    "email": "Email",
+    "password": "ContraseÃ±a",
+    "role": "Rol",
+    "user": "Usuario",
+    "admin": "Administrador",
+    "emailVerified": "Email verificado",
+    "emailVerificationRequirement": "Requisito de verificaciÃ³n de email",
+    "twoFARequirement": "Requisito 2FA",
+    "useGlobalSetting": "Usar configuraciÃ³n global",
+    "required": "Obligatorio",
+    "notRequired": "No obligatorio",
+    "newPassword": "Nueva contraseÃ±a (dejar vacÃ­o para mantener la actual)",
+    "toggleVerifyEmail": "Verificar o no el email del usuario",
+    "overrideEmailVerification": "Anular la verificaciÃ³n de email global para este usuario",
+    "override2FA": "Anular la configuraciÃ³n 2FA global para este usuario",
+    "passwordHelper": "Rellena solo si quieres cambiar la contraseÃ±a",
+    "passwordMinLength": "La contraseÃ±a debe tener al menos 8 caracteres",
+    "createUserVerified": "Crear usuario con email verificado",
+    "performedBy": "Realizado por",
+    "targetUser": "Usuario objetivo",
+    "createdAt": "Fecha",
+    "unblock": "Desbloquear",
+    "ipUnblockedSuccess": "IP desbloqueada correctamente",
+    "ipUnblockFailed": "Error al desbloquear la IP",
+    "applicationSettings": "ConfiguraciÃ³n de la aplicaciÃ³n",
+    "emailVerification": "VerificaciÃ³n de email",
+    "emailVerificationInfo": "Si la verificaciÃ³n estÃ¡ desactivada, los nuevos usuarios pueden iniciar sesiÃ³n sin verificar. Puedes verificar usuarios manualmente en la pÃ¡gina Usuarios.",
+    "requireEmailVerification": "Requerir verificaciÃ³n de email",
+    "emailVerificationEnabled": "Los nuevos usuarios deben verificar su email antes de iniciar sesiÃ³n",
+    "emailVerificationDisabled": "Los nuevos usuarios pueden iniciar sesiÃ³n tras registrarse",
+    "twoFactorAuthentication": "AutenticaciÃ³n de dos factores (2FA)",
+    "twoFAInfo": "Si 2FA es obligatoria, todos los usuarios deben activarla. Pueden usar TOTP o cÃ³digos por email. Puedes gestionar 2FA por usuario en la pÃ¡gina Usuarios.",
+    "require2FAForAll": "Requerir 2FA para todos",
+    "twoFAEnabled": "Todos deben activar 2FA antes de iniciar sesiÃ³n",
+    "twoFADisabled": "2FA es opcional",
+    "emailVerificationEnabledSuccess": "VerificaciÃ³n de email activada",
+    "emailVerificationDisabledSuccess": "VerificaciÃ³n de email desactivada",
+    "twoFAEnabledSuccess": "Requisito 2FA activado",
+    "twoFADisabledSuccess": "Requisito 2FA desactivado",
+    "failedToLoadSettings": "Error al cargar la configuraciÃ³n",
+    "failedToUpdateSetting": "Error al actualizar la configuraciÃ³n",
+    "analytics": {
+      "title": "AnÃ¡lisis de usuarios",
+      "startDate": "Fecha inicio",
+      "endDate": "Fecha fin",
+      "refresh": "Actualizar",
+      "loading": "Cargando...",
+      "noData": "No hay datos para el rango seleccionado.",
+      "registrations": "Registros",
+      "verified": "Verificados",
+      "totalRegistrations": "Total registros",
+      "totalVerified": "Total verificados",
+      "verificationRate": "Tasa de verificaciÃ³n",
+      "kpi": {
+        "totalUsers": "Total usuarios",
+        "verifiedUsers": "Usuarios verificados",
+        "newUsers7Days": "Nuevos (7 dÃ­as)",
+        "verified": "verificados",
+        "active24h": "Activos (24 h)",
+        "activeThisWeek": "activos esta semana"
+      },
+      "activeUsers": {
+        "title": "Usuarios activos diarios",
+        "daily": "Usuarios activos"
+      },
+      "retention": {
+        "title": "AnÃ¡lisis de retenciÃ³n",
+        "average7d": "RetenciÃ³n media 7 dÃ­as",
+        "average30d": "RetenciÃ³n media 30 dÃ­as",
+        "rate7d": "RetenciÃ³n 7 dÃ­as %",
+        "rate30d": "RetenciÃ³n 30 dÃ­as %"
+      },
+      "cohort": {
+        "title": "Mapa de retenciÃ³n por cohorte",
+        "description": "Cada fila es una cohorte de registro. Color mÃ¡s oscuro = mayor retenciÃ³n.",
+        "signupDate": "Fecha de registro",
+        "newUsers": "Nuevos usuarios",
+        "day": "DÃ­a {day, number}",
+        "legend": "Leyenda:"
+      },
+      "segmentation": {
+        "country": "PaÃ­s",
+        "language": "Idioma",
+        "allCountries": "Todos los paÃ­ses",
+        "allLanguages": "Todos los idiomas",
+        "countries": {
+          "TR": "TurquÃ­a",
+          "US": "EE. UU.",
+          "GB": "Reino Unido",
+          "DE": "Alemania",
+          "FR": "Francia",
+          "ES": "EspaÃ±a",
+          "IT": "Italia",
+          "RU": "Rusia"
+        },
+        "languages": {
+          "tr": "Turco",
+          "en": "InglÃ©s",
+          "de": "AlemÃ¡n",
+          "fr": "FrancÃ©s",
+          "es": "EspaÃ±ol",
+          "it": "Italiano",
+          "ru": "Ruso"
+        }
+      }
+    }
+  },
+  "profile": {
+    "title": "ConfiguraciÃ³n del perfil",
+    "loadingProfile": "Cargando perfil...",
+    "failedToLoadProfile": "Error al cargar el perfil",
+    "profileUpdatedSuccessfully": "Perfil actualizado correctamente",
+    "failedToUpdateProfile": "Error al actualizar el perfil",
+    "personalInfo": "Datos personales",
+    "username": "Nombre de usuario",
+    "usernamePlaceholder": "johndoe",
+    "usernameHelper": "3-30 caracteres, solo letras, nÃºmeros, guiones bajos y medios",
+    "firstName": "Nombre",
+    "lastName": "Apellidos",
+    "language": "Idioma",
+    "country": "PaÃ­s",
+    "selectCountry": "Selecciona un paÃ­s...",
+    "phone": "TelÃ©fono",
+    "address": "DirecciÃ³n",
+    "securitySettings": "Seguridad",
+    "overrideGlobalSettings": "Anular la configuraciÃ³n global para tu cuenta. \"Usar configuraciÃ³n global\" sigue la configuraciÃ³n del sistema.",
+    "useGlobalEmailVerification": "Usar configuraciÃ³n global para verificaciÃ³n de email",
+    "followSystemEmailVerification": "Seguir la configuraciÃ³n global de verificaciÃ³n de email",
+    "requireEmailVerification": "Requerir verificaciÃ³n de email",
+    "emailVerificationRequired": "La verificaciÃ³n de email es obligatoria",
+    "emailVerificationNotRequired": "La verificaciÃ³n de email no es obligatoria",
+    "useGlobal2FA": "Usar configuraciÃ³n global para 2FA",
+    "followSystem2FA": "Seguir la configuraciÃ³n global de 2FA",
+    "require2FA": "Requerir 2FA",
+    "twoFARequired": "2FA es obligatoria",
+    "twoFANotRequired": "2FA no es obligatoria",
+    "enable2FA": "Activar autenticaciÃ³n de dos factores",
+    "twoFAEnabledDescription": "2FA estÃ¡ activada. RecibirÃ¡s un cÃ³digo por email al iniciar sesiÃ³n.",
+    "twoFADisabledDescription": "Activa 2FA para aÃ±adir una capa extra de seguridad.",
+    "cancel": "Cancelar",
+    "saving": "Guardando...",
+    "saveChanges": "Guardar cambios"
+  }
+}
+

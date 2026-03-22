@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: saas_app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  go-api:
+    build:
+      context: ..
+      dockerfile: docker/go-api.Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_URL: "host=postgres user=postgres password=postgres dbname=saas_app port=5432 sslmode=disable"
+      JWT_SECRET: change-me-in-production
+      FRONTEND_URL: http://localhost:3000
+      CORS_ORIGINS: http://localhost:3000
+    depends_on:
+      - postgres
+
+  next-web:
+    build:
+      context: ..
+      dockerfile: docker/next-web.Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://go-api:8080
+    depends_on:
+      - go-api
+
+volumes:
+  pgdata:

@@ -1,0 +1,405 @@
+﻿{
+  "title": "Benvenuto in SaaS Starter",
+  "language": "Lingua",
+  "nav": {
+    "appName": "SaaS Starter",
+    "welcome": "Benvenuto, {name}",
+    "dashboard": "Dashboard",
+    "profile": "Profilo",
+    "logout": "Esci",
+    "login": "Accedi",
+    "register": "Registrati"
+  },
+  "login": {
+    "title": "Accedi",
+    "email": "Email o nome utente",
+    "emailOrUsername": "Email o nome utente",
+    "password": "Password",
+    "submit": "Accedi",
+    "submitting": "Accesso in corso...",
+    "noAccount": "Non hai un account?",
+    "registerLink": "Registrati qui",
+    "forgotPassword": "Password dimenticata?",
+    "rememberMe": "Ricordami",
+    "emailOrUsernameHelper": "Puoi accedere con email o nome utente",
+    "success": "Accesso effettuato!",
+    "failed": "Accesso fallito",
+    "orContinueWith": "Oppure continua con",
+    "googleLoginSuccess": "Bentornato, {name}",
+    "googleLoginSuccessGeneric": "Accesso effettuato",
+    "googleLoginFailed": "Accesso con Google fallito",
+    "validation": {
+      "emailRequired": "L'email Ã¨ obbligatoria",
+      "emailInvalid": "Email non valida",
+      "passwordRequired": "La password Ã¨ obbligatoria"
+    }
+  },
+  "register": {
+    "title": "Registrati",
+    "username": "Nome utente",
+    "usernamePlaceholder": "mariorossi",
+    "usernameHelper": "3-30 caratteri, solo lettere, numeri, underscore e trattini",
+    "firstName": "Nome",
+    "lastName": "Cognome",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Conferma password",
+    "country": "Paese",
+    "submit": "Registrati",
+    "submitting": "Registrazione in corso...",
+    "hasAccount": "Hai giÃ  un account?",
+    "loginLink": "Accedi qui",
+    "success": "Registrazione completata! Accedi.",
+    "failed": "Registrazione fallita",
+    "validationFailed": "Controlla gli errori nel modulo",
+    "validation": {
+      "firstNameRequired": "Il nome Ã¨ obbligatorio",
+      "lastNameRequired": "Il cognome Ã¨ obbligatorio",
+      "emailRequired": "L'email Ã¨ obbligatoria",
+      "emailInvalid": "Email non valida",
+      "passwordRequired": "La password Ã¨ obbligatoria",
+      "passwordMinLength": "La password deve avere almeno 8 caratteri",
+      "confirmPasswordRequired": "Conferma la password",
+      "passwordsNotMatch": "Le password non coincidono"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcomeBack": "Bentornato!",
+    "name": "Nome",
+    "email": "Email",
+    "role": "Ruolo",
+    "editProfile": "Modifica profilo",
+    "features": {
+      "title": "FunzionalitÃ  della piattaforma",
+      "description": "La tua dashboard. Gestione utenti, analisi e impostazioni."
+    },
+    "logout": "Esci",
+    "adminPanel": "Pannello admin"
+  },
+  "landing": {
+    "hero": {
+      "title": "Lancia il tuo SaaS piÃ¹ velocemente",
+      "subtitle": "Boilerplate production-ready con autenticazione, console admin, i18n e integrazione API.",
+      "ctaPrimary": "Inizia",
+      "ctaSecondary": "Scopri di piÃ¹"
+    },
+    "features": {
+      "title": "Tutto ciÃ² che serve per andare in produzione",
+      "items": {
+        "auth": {
+          "title": "Autenticazione",
+          "description": "Login, registrazione, 2FA, OAuth e reset password, pronti per la produzione."
+        },
+        "admin": {
+          "title": "Console admin",
+          "description": "Gestione utenti, dashboard analisi, IP bloccate e impostazioni app."
+        },
+        "i18n": {
+          "title": "Internazionalizzazione",
+          "description": "Supporto multilingua con 7 lingue. Routing per dominio e cookie."
+        },
+        "api": {
+          "title": "Integrazione API",
+          "description": "Layer di servizi tipizzato, refresh token, gestione errori e interceptors Axios."
+        }
+      }
+    },
+    "cta": {
+      "title": "Pronto a costruire?",
+      "description": "Clona il repo, configura l'ambiente e inizia a costruire il tuo SaaS in minuti.",
+      "button": "Inizia",
+      "register": "Crea account",
+      "login": "Hai giÃ  un account?"
+    }
+  },
+  "common": {
+    "loading": "Caricamento...",
+    "logoutSuccess": "Disconnessione effettuata",
+    "unauthorized": "Accedi per accedere a questa pagina",
+    "adminOnly": "Accesso admin richiesto",
+    "loginRequired": "Accedi per accedere a questa pagina"
+  },
+  "errors": {
+    "title": "Qualcosa Ã¨ andato storto",
+    "message": "Si Ã¨ verificato un errore. Riprova.",
+    "tryAgain": "Riprova",
+    "goHome": "Vai alla home",
+    "errorDetailsDevelopment": "Dettagli errore (sviluppo)"
+  },
+  "forgotPassword": {
+    "title": "Password dimenticata",
+    "description": "Inserisci la tua email e ti invieremo un link per reimpostare la password.",
+    "email": "Email",
+    "submit": "Invia link",
+    "submitting": "Invio in corso...",
+    "success": "Link di reset inviato alla tua email.",
+    "failed": "Invio link fallito",
+    "backToLogin": "Torna all'accesso",
+    "validation": {
+      "emailRequired": "L'email Ã¨ obbligatoria",
+      "emailInvalid": "Email non valida"
+    }
+  },
+  "resetPassword": {
+    "title": "Reimposta password",
+    "description": "Inserisci la nuova password qui sotto.",
+    "newPassword": "Nuova password",
+    "confirmPassword": "Conferma password",
+    "submit": "Reimposta password",
+    "submitting": "Reimpostazione in corso...",
+    "success": "La password Ã¨ stata reimpostata correttamente.",
+    "failed": "Reimpostazione password fallita",
+    "missingToken": "Token di reset non valido o scaduto.",
+    "loadingToken": "Caricamento...",
+    "backToLogin": "Torna all'accesso",
+    "validation": {
+      "passwordRequired": "La password Ã¨ obbligatoria",
+      "passwordMinLength": "La password deve avere almeno 8 caratteri",
+      "confirmPasswordRequired": "Conferma la password",
+      "passwordsNotMatch": "Le password non coincidono"
+    }
+  },
+  "verifyEmail": {
+    "title": "Verifica email",
+    "verifying": "Verifica email in corso...",
+    "success": "Email verificata correttamente",
+    "successTitle": "La tua email Ã¨ stata verificata",
+    "successMessage": "Ora puoi accedere.",
+    "failed": "Verifica fallita",
+    "failedTitle": "Verifica fallita",
+    "failedMessage": "Controlla il link o registrati di nuovo.",
+    "missingToken": "Token di verifica non valido o mancante.",
+    "goToLogin": "Vai all'accesso",
+    "registerAgain": "Registrati di nuovo"
+  },
+  "verify2FA": {
+    "title": "Autenticazione a due fattori",
+    "description": "Inserisci il codice a 6 cifre inviato alla tua email.",
+    "emailDescription": "Un codice a 6 cifre Ã¨ stato inviato alla tua email. Inseriscilo qui sotto.",
+    "totpDescription": "Inserisci il codice a 6 cifre dalla tua app di autenticazione.",
+    "codeLabel": "Codice di verifica",
+    "submit": "Verifica codice",
+    "submitting": "Verifica in corso...",
+    "success": "Accesso effettuato",
+    "failed": "Codice non valido o scaduto",
+    "missingUserId": "Richiesta di verifica non valida. Riprova ad accedere.",
+    "loading": "Caricamento...",
+    "noCode": "Non hai ricevuto il codice?",
+    "useRecoveryCode": "Usa codice di recupero",
+    "backToLogin": "Torna all'accesso",
+    "codeComplete": "Codice inserito âœ“",
+    "codeExpired": "Il codice di verifica Ã¨ scaduto.",
+    "codeExpiredOrInvalid": "Il codice Ã¨ scaduto o non valido.",
+    "resendCode": "Rinvia codice",
+    "resending": "Invio in corso...",
+    "codeResent": "Un nuovo codice Ã¨ stato inviato alla tua email.",
+    "resendFailed": "Invio codice fallito. Riprova.",
+    "validation": {
+      "codeRequired": "Il codice di verifica Ã¨ obbligatorio",
+      "codeLength": "Il codice deve essere di 6 cifre",
+      "codeInvalid": "Il codice deve contenere solo numeri"
+    }
+  },
+  "setup2FA": {
+    "title": "Attiva autenticazione a due fattori",
+    "description": "Proteggi il tuo account con un ulteriore livello di sicurezza",
+    "generateQR": "Genera codice QR",
+    "generating": "Generazione in corso...",
+    "qrGenerated": "Codice QR generato correttamente",
+    "generateFailed": "Generazione codice QR fallita",
+    "scanInstructions": "Scansiona questo QR con Google Authenticator o un'app TOTP",
+    "backupCode": "Codice di backup (conservalo in un luogo sicuro):",
+    "backupCodeNote": "Usa questo codice se perdi il dispositivo",
+    "codeLabel": "Inserisci il codice a 6 cifre dalla tua app",
+    "verifyAndEnable": "Verifica e attiva 2FA",
+    "verifying": "Verifica in corso...",
+    "success": "2FA attivata correttamente",
+    "verifyFailed": "Codice non valido. Riprova.",
+    "noSecret": "Genera prima il codice QR",
+    "enabledSuccess": "Autenticazione a due fattori attivata",
+    "redirecting": "Reindirizzamento alla dashboard...",
+    "loading": "Caricamento...",
+    "loadingQRCode": "Caricamento codice QR...",
+    "recoveryCodesTitle": "I tuoi codici di recupero",
+    "recoveryCodesDescription": "Conserva questi codici in un luogo sicuro. Ogni codice si puÃ² usare una sola volta.",
+    "recoveryCodesWarning": "âš ï¸ Questi codici verranno mostrati una sola volta. Conservali in sicurezza!",
+    "copyCodes": "Copia tutti i codici",
+    "codesCopied": "Codici copiati negli appunti",
+    "continueToDashboard": "Continua alla dashboard",
+    "validation": {
+      "codeRequired": "Il codice di verifica Ã¨ obbligatorio",
+      "codeLength": "Il codice deve essere di 6 cifre",
+      "codeInvalid": "Il codice deve contenere solo numeri"
+    }
+  },
+  "recoveryLogin": {
+    "title": "Accedi con codice di recupero",
+    "description": "Se hai perso l'accesso al dispositivo 2FA, usa uno dei codici di recupero.",
+    "codeLabel": "Codice di recupero",
+    "codeHint": "Inserisci uno dei tuoi codici (alfanumerico)",
+    "submit": "Accedi",
+    "submitting": "Accesso in corso...",
+    "success": "Accesso effettuato con codice di recupero",
+    "failed": "Codice non valido o giÃ  usato",
+    "missingUserId": "Richiesta non valida. Riprova ad accedere.",
+    "loading": "Caricamento...",
+    "noRecoveryCode": "Non hai un codice di recupero?",
+    "backToLogin": "Torna all'accesso",
+    "validation": {
+      "codeRequired": "Il codice di recupero Ã¨ obbligatorio",
+      "codeMinLength": "Il codice Ã¨ troppo corto"
+    }
+  },
+  "admin": {
+    "auditLog": "Registro audit",
+    "blockedIPs": "IP bloccate",
+    "settings": "Impostazioni",
+    "users": "Utenti",
+    "firstName": "Nome",
+    "lastName": "Cognome",
+    "email": "Email",
+    "password": "Password",
+    "role": "Ruolo",
+    "user": "Utente",
+    "admin": "Admin",
+    "emailVerified": "Email verificata",
+    "emailVerificationRequirement": "Requisito verifica email",
+    "twoFARequirement": "Requisito 2FA",
+    "useGlobalSetting": "Usa impostazione globale",
+    "required": "Obbligatorio",
+    "notRequired": "Non obbligatorio",
+    "newPassword": "Nuova password (lascia vuoto per mantenere)",
+    "toggleVerifyEmail": "Verifica o meno l'email dell'utente",
+    "overrideEmailVerification": "Sovrascrivi verifica email globale per questo utente",
+    "override2FA": "Sovrascrivi impostazione 2FA globale per questo utente",
+    "passwordHelper": "Compila solo se vuoi cambiare la password",
+    "passwordMinLength": "La password deve avere almeno 8 caratteri",
+    "createUserVerified": "Crea utente con email verificata",
+    "performedBy": "Eseguito da",
+    "targetUser": "Utente target",
+    "createdAt": "Data creazione",
+    "unblock": "Sblocca",
+    "ipUnblockedSuccess": "IP sbloccata correttamente",
+    "ipUnblockFailed": "Sblocco IP fallito",
+    "applicationSettings": "Impostazioni applicazione",
+    "emailVerification": "Verifica email",
+    "emailVerificationInfo": "Se la verifica email Ã¨ disattivata, i nuovi utenti possono accedere subito dopo la registrazione. Puoi verificare manualmente gli utenti dalla pagina Utenti.",
+    "requireEmailVerification": "Richiedi verifica email",
+    "emailVerificationEnabled": "I nuovi utenti devono verificare l'email prima di accedere",
+    "emailVerificationDisabled": "I nuovi utenti possono accedere subito dopo la registrazione",
+    "twoFactorAuthentication": "Autenticazione a due fattori (2FA)",
+    "twoFAInfo": "Se 2FA Ã¨ obbligatoria, tutti gli utenti devono attivarla. Possono usare TOTP o codici via email. Puoi gestire 2FA per utente dalla pagina Utenti.",
+    "require2FAForAll": "Richiedi 2FA per tutti",
+    "twoFAEnabled": "Tutti devono attivare 2FA prima di accedere",
+    "twoFADisabled": "2FA Ã¨ opzionale",
+    "emailVerificationEnabledSuccess": "Verifica email attivata",
+    "emailVerificationDisabledSuccess": "Verifica email disattivata",
+    "twoFAEnabledSuccess": "Requisito 2FA attivato",
+    "twoFADisabledSuccess": "Requisito 2FA disattivato",
+    "failedToLoadSettings": "Caricamento impostazioni fallito",
+    "failedToUpdateSetting": "Aggiornamento impostazione fallito",
+    "analytics": {
+      "title": "Analisi utenti",
+      "startDate": "Data inizio",
+      "endDate": "Data fine",
+      "refresh": "Aggiorna",
+      "loading": "Caricamento...",
+      "noData": "Nessun dato per l'intervallo selezionato.",
+      "registrations": "Registrazioni",
+      "verified": "Verificati",
+      "totalRegistrations": "Totale registrazioni",
+      "totalVerified": "Totale verificati",
+      "verificationRate": "Tasso di verifica",
+      "kpi": {
+        "totalUsers": "Totale utenti",
+        "verifiedUsers": "Utenti verificati",
+        "newUsers7Days": "Nuovi (7 giorni)",
+        "verified": "verificati",
+        "active24h": "Attivi (24h)",
+        "activeThisWeek": "attivi questa settimana"
+      },
+      "activeUsers": {
+        "title": "Utenti attivi giornalieri",
+        "daily": "Utenti attivi"
+      },
+      "retention": {
+        "title": "Analisi ritenzione utenti",
+        "average7d": "Ritenzione media 7 giorni",
+        "average30d": "Ritenzione media 30 giorni",
+        "rate7d": "Ritenzione 7 giorni %",
+        "rate30d": "Ritenzione 30 giorni %"
+      },
+      "cohort": {
+        "title": "Mappa ritenzione per cohorte",
+        "description": "Ogni riga Ã¨ una cohorte di registrazione. Colore piÃ¹ scuro = maggiore ritenzione.",
+        "signupDate": "Data registrazione",
+        "newUsers": "Nuovi utenti",
+        "day": "Giorno {day, number}",
+        "legend": "Legenda:"
+      },
+      "segmentation": {
+        "country": "Paese",
+        "language": "Lingua",
+        "allCountries": "Tutti i paesi",
+        "allLanguages": "Tutte le lingue",
+        "countries": {
+          "TR": "Turchia",
+          "US": "USA",
+          "GB": "UK",
+          "DE": "Germania",
+          "FR": "Francia",
+          "ES": "Spagna",
+          "IT": "Italia",
+          "RU": "Russia"
+        },
+        "languages": {
+          "tr": "Turco",
+          "en": "Inglese",
+          "de": "Tedesco",
+          "fr": "Francese",
+          "es": "Spagnolo",
+          "it": "Italiano",
+          "ru": "Russo"
+        }
+      }
+    }
+  },
+  "profile": {
+    "title": "Impostazioni profilo",
+    "loadingProfile": "Caricamento profilo...",
+    "failedToLoadProfile": "Caricamento profilo fallito",
+    "profileUpdatedSuccessfully": "Profilo aggiornato correttamente",
+    "failedToUpdateProfile": "Aggiornamento profilo fallito",
+    "personalInfo": "Informazioni personali",
+    "username": "Nome utente",
+    "usernamePlaceholder": "mariorossi",
+    "usernameHelper": "3-30 caratteri, solo lettere, numeri, underscore e trattini",
+    "firstName": "Nome",
+    "lastName": "Cognome",
+    "language": "Lingua",
+    "country": "Paese",
+    "selectCountry": "Seleziona un paese...",
+    "phone": "Telefono",
+    "address": "Indirizzo",
+    "securitySettings": "Sicurezza",
+    "overrideGlobalSettings": "Sovrascrivi le impostazioni globali per il tuo account. \"Usa impostazione globale\" segue la configurazione di sistema.",
+    "useGlobalEmailVerification": "Usa impostazione globale per verifica email",
+    "followSystemEmailVerification": "Segui la configurazione globale di verifica email",
+    "requireEmailVerification": "Richiedi verifica email",
+    "emailVerificationRequired": "La verifica email Ã¨ obbligatoria",
+    "emailVerificationNotRequired": "La verifica email non Ã¨ obbligatoria",
+    "useGlobal2FA": "Usa impostazione globale per 2FA",
+    "followSystem2FA": "Segui la configurazione globale 2FA",
+    "require2FA": "Richiedi 2FA",
+    "twoFARequired": "2FA Ã¨ obbligatoria",
+    "twoFANotRequired": "2FA non Ã¨ obbligatoria",
+    "enable2FA": "Attiva autenticazione a due fattori",
+    "twoFAEnabledDescription": "2FA Ã¨ attiva. Riceverai un codice via email all'accesso.",
+    "twoFADisabledDescription": "Attiva 2FA per un ulteriore livello di sicurezza.",
+    "cancel": "Annulla",
+    "saving": "Salvataggio in corso...",
+    "saveChanges": "Salva modifiche"
+  }
+}
+

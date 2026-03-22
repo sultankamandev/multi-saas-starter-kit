@@ -1,0 +1,399 @@
+﻿{
+  "title": "Bienvenue sur SaaS Starter",
+  "language": "Langue",
+  "nav": {
+    "appName": "SaaS Starter",
+    "welcome": "Bienvenue, {name}",
+    "dashboard": "Tableau de bord",
+    "profile": "Profil",
+    "logout": "DÃ©connexion",
+    "login": "Connexion",
+    "register": "S'inscrire"
+  },
+  "login": {
+    "title": "Connexion",
+    "email": "E-mail ou nom d'utilisateur",
+    "emailOrUsername": "E-mail ou nom d'utilisateur",
+    "password": "Mot de passe",
+    "submit": "Se connecter",
+    "submitting": "Connexion en cours...",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "registerLink": "S'inscrire ici",
+    "forgotPassword": "Mot de passe oubliÃ© ?",
+    "rememberMe": "Se souvenir de moi",
+    "emailOrUsernameHelper": "Vous pouvez vous connecter avec votre adresse e-mail ou votre nom d'utilisateur",
+    "success": "Connexion rÃ©ussie !",
+    "failed": "Ã‰chec de la connexion",
+    "orContinueWith": "Ou continuer avec",
+    "googleLoginSuccess": "Bon retour, {name} ðŸŒ™",
+    "googleLoginSuccessGeneric": "Connexion rÃ©ussie ðŸŒ™",
+    "googleLoginFailed": "Ã‰chec de la connexion Google",
+    "validation": {
+      "emailRequired": "L'e-mail est requis",
+      "emailInvalid": "Adresse e-mail invalide",
+      "passwordRequired": "Le mot de passe est requis"
+    }
+  },
+  "register": {
+    "title": "S'inscrire",
+    "username": "Nom d'utilisateur",
+    "usernamePlaceholder": "nomutilisateur",
+    "usernameHelper": "3-30 caractÃ¨res, uniquement des lettres, chiffres, underscores et tirets",
+    "firstName": "PrÃ©nom",
+    "lastName": "Nom de famille",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "country": "Pays",
+    "submit": "S'inscrire",
+    "submitting": "Inscription en cours...",
+    "hasAccount": "Vous avez dÃ©jÃ  un compte ?",
+    "loginLink": "Connectez-vous ici",
+    "success": "Inscription rÃ©ussie ! Veuillez vous connecter.",
+    "failed": "Ã‰chec de l'inscription",
+    "validationFailed": "Veuillez vÃ©rifier le formulaire pour les erreurs",
+    "validation": {
+      "firstNameRequired": "Le prÃ©nom est requis",
+      "lastNameRequired": "Le nom de famille est requis",
+      "emailRequired": "L'e-mail est requis",
+      "emailInvalid": "Adresse e-mail invalide",
+      "passwordRequired": "Le mot de passe est requis",
+      "passwordMinLength": "Le mot de passe doit contenir au moins 8 caractÃ¨res",
+      "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
+      "passwordsNotMatch": "Les mots de passe ne correspondent pas",
+      "usernameRequired": "Le nom d'utilisateur est requis",
+      "usernameMinLength": "Le nom d'utilisateur doit contenir au moins 3 caractÃ¨res",
+      "usernameMaxLength": "Le nom d'utilisateur ne doit pas dÃ©passer 30 caractÃ¨res",
+      "usernameInvalid": "Le nom d'utilisateur ne peut contenir que des lettres, chiffres, underscores et tirets. Doit commencer et se terminer par une lettre ou un chiffre."
+    }
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcomeBack": "Bon retour !",
+    "name": "Nom",
+    "email": "E-mail",
+    "role": "RÃ´le",
+    "editProfile": "Modifier le profil",
+    "features": {
+      "title": "FonctionnalitÃ©s de la plateforme",
+      "description": "Votre tableau de bord personnel. AccÃ©dez Ã  la gestion des utilisateurs, aux analyses et aux paramÃ¨tres."
+    },
+    "logout": "DÃ©connexion"
+  },
+  "landing": {
+    "hero": {
+      "title": "Lancez votre SaaS plus vite",
+      "subtitle": "ModÃ¨le prÃªt pour la production avec authentification, console d'administration, internationalisation et intÃ©gration API.",
+      "ctaPrimary": "Commencer",
+      "ctaSecondary": "En savoir plus"
+    },
+    "features": {
+      "title": "Tout ce dont vous avez besoin",
+      "items": {
+        "auth": {
+          "title": "Authentification",
+          "description": "Connexion, inscription, 2FA, OAuth, rÃ©initialisation de mot de passe â€” tout est intÃ©grÃ©."
+        },
+        "admin": {
+          "title": "Console d'administration",
+          "description": "Gestion des utilisateurs, tableau de bord analytique, IPs bloquÃ©es et paramÃ¨tres."
+        },
+        "i18n": {
+          "title": "Internationalisation",
+          "description": "Support multilingue avec 4 langues prÃªtes. Routage par domaine et gestion des cookies."
+        },
+        "api": {
+          "title": "IntÃ©gration API",
+          "description": "Couche de services typÃ©e, actualisation de tokens, gestion d'erreurs et intercepteurs Axios."
+        }
+      }
+    },
+    "cta": {
+      "title": "PrÃªt Ã  construire ?",
+      "description": "Clonez le dÃ©pÃ´t, configurez votre environnement et commencez Ã  construire votre produit SaaS en quelques minutes.",
+      "button": "Commencer",
+      "register": "CrÃ©er un compte",
+      "login": "Vous avez dÃ©jÃ  un compte ?"
+    }
+  },
+  "common": {
+    "loading": "Chargement...",
+    "logoutSuccess": "DÃ©connexion rÃ©ussie"
+  },
+  "errors": {
+    "title": "Quelque chose s'est mal passÃ©",
+    "message": "Une erreur inattendue s'est produite. Veuillez rÃ©essayer.",
+    "tryAgain": "RÃ©essayer",
+    "goHome": "Aller Ã  l'accueil",
+    "errorDetailsDevelopment": "DÃ©tails de l'erreur (DÃ©veloppement)"
+  },
+  "forgotPassword": {
+    "title": "Mot de passe oubliÃ©",
+    "description": "Entrez votre adresse e-mail et nous vous enverrons un lien pour rÃ©initialiser votre mot de passe.",
+    "email": "E-mail",
+    "submit": "Envoyer le lien",
+    "submitting": "Envoi en cours...",
+    "success": "Lien de rÃ©initialisation envoyÃ© Ã  votre e-mail.",
+    "failed": "Ã‰chec de l'envoi du lien",
+    "backToLogin": "Retour Ã  la connexion",
+    "validation": {
+      "emailRequired": "L'e-mail est requis",
+      "emailInvalid": "Adresse e-mail invalide"
+    }
+  },
+  "resetPassword": {
+    "title": "RÃ©initialiser le mot de passe",
+    "description": "Entrez votre nouveau mot de passe ci-dessous.",
+    "newPassword": "Nouveau mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "submit": "RÃ©initialiser le mot de passe",
+    "submitting": "RÃ©initialisation en cours...",
+    "success": "Votre mot de passe a Ã©tÃ© rÃ©initialisÃ© avec succÃ¨s.",
+    "failed": "Ã‰chec de la rÃ©initialisation du mot de passe",
+    "missingToken": "Jeton de rÃ©initialisation invalide ou expirÃ©.",
+    "loadingToken": "Chargement...",
+    "backToLogin": "Retour Ã  la connexion",
+    "validation": {
+      "passwordRequired": "Le mot de passe est requis",
+      "passwordMinLength": "Le mot de passe doit contenir au moins 8 caractÃ¨res",
+      "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
+      "passwordsNotMatch": "Les mots de passe ne correspondent pas"
+    }
+  },
+  "verifyEmail": {
+    "title": "VÃ©rifier l'e-mail",
+    "verifying": "VÃ©rification de votre e-mail...",
+    "success": "E-mail vÃ©rifiÃ© avec succÃ¨s ðŸŒ™",
+    "successTitle": "Votre e-mail a Ã©tÃ© vÃ©rifiÃ© ðŸŒŸ",
+    "successMessage": "Vous pouvez maintenant vous connecter Ã  votre compte.",
+    "failed": "Ã‰chec de la vÃ©rification",
+    "failedTitle": "Ã‰chec de la vÃ©rification âŒ",
+    "failedMessage": "Veuillez vÃ©rifier votre lien ou rÃ©essayer de vous inscrire.",
+    "missingToken": "Jeton de vÃ©rification invalide ou manquant.",
+    "goToLogin": "Aller Ã  la connexion",
+    "registerAgain": "S'inscrire Ã  nouveau"
+  },
+  "verify2FA": {
+    "title": "Authentification Ã  deux facteurs",
+    "description": "Entrez le code Ã  6 chiffres que nous avons envoyÃ© Ã  votre e-mail.",
+    "emailDescription": "Un code Ã  6 chiffres a Ã©tÃ© envoyÃ© Ã  votre e-mail. Veuillez l'entrer ci-dessous.",
+    "totpDescription": "Entrez le code Ã  6 chiffres de votre application d'authentification.",
+    "codeLabel": "Code de vÃ©rification",
+    "submit": "VÃ©rifier le code",
+    "submitting": "VÃ©rification en cours...",
+    "success": "Connexion rÃ©ussie ðŸŒ™",
+    "failed": "Code invalide ou expirÃ©",
+    "missingUserId": "Demande de vÃ©rification invalide. Veuillez rÃ©essayer de vous connecter.",
+    "loading": "Chargement...",
+    "noCode": "Vous n'avez pas reÃ§u de code ?",
+    "useRecoveryCode": "Utiliser un code de rÃ©cupÃ©ration",
+    "backToLogin": "Retour Ã  la connexion",
+    "codeComplete": "Code saisi âœ“",
+    "codeExpired": "Le code de vÃ©rification a expirÃ©.",
+    "codeExpiredOrInvalid": "Le code de vÃ©rification a expirÃ© ou est invalide.",
+    "resendCode": "Renvoyer le code",
+    "resending": "Envoi en cours...",
+    "codeResent": "Un nouveau code a Ã©tÃ© envoyÃ© Ã  votre e-mail.",
+    "resendFailed": "Ã‰chec de l'envoi du code. Veuillez rÃ©essayer.",
+    "validation": {
+      "codeRequired": "Le code de vÃ©rification est requis",
+      "codeLength": "Le code doit contenir exactement 6 chiffres",
+      "codeInvalid": "Le code ne doit contenir que des chiffres"
+    }
+  },
+  "setup2FA": {
+    "title": "Activer l'authentification Ã  deux facteurs",
+    "description": "SÃ©curisez votre compte avec une couche de protection supplÃ©mentaire",
+    "generateQR": "GÃ©nÃ©rer le code QR",
+    "generating": "GÃ©nÃ©ration en cours...",
+    "qrGenerated": "Code QR gÃ©nÃ©rÃ© avec succÃ¨s",
+    "generateFailed": "Ã‰chec de la gÃ©nÃ©ration du code QR",
+    "scanInstructions": "Scannez ce code QR avec Google Authenticator ou une application TOTP",
+    "backupCode": "Code de secours (Enregistrez-le dans un endroit sÃ»r) :",
+    "backupCodeNote": "Utilisez ce code pour accÃ©der Ã  votre compte si vous perdez votre appareil",
+    "codeLabel": "Entrez le code Ã  6 chiffres de votre application d'authentification",
+    "verifyAndEnable": "VÃ©rifier et activer 2FA",
+    "verifying": "VÃ©rification en cours...",
+    "success": "2FA activÃ© avec succÃ¨s ðŸŒ™",
+    "verifyFailed": "Code invalide. Veuillez rÃ©essayer.",
+    "noSecret": "Veuillez d'abord gÃ©nÃ©rer le code QR",
+    "enabledSuccess": "Authentification Ã  deux facteurs activÃ©e",
+    "redirecting": "Redirection vers le tableau de bord...",
+    "loading": "Chargement...",
+    "loadingQRCode": "Chargement du code QR...",
+    "recoveryCodesTitle": "Vos codes de rÃ©cupÃ©ration",
+    "recoveryCodesDescription": "Enregistrez ces codes dans un endroit sÃ»r. Chacun ne peut Ãªtre utilisÃ© qu'une seule fois pour accÃ©der Ã  votre compte si vous perdez votre appareil 2FA.",
+    "recoveryCodesWarning": "âš ï¸ Ces codes ne seront affichÃ©s qu'une seule fois. Assurez-vous de les enregistrer en toute sÃ©curitÃ© !",
+    "copyCodes": "Copier tous les codes",
+    "codesCopied": "Codes de rÃ©cupÃ©ration copiÃ©s dans le presse-papiers",
+    "continueToDashboard": "Continuer vers le tableau de bord",
+    "validation": {
+      "codeRequired": "Le code de vÃ©rification est requis",
+      "codeLength": "Le code doit contenir exactement 6 chiffres",
+      "codeInvalid": "Le code ne doit contenir que des chiffres"
+    }
+  },
+  "recoveryLogin": {
+    "title": "Se connecter avec un code de rÃ©cupÃ©ration",
+    "description": "Si vous avez perdu l'accÃ¨s Ã  votre appareil 2FA, utilisez l'un de vos codes de rÃ©cupÃ©ration.",
+    "codeLabel": "Code de rÃ©cupÃ©ration",
+    "codeHint": "Entrez l'un de vos codes de rÃ©cupÃ©ration (alphanumÃ©rique)",
+    "submit": "Se connecter",
+    "submitting": "Connexion en cours...",
+    "success": "ConnectÃ© avec le code de rÃ©cupÃ©ration ðŸŒ™",
+    "failed": "Code de rÃ©cupÃ©ration invalide ou dÃ©jÃ  utilisÃ©",
+    "missingUserId": "Demande de rÃ©cupÃ©ration invalide. Veuillez rÃ©essayer de vous connecter.",
+    "loading": "Chargement...",
+    "noRecoveryCode": "Vous n'avez pas de code de rÃ©cupÃ©ration ?",
+    "backToLogin": "Retour Ã  la connexion",
+    "validation": {
+      "codeRequired": "Le code de rÃ©cupÃ©ration est requis",
+      "codeMinLength": "Le code de rÃ©cupÃ©ration est trop court"
+    }
+  },
+  "admin": {
+    "auditLog": "Journal d'audit",
+    "blockedIPs": "IP bloquÃ©es",
+    "settings": "ParamÃ¨tres",
+    "users": "Utilisateurs",
+    "firstName": "PrÃ©nom",
+    "lastName": "Nom de famille",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "role": "RÃ´le",
+    "user": "Utilisateur",
+    "admin": "Administrateur",
+    "emailVerified": "E-mail vÃ©rifiÃ©",
+    "emailVerificationRequirement": "Exigence de vÃ©rification de l'e-mail",
+    "twoFARequirement": "Exigence 2FA",
+    "useGlobalSetting": "Utiliser le paramÃ¨tre global",
+    "required": "Requis",
+    "notRequired": "Non requis",
+    "newPassword": "Nouveau mot de passe (laisser vide pour conserver l'actuel)",
+    "toggleVerifyEmail": "Basculer pour vÃ©rifier ou annuler la vÃ©rification de l'e-mail de l'utilisateur",
+    "overrideEmailVerification": "Remplacer le paramÃ¨tre global de vÃ©rification de l'e-mail pour cet utilisateur",
+    "override2FA": "Remplacer le paramÃ¨tre global 2FA pour cet utilisateur",
+    "passwordHelper": "Remplir uniquement si vous souhaitez changer le mot de passe",
+    "passwordMinLength": "Le mot de passe doit contenir au moins 8 caractÃ¨res",
+    "createUserVerified": "Cocher pour crÃ©er un utilisateur avec e-mail vÃ©rifiÃ©",
+    "performedBy": "EffectuÃ© par",
+    "targetUser": "Utilisateur cible",
+    "createdAt": "CrÃ©Ã© le",
+    "unblock": "DÃ©bloquer",
+    "ipUnblockedSuccess": "Adresse IP dÃ©bloquÃ©e avec succÃ¨s",
+    "ipUnblockFailed": "Ã‰chec du dÃ©blocage de l'adresse IP",
+    "applicationSettings": "ParamÃ¨tres de l'application",
+    "emailVerification": "VÃ©rification de l'e-mail",
+    "emailVerificationInfo": "Lorsque la vÃ©rification de l'e-mail est dÃ©sactivÃ©e, les nouveaux utilisateurs peuvent se connecter immÃ©diatement aprÃ¨s l'inscription sans vÃ©rifier leur e-mail. Vous pouvez toujours vÃ©rifier manuellement les utilisateurs individuels depuis la page Utilisateurs.",
+    "requireEmailVerification": "Exiger la vÃ©rification de l'e-mail",
+    "emailVerificationEnabled": "Les nouveaux utilisateurs doivent vÃ©rifier leur e-mail avant de se connecter",
+    "emailVerificationDisabled": "Les nouveaux utilisateurs peuvent se connecter immÃ©diatement aprÃ¨s l'inscription",
+    "twoFactorAuthentication": "Authentification Ã  deux facteurs (2FA)",
+    "twoFAInfo": "Lorsque 2FA est requis globalement, tous les utilisateurs doivent activer 2FA avant de pouvoir se connecter. Les utilisateurs peuvent configurer 2FA en utilisant TOTP (applications d'authentification) ou des codes basÃ©s sur l'e-mail. Vous pouvez toujours gÃ©rer les paramÃ¨tres 2FA des utilisateurs individuels depuis la page Utilisateurs.",
+    "require2FAForAll": "Exiger 2FA pour tous les utilisateurs",
+    "twoFAEnabled": "Tous les utilisateurs doivent activer 2FA avant de se connecter",
+    "twoFADisabled": "2FA est facultatif - les utilisateurs peuvent l'activer individuellement",
+    "emailVerificationEnabledSuccess": "VÃ©rification de l'e-mail activÃ©e avec succÃ¨s",
+    "emailVerificationDisabledSuccess": "VÃ©rification de l'e-mail dÃ©sactivÃ©e avec succÃ¨s",
+    "twoFAEnabledSuccess": "Exigence 2FA activÃ©e avec succÃ¨s",
+    "twoFADisabledSuccess": "Exigence 2FA dÃ©sactivÃ©e avec succÃ¨s",
+    "failedToLoadSettings": "Ã‰chec du chargement des paramÃ¨tres",
+    "failedToUpdateSetting": "Ã‰chec de la mise Ã  jour du paramÃ¨tre",
+    "analytics": {
+      "title": "Analytique des utilisateurs ðŸŒ™",
+      "startDate": "Date de dÃ©but",
+      "endDate": "Date de fin",
+      "refresh": "Actualiser",
+      "loading": "Chargement...",
+      "noData": "Aucune donnÃ©e disponible pour la plage de dates sÃ©lectionnÃ©e.",
+      "registrations": "Inscriptions",
+      "verified": "VÃ©rifiÃ©s",
+      "totalRegistrations": "Total des inscriptions",
+      "totalVerified": "Total vÃ©rifiÃ©s",
+      "verificationRate": "Taux de vÃ©rification",
+      "kpi": {
+        "totalUsers": "Total des utilisateurs",
+        "verifiedUsers": "Utilisateurs vÃ©rifiÃ©s",
+        "newUsers7Days": "Nouveaux utilisateurs (7 jours)",
+        "verified": "vÃ©rifiÃ©s",
+        "active24h": "Actifs (24h)",
+        "activeThisWeek": "actifs cette semaine"
+      },
+      "activeUsers": {
+        "title": "Utilisateurs actifs quotidiens ðŸ”¥",
+        "daily": "Utilisateurs actifs"
+      },
+      "retention": {
+        "title": "Analyse de rÃ©tention des utilisateurs ðŸ”",
+        "average7d": "RÃ©tention moyenne 7 jours",
+        "average30d": "RÃ©tention moyenne 30 jours",
+        "rate7d": "RÃ©tention 7 jours %",
+        "rate30d": "RÃ©tention 30 jours %"
+      },
+      "cohort": {
+        "title": "Carte de chaleur de rÃ©tention des cohortes ðŸ”¥",
+        "description": "Chaque ligne montre une cohorte d'inscription. Couleur plus foncÃ©e = meilleure rÃ©tention.",
+        "signupDate": "Date d'inscription",
+        "newUsers": "Nouveaux utilisateurs",
+        "day": "Jour {day, number}",
+        "legend": "LÃ©gende:"
+      },
+      "segmentation": {
+        "country": "Pays",
+        "language": "Langue",
+        "allCountries": "Tous les pays",
+        "allLanguages": "Toutes les langues",
+        "countries": {
+          "TR": "Turquie",
+          "US": "Ã‰tats-Unis",
+          "GB": "Royaume-Uni",
+          "DE": "Allemagne",
+          "FR": "France"
+        },
+        "languages": {
+          "tr": "Turc",
+          "en": "Anglais",
+          "de": "Allemand",
+          "fr": "FranÃ§ais"
+        }
+      }
+    }
+  },
+  "profile": {
+    "title": "ParamÃ¨tres du profil",
+    "loadingProfile": "Chargement du profil...",
+    "failedToLoadProfile": "Ã‰chec du chargement du profil",
+    "profileUpdatedSuccessfully": "Profil mis Ã  jour avec succÃ¨s",
+    "failedToUpdateProfile": "Ã‰chec de la mise Ã  jour du profil",
+    "personalInfo": "Informations personnelles",
+    "username": "Nom d'utilisateur",
+    "usernamePlaceholder": "nomutilisateur",
+    "usernameHelper": "3-30 caractÃ¨res, uniquement des lettres, chiffres, underscores et tirets",
+    "firstName": "PrÃ©nom",
+    "lastName": "Nom de famille",
+    "language": "Langue",
+    "country": "Pays",
+    "selectCountry": "SÃ©lectionner un pays...",
+    "phone": "TÃ©lÃ©phone",
+    "address": "Adresse",
+    "securitySettings": "ParamÃ¨tres de sÃ©curitÃ©",
+    "overrideGlobalSettings": "Remplacer les paramÃ¨tres globaux pour votre compte. Laissez \"Utiliser le paramÃ¨tre global\" pour suivre la configuration Ã  l'Ã©chelle du systÃ¨me.",
+    "useGlobalEmailVerification": "Utiliser le paramÃ¨tre global pour la vÃ©rification de l'e-mail",
+    "followSystemEmailVerification": "Suivre la configuration de vÃ©rification de l'e-mail Ã  l'Ã©chelle du systÃ¨me",
+    "requireEmailVerification": "Exiger la vÃ©rification de l'e-mail",
+    "emailVerificationRequired": "La vÃ©rification de l'e-mail est requise",
+    "emailVerificationNotRequired": "La vÃ©rification de l'e-mail n'est pas requise",
+    "useGlobal2FA": "Utiliser le paramÃ¨tre global pour 2FA",
+    "followSystem2FA": "Suivre la configuration 2FA Ã  l'Ã©chelle du systÃ¨me",
+    "require2FA": "Exiger 2FA",
+    "twoFARequired": "2FA est requis",
+    "twoFANotRequired": "2FA n'est pas requis",
+    "enable2FA": "Activer l'authentification Ã  deux facteurs",
+    "twoFAEnabledDescription": "2FA est activÃ©. Vous recevrez un code de vÃ©rification par e-mail lors de la connexion.",
+    "twoFADisabledDescription": "Activez 2FA pour ajouter une couche de sÃ©curitÃ© supplÃ©mentaire Ã  votre compte.",
+    "cancel": "Annuler",
+    "saving": "Enregistrement...",
+    "saveChanges": "Enregistrer les modifications"
+  }
+}
+
