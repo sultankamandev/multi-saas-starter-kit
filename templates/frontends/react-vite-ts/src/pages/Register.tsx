@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import { api, getErrorMessage } from "@/lib/api";
 import { ROUTES } from "@/lib/routes";
-import { COUNTRIES } from "@/constants/countries";
 import type { RegisterFormData, RegisterResponse } from "@/types/auth";
 
 export default function Register() {
@@ -26,7 +25,6 @@ export default function Register() {
       email: "",
       password: "",
       confirmPassword: "",
-      country: "",
     },
   });
 
@@ -41,7 +39,6 @@ export default function Register() {
         last_name: data.last_name,
         email: data.email,
         password: data.password,
-        country: data.country || undefined,
       });
       toast.success(res.message || t("register.success"));
       navigate(ROUTES.LOGIN);
@@ -177,24 +174,6 @@ export default function Register() {
             {errors.confirmPassword && (
               <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.confirmPassword.message}</p>
             )}
-          </div>
-
-          <div>
-            <label htmlFor="country" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              {t("register.country")}
-            </label>
-            <select
-              id="country"
-              {...register("country")}
-              className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-400"
-            >
-              <option value="">{t("register.selectCountry")}</option>
-              {COUNTRIES.filter((c) => c.code).map((country) => (
-                <option key={country.code} value={country.code}>
-                  {country.name}
-                </option>
-              ))}
-            </select>
           </div>
 
           <button

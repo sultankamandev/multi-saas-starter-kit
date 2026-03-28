@@ -13,84 +13,90 @@ const Navigation: React.FC = () => {
   const tc = useTranslations('common');
 
   return (
-    <nav 
-      className="bg-white shadow-sm border-b sticky top-0 z-40"
+    <nav
+      className="sticky top-0 z-40 border-b border-border/80 bg-elevated/80 shadow-[0_1px_0_oklch(0.92_0.02_260_/_0.6)] backdrop-blur-xl supports-[backdrop-filter]:bg-elevated/70"
       role="navigation"
       aria-label="Main navigation"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <Link 
-              href="/" 
-              className="text-xl font-bold text-indigo-600 hover:text-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded"
-              aria-label={`${t('appName')} - Home`}
-            >
+      <div className="mx-auto flex h-[4.25rem] max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+        <div className="flex min-w-0 flex-1 items-center">
+          <Link
+            href="/"
+            className="font-display group truncate text-lg font-semibold tracking-tight text-foreground transition-colors hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2"
+            aria-label={`${t('appName')} - Home`}
+          >
+            <span className="bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent group-hover:opacity-90">
               {t('appName')}
-            </Link>
-          </div>
-          
-          <div className="flex items-center gap-4" role="menubar">
-            {/* Language Switcher */}
-            <LanguageSwitcher />
-            
-            {isAuthenticated ? (
-              <>
-                <span className="hidden sm:inline text-sm text-gray-700" aria-live="polite">
-                  {t('welcome', { 
-                    name: user ? `${user.first_name || ''} ${user.last_name || ''}`.trim() : '' 
-                  })}
-                </span>
+            </span>
+          </Link>
+        </div>
+
+        <div
+          className="flex shrink-0 flex-wrap items-center justify-end gap-2 sm:gap-3 md:gap-4"
+          role="menubar"
+        >
+          <LanguageSwitcher />
+
+          {isAuthenticated ? (
+            <>
+              <span
+                className="hidden max-w-[14rem] truncate rounded-full border border-border bg-subtle/80 px-3 py-1 text-xs font-medium text-muted sm:inline"
+                aria-live="polite"
+              >
+                {t('welcome', {
+                  name: user ? `${user.first_name || ''} ${user.last_name || ''}`.trim() : '',
+                })}
+              </span>
+              <Link
+                href="/dashboard"
+                className="rounded-full px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-subtle hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/30"
+                role="menuitem"
+                aria-label={t('dashboard')}
+              >
+                {t('dashboard')}
+              </Link>
+              {user?.role === 'admin' && (
                 <Link
-                  href="/dashboard"
-                  className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  href="/admin"
+                  className="rounded-full px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-subtle hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/30"
                   role="menuitem"
-                  aria-label={t('dashboard')}
+                  aria-label="Admin Panel"
                 >
-                  {t('dashboard')}
+                  Admin
                 </Link>
-                {user?.role === 'admin' && (
-                  <Link
-                    href="/admin"
-                    className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-                    role="menuitem"
-                    aria-label="Admin Panel"
-                  >
-                    Admin
-                  </Link>
-                )}
-                <button
-                  onClick={() => {
-                    logout();
-                    toast.success(tc('logoutSuccess', { defaultValue: 'Logged out successfully' }));
-                  }}
-                  className="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                  aria-label={t('logout')}
-                >
-                  {t('logout')}
-                </button>
-              </>
-            ) : (
-              <>
-                <Link
-                  href="/login"
-                  className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  role="menuitem"
-                  aria-label={t('login')}
-                >
-                  {t('login')}
-                </Link>
-                <Link
-                  href="/register"
-                  className="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  role="menuitem"
-                  aria-label={t('register')}
-                >
-                  {t('register')}
-                </Link>
-              </>
-            )}
-          </div>
+              )}
+              <button
+                type="button"
+                onClick={() => {
+                  logout();
+                  toast.success(tc('logoutSuccess', { defaultValue: 'Logged out successfully' }));
+                }}
+                className="rounded-full bg-foreground px-4 py-2 text-sm font-medium text-ink-inverse transition hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+                aria-label={t('logout')}
+              >
+                {t('logout')}
+              </button>
+            </>
+          ) : (
+            <div className="flex items-center gap-2 sm:gap-2.5">
+              <Link
+                href="/login"
+                className="whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium text-muted transition-colors hover:bg-subtle hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/30"
+                role="menuitem"
+                aria-label={t('login')}
+              >
+                {t('login')}
+              </Link>
+              <Link
+                href="/register"
+                className="whitespace-nowrap rounded-full bg-accent px-4 py-2 text-sm font-semibold text-white shadow-md shadow-accent/25 transition hover:bg-accent-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                role="menuitem"
+                aria-label={t('register')}
+              >
+                {t('register')}
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>
@@ -98,4 +104,3 @@ const Navigation: React.FC = () => {
 };
 
 export default Navigation;
-

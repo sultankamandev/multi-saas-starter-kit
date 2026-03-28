@@ -45,6 +45,7 @@
     "password": "Password",
     "confirmPassword": "Conferma password",
     "country": "Paese",
+    "selectCountry": "Seleziona un paese...",
     "submit": "Registrati",
     "submitting": "Registrazione in corso...",
     "hasAccount": "Hai già un account?",
@@ -53,6 +54,8 @@
     "failed": "Registrazione fallita",
     "validationFailed": "Controlla gli errori nel modulo",
     "validation": {
+      "usernameRequired": "Il nome utente è obbligatorio",
+      "usernameMinLength": "Il nome utente deve avere almeno 3 caratteri",
       "firstNameRequired": "Il nome è obbligatorio",
       "lastNameRequired": "Il cognome è obbligatorio",
       "emailRequired": "L'email è obbligatoria",

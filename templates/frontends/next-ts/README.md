@@ -81,13 +81,14 @@ frontend/next-web/
 │   │
 │   ├── i18n/
 │   │   ├── constants.ts               # Locale config, domain mapping
-│   │   ├── request.ts                 # next-intl request config
+│   │   ├── localeFromRequest.ts       # Host-based default locale (not Next `proxy`)
+│   │   ├── request.ts                 # next-intl v4 request config
 │   │   └── routing.ts                 # Locale routing setup
 │   │
 │   ├── constants/
 │   │   └── countries.ts               # Country list
 │   │
-│   └── proxy.ts                       # Domain-based locale detection
+│   └── middleware.ts                  # Next.js middleware (locale, auth) — must live under src/ with src/app
 │
 ├── messages/                           # i18n translation files
 │   ├── en.json
@@ -98,7 +99,6 @@ frontend/next-web/
 │   ├── it.json
 │   └── ru.json
 │
-├── middleware.ts                       # Next.js middleware (locale, auth)
 ├── next.config.ts
 ├── package.json
 ├── tsconfig.json

@@ -232,6 +232,42 @@ router.get("/settings", async (_req: Request, res: Response) => {
   res.json(rows);
 });
 
+const REQUIRE_EMAIL_VERIFICATION_KEY = "require_email_verification";
+
+router.get("/settings/verification/status", async (_req: Request, res: Response) => {
+  const [row] = await db
+    .select()
+    .from(appSettings)
+    .where(eq(appSettings.key, REQUIRE_EMAIL_VERIFICATION_KEY))
+    .limit(1);
+  const raw = row?.value?.toLowerCase() ?? "";
+  const require_email_verification =
+    row == null || raw === "" ? true : raw === "true" || raw === "1" || raw === "yes";
+  res.json({
+    require_email_verification,
+    source: row ? "database" : "default",
+  });
+});
+
+router.put("/settings/verification", async (req: Request, res: Response) => {
+  const bodySchema = z.object({ require_email_verification: z.boolean() });
+  const parsed = bodySchema.safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({ error: "validation_error", errors: parsed.error.flatten().fieldErrors });
+    return;
+  }
+  const value = parsed.data.require_email_verification ? "true" : "false";
+  const key = REQUIRE_EMAIL_VERIFICATION_KEY;
+  const [existing] = await db.select().from(appSettings).where(eq(appSettings.key, key)).limit(1);
+  if (existing) {
+    await db.update(appSettings).set({ value, updatedAt: new Date() }).where(eq(appSettings.key, key));
+  } else {
+    await db.insert(appSettings).values({ key, value });
+  }
+  const [updated] = await db.select().from(appSettings).where(eq(appSettings.key, key));
+  res.json(updated);
+});
+
 router.get("/settings/:key", async (req: Request, res: Response) => {
   const key = paramKey(req);
   const [row] = await db.select().from(appSettings).where(eq(appSettings.key, key)).limit(1);

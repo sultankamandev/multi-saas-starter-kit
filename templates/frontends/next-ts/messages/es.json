@@ -45,6 +45,7 @@
     "password": "Contraseña",
     "confirmPassword": "Confirmar contraseña",
     "country": "País",
+    "selectCountry": "Selecciona un país...",
     "submit": "Registrarse",
     "submitting": "Registrando...",
     "hasAccount": "¿Ya tienes cuenta?",
@@ -53,6 +54,8 @@
     "failed": "Error en el registro",
     "validationFailed": "Revisa los errores del formulario",
     "validation": {
+      "usernameRequired": "El nombre de usuario es obligatorio",
+      "usernameMinLength": "El nombre de usuario debe tener al menos 3 caracteres",
       "firstNameRequired": "El nombre es obligatorio",
       "lastNameRequired": "Los apellidos son obligatorios",
       "emailRequired": "El email es obligatorio",

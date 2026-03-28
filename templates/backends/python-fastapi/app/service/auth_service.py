@@ -184,8 +184,13 @@ class AuthService:
         await session.commit()
 
     async def _is_verification_required(self) -> bool:
+        val = await self._settings.get("require_email_verification")
+        if val:
+            return val.lower() in ("true", "1", "yes")
         val = await self._settings.get("email_verification_required")
-        return val.lower() == "true" if val else False
+        if val:
+            return val.lower() in ("true", "1", "yes")
+        return True
 
     def _normalize_lang(self, lang: str) -> str:
         if lang and is_language_supported(lang.lower()):

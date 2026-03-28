@@ -13,11 +13,11 @@ export interface LoginResponse {
   token?: string;
   refresh_token?: string;
   access_token?: string;
-  user_id?: string;
+  user_id?: string | number;
   requires_2fa?: boolean;
   two_fa_type?: "email" | "totp";
   message?: string;
-  user?: User;
+  user?: User & { id?: string | number };
 }
 
 export interface RegisterResponse {
@@ -47,7 +47,6 @@ export interface RegisterFormData {
   email: string;
   password: string;
   confirmPassword: string;
-  country?: string;
 }
 
 export interface Verify2FAResponse {
@@ -73,11 +72,11 @@ export interface GoogleLoginResponse {
   token?: string;
   access_token?: string;
   refresh_token?: string;
-  user_id?: string;
+  user_id?: string | number;
   requires_2fa?: boolean;
   two_fa_type?: "email" | "totp";
   message?: string;
-  user?: User;
+  user?: User & { id?: string | number };
 }
 
 export interface ProfileUserData {

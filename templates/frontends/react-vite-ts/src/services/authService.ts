@@ -23,12 +23,15 @@ export async function login(credentials: LoginFormData): Promise<LoginResult> {
     remember_me: credentials.remember_me ?? false,
   });
   const token = data.token ?? data.access_token;
+  const pending2FA =
+    data.user_id != null &&
+    (data.requires_2fa === true || data.two_fa_type === "email" || data.two_fa_type === "totp");
   return {
     token: token ?? "",
     refreshToken: data.refresh_token,
     user: toUser(data.user),
-    requires2FA: !!(data.requires_2fa || data.two_fa_type),
-    userId: data.user_id,
+    requires2FA: pending2FA,
+    userId: data.user_id != null ? String(data.user_id) : undefined,
     twoFAType: data.two_fa_type,
     message: data.message,
   };

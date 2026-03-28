@@ -62,17 +62,6 @@
           density="comfortable"
           hide-details="auto"
         />
-        <v-select
-          v-model="form.country"
-          :label="t('register.country')"
-          :items="countryItems"
-          item-title="name"
-          item-value="code"
-          variant="outlined"
-          density="comfortable"
-          hide-details
-          clearable
-        />
         <v-btn type="submit" color="primary" block :loading="submitting" size="large">
           {{ submitting ? t("register.submitting") : t("register.submit") }}
         </v-btn>
@@ -93,7 +82,6 @@ import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { api, getErrorMessage } from "@/lib/api";
-import { COUNTRIES } from "@/constants/countries";
 import type { RegisterFormData, RegisterResponse } from "@/types/auth";
 
 const { t } = useI18n();
@@ -138,7 +126,6 @@ async function onSubmit() {
       last_name: form.last_name,
       email: form.email,
       password: form.password,
-      country: form.country || undefined,
     });
     router.push("/login");
   } catch (error) {

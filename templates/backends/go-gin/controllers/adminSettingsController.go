@@ -119,7 +119,7 @@ func UpdateVerificationSetting(c *gin.Context) {
 	lang := c.MustGet("lang").(string)
 
 	var input struct {
-		RequireEmailVerification bool `json:"require_email_verification" binding:"required"`
+		RequireEmailVerification *bool `json:"require_email_verification" binding:"required"`
 	}
 
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -129,7 +129,7 @@ func UpdateVerificationSetting(c *gin.Context) {
 	}
 
 	// Save to database
-	value := strconv.FormatBool(input.RequireEmailVerification)
+	value := strconv.FormatBool(*input.RequireEmailVerification)
 	if err := models.SetSetting("require_email_verification", value); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": utils.T(lang, "DatabaseError")})
 		return
@@ -204,7 +204,7 @@ func Update2FASetting(c *gin.Context) {
 	lang := c.MustGet("lang").(string)
 
 	var input struct {
-		Require2FA bool `json:"require_2fa" binding:"required"`
+		Require2FA *bool `json:"require_2fa" binding:"required"`
 	}
 
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -214,7 +214,7 @@ func Update2FASetting(c *gin.Context) {
 	}
 
 	// Save to database
-	value := strconv.FormatBool(input.Require2FA)
+	value := strconv.FormatBool(*input.Require2FA)
 	if err := models.SetSetting("require_2fa", value); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": utils.T(lang, "DatabaseError")})
 		return
@@ -227,6 +227,6 @@ func Update2FASetting(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"message":     utils.T(lang, "SettingUpdatedSuccessfully"),
-		"require_2fa": input.Require2FA,
+		"require_2fa": *input.Require2FA,
 	})
 }

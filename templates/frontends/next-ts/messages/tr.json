@@ -45,6 +45,7 @@
     "password": "Şifre",
     "confirmPassword": "Şifreyi Onayla",
     "country": "Ülke",
+    "selectCountry": "Bir ülke seçin...",
     "submit": "Kayıt Ol",
     "submitting": "Kayıt yapılıyor...",
     "hasAccount": "Zaten hesabınız var mı?",

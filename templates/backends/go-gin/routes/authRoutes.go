@@ -29,6 +29,7 @@ func SetupAuthRoutes(r *gin.Engine) {
 		auth.POST("/setup-2fa", middleware.AuthMiddleware(), controllers.Setup2FA)
 		auth.POST("/verify-2fa-setup", middleware.AuthMiddleware(), controllers.Verify2FASetup)
 		auth.POST("/refresh", controllers.RefreshToken)
+		auth.POST("/refresh-token", controllers.RefreshToken) // alias for Node-style clients
 		auth.POST("/logout", controllers.Logout)
 		auth.GET("/me", middleware.AuthMiddleware(), controllers.GetMe)
 		auth.GET("/verify-email", controllers.VerifyEmail)
@@ -58,7 +59,9 @@ func SetupAuthRoutes(r *gin.Engine) {
 		admin.DELETE("/users/:id", controllers.AdminDeleteUser)       // Delete user
 		admin.GET("/actions", controllers.GetAdminActions)            // Get audit log of admin actions
 
-		// Analytics endpoints
+		// Analytics endpoints (dashboard contract + legacy aliases)
+		admin.GET("/summary", controllers.GetAdminSummary)
+		admin.GET("/analytics/user-registrations", controllers.GetUserAnalytics)
 		admin.GET("/analytics/users", controllers.GetUserAnalytics)              // User analytics by day
 		admin.GET("/analytics/summary", controllers.GetAdminSummary)             // KPI summary for dashboard
 		admin.GET("/analytics/active-users", controllers.GetActiveUserAnalytics) // Active user analytics

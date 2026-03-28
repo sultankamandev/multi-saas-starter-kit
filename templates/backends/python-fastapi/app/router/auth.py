@@ -97,6 +97,7 @@ async def login(
 
 
 @router.post("/google-login")
+@router.post("/google")
 async def google_login(
     body: GoogleLoginRequest,
     request: Request,

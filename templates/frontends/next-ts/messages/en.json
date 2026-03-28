@@ -45,6 +45,7 @@
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "country": "Country",
+    "selectCountry": "Select a country...",
     "submit": "Register",
     "submitting": "Registering...",
     "hasAccount": "Already have an account?",
@@ -53,6 +54,8 @@
     "failed": "Registration failed",
     "validationFailed": "Please check the form for errors",
     "validation": {
+      "usernameRequired": "Username is required",
+      "usernameMinLength": "Username must be at least 3 characters",
       "firstNameRequired": "First name is required",
       "lastNameRequired": "Last name is required",
       "emailRequired": "Email is required",
