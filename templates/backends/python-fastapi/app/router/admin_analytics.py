@@ -39,7 +39,8 @@ async def user_registrations(
     except DomainError as e:
         return error_response(e)
     data = await analytics_svc.user_registrations(start, end, country, language)
-    return {"data": data}
+    # Bare JSON array matches Go/Node admin dashboard contract
+    return data
 
 
 @router.get("/active-users")

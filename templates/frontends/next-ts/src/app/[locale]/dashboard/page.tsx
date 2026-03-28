@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import toast from 'react-hot-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import Navigation from '@/components/Navigation';
+import Link from 'next/link';
 
 const Dashboard: React.FC = () => {
   const router = useRouter();
@@ -13,23 +14,26 @@ const Dashboard: React.FC = () => {
   const t = useTranslations('dashboard');
   const tc = useTranslations('common');
 
-  // Redirect to login if not authenticated
   useEffect(() => {
     if (!loading && !isAuthenticated) {
       router.push('/login');
     }
   }, [isAuthenticated, loading, router]);
 
-  // Show loading while checking authentication
   if (loading) {
     return (
-      <main className="p-8 flex justify-center items-center min-h-screen">
-        <div className="text-lg">{tc('loading')}</div>
-      </main>
+      <>
+        <Navigation />
+        <main className="bg-app-mesh bg-noise flex min-h-[calc(100dvh-4.25rem)] items-center justify-center px-4">
+          <div className="flex flex-col items-center gap-4">
+            <div className="h-10 w-10 animate-pulse rounded-2xl border border-border bg-elevated" />
+            <p className="text-sm font-medium text-muted">{tc('loading')}</p>
+          </div>
+        </main>
+      </>
     );
   }
 
-  // Don't render anything if not authenticated (will redirect)
   if (!isAuthenticated) {
     return null;
   }
@@ -40,53 +44,65 @@ const Dashboard: React.FC = () => {
     router.push('/login');
   };
 
+  const displayName =
+    [user?.first_name, user?.last_name].filter(Boolean).join(' ') || user?.email || '—';
+
   return (
     <>
       <Navigation />
-      <main className="p-8 flex flex-col gap-6 max-w-2xl mx-auto">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">{t('title')}</h1>
-        <button
-          onClick={handleLogout}
-          className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
-        >
-          {t('logout')}
-        </button>
-      </div>
+      <main className="min-h-[calc(100dvh-4.25rem)] bg-app-mesh bg-noise px-4 py-10 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h1 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                {t('title')}
+              </h1>
+              <p className="mt-2 text-muted">{t('welcomeBack')}</p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Link
+                href="/profile"
+                className="rounded-full border border-border bg-elevated px-4 py-2 text-sm font-medium text-foreground shadow-sm transition hover:border-accent/35"
+              >
+                {t('editProfile')}
+              </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="rounded-full bg-foreground px-4 py-2 text-sm font-medium text-ink-inverse transition hover:opacity-90"
+              >
+                {t('logout')}
+              </button>
+            </div>
+          </div>
 
-      <div className="bg-white shadow-md rounded-lg p-6">
-        <h2 className="text-xl font-semibold mb-4">{t('welcomeBack')}</h2>
-        
-        <div className="space-y-3">
-          <div>
-            <span className="font-medium text-gray-700">{t('name')}:</span>
-            <span className="ml-2 text-gray-900">{user?.first_name} {user?.last_name}</span>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2">
+            <div className="rounded-3xl border border-border bg-elevated/95 p-6 shadow-sm backdrop-blur-sm sm:col-span-2">
+              <h2 className="text-xs font-semibold uppercase tracking-wider text-muted">{t('name')}</h2>
+              <p className="font-display mt-2 text-2xl font-semibold text-foreground">{displayName}</p>
+            </div>
+            <div className="rounded-3xl border border-border bg-elevated/95 p-6 shadow-sm backdrop-blur-sm">
+              <h2 className="text-xs font-semibold uppercase tracking-wider text-muted">{t('email')}</h2>
+              <p className="mt-2 break-all text-sm font-medium text-foreground">{user?.email}</p>
+            </div>
+            <div className="rounded-3xl border border-border bg-elevated/95 p-6 shadow-sm backdrop-blur-sm">
+              <h2 className="text-xs font-semibold uppercase tracking-wider text-muted">{t('role')}</h2>
+              <p className="mt-2">
+                <span className="inline-flex rounded-full bg-accent-soft px-3 py-1 text-sm font-semibold text-accent">
+                  {user?.role}
+                </span>
+              </p>
+            </div>
           </div>
-          
-          <div>
-            <span className="font-medium text-gray-700">{t('email')}:</span>
-            <span className="ml-2 text-gray-900">{user?.email}</span>
-          </div>
-          
-          <div>
-            <span className="font-medium text-gray-700">{t('role')}:</span>
-            <span className="ml-2 px-2 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm">
-              {user?.role}
-            </span>
+
+          <div className="mt-8 rounded-3xl border border-accent/25 bg-accent-soft/50 p-6 backdrop-blur-sm">
+            <h3 className="font-display text-lg font-semibold text-foreground">{t('features.title')}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted">{t('features.description')}</p>
           </div>
         </div>
-      </div>
-
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h3 className="text-lg font-medium text-blue-900 mb-2">{t('features.title')}</h3>
-        <p className="text-blue-800">
-          {t('features.description')}
-        </p>
-      </div>
       </main>
     </>
   );
 };
 
 export default Dashboard;
-

@@ -45,6 +45,7 @@
     "password": "Passwort",
     "confirmPassword": "Passwort bestätigen",
     "country": "Land",
+    "selectCountry": "Ein Land auswählen...",
     "submit": "Registrieren",
     "submitting": "Wird registriert...",
     "hasAccount": "Hast du bereits ein Konto?",

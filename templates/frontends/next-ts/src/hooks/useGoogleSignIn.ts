@@ -78,8 +78,8 @@ export const useGoogleSignIn = (options: UseGoogleSignInOptions = {}) => {
         throw new Error('No token received from server');
       }
 
-      // Store tokens and update auth context
-      await login(finalToken, userData || undefined, refresh_token, options.rememberMe);
+      const normalizedUser = userData ? { ...userData, id: String(userData.id) } : undefined;
+      await login(finalToken, normalizedUser, refresh_token, options.rememberMe);
 
       // Show success message
       const userName = userData ? `${userData.first_name} ${userData.last_name}`.trim() : '';

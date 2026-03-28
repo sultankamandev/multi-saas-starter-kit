@@ -1,150 +1,258 @@
-import { DataProvider, fetchUtils } from 'react-admin';
+import {
+  DataProvider,
+  fetchUtils,
+  type CreateParams,
+  type DeleteManyParams,
+  type DeleteParams,
+  type GetListParams,
+  type GetManyParams,
+  type GetManyReferenceParams,
+  type GetOneParams,
+  type RaRecord,
+  type UpdateManyParams,
+  type UpdateParams,
+} from 'react-admin';
+import type { AxiosError } from 'axios';
 import { api } from './api';
 
-const httpClient = (url: string, options: any = {}) => {
-  // Use the existing api instance which already has interceptors configured
-  // This ensures Authorization headers and Accept-Language are set automatically
-  // The api instance has baseURL configured, so we use the full URL path
-  // Remove leading slash if present since api baseURL may already include the path
-  const cleanUrl = url.startsWith('/') ? url.slice(1) : url;
-  const method = options.method || 'GET';
-  const body = options.body ? JSON.parse(options.body) : undefined;
-
-  return api({
-    method: method as any,
-    url: cleanUrl,
-    data: body,
-  }).then((response) => ({
-    status: response.status,
-    headers: response.headers,
-    body: response.data,
-    json: response.data,
-  })).catch((error) => {
-    // Handle errors in a format React-Admin expects
-    if (error.response) {
-      return {
-        status: error.response.status,
-        headers: error.response.headers,
-        body: error.response.data,
-        json: error.response.data,
-      };
-    }
-    throw error;
-  });
+type HttpClientResult = {
+  status: number;
+  headers: unknown;
+  body: unknown;
+  json: unknown;
 };
 
 /**
- * Custom data provider for React-Admin that integrates with the existing API setup
- * Uses the existing api instance to maintain authentication and i18n headers
+ * Axios wrapper for React-Admin: rejects on HTTP/network errors so list responses
+ * are never shaped as { data: errorObject } (which triggers data_provider_error).
  */
-export const dataProvider: DataProvider = {
-  getList: async (resource, params) => {
-    const { page, perPage } = params.pagination!;
-    const { field, order } = params.sort!;
-    const query = {
-      ...fetchUtils.flattenObject(params.filter),
-      _page: page,
-      _limit: perPage,
-      _sort: field,
-      _order: order,
+const httpClient = async (
+  url: string,
+  options: Record<string, unknown> = {}
+): Promise<HttpClientResult> => {
+  const cleanUrl = url.startsWith('/') ? url.slice(1) : url;
+  const method = (options.method as string) || 'GET';
+  const body = options.body ? JSON.parse(options.body as string) : undefined;
+
+  try {
+    const response = await api({
+      method: method as 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
+      url: cleanUrl,
+      data: body,
+    });
+    return {
+      status: response.status,
+      headers: response.headers,
+      body: response.data,
+      json: response.data,
     };
-    // Use /api/admin prefix for admin endpoints
-    const url = `/api/admin/${resource}?${new URLSearchParams(query as any).toString()}`;
-    
-    const { json } = await httpClient(url);
-    
-    // Transform backend response format to React-Admin format
-    // Backend may return: { users: [...], count: number } or { actions: [...], count: number }
-    // React-Admin expects: { data: [...], total: number }
-    const resourceKey = resource === 'users' ? 'users' : resource === 'actions' ? 'actions' : null;
-    if (resourceKey && json[resourceKey] && Array.isArray(json[resourceKey])) {
-      return {
-        data: json[resourceKey],
-        total: json.count || json[resourceKey].length,
-      };
+  } catch (err: unknown) {
+    const ax = err as AxiosError<{ message?: string; error?: string }>;
+    if (ax.response) {
+      const d = ax.response.data;
+      const msg =
+        (typeof d === 'object' &&
+          d &&
+          'message' in d &&
+          typeof (d as { message: string }).message === 'string' &&
+          (d as { message: string }).message) ||
+        (typeof d === 'object' &&
+          d &&
+          'error' in d &&
+          typeof (d as { error: string }).error === 'string' &&
+          (d as { error: string }).error) ||
+        ax.message ||
+        `Request failed (${ax.response.status})`;
+      const error = new Error(msg) as Error & { status?: number; body?: unknown };
+      error.status = ax.response.status;
+      error.body = d;
+      throw error;
     }
-    
-    // Fallback to standard format if backend uses different structure
-    return {
-      data: json.data || json,
-      total: json.total || json.count || (Array.isArray(json) ? json.length : 0),
-    };
+    throw err;
+  }
+};
+
+function ensureListResult(data: unknown, total: unknown): { data: RaRecord[]; total: number } {
+  const rows = (Array.isArray(data) ? data : []) as RaRecord[];
+  const t =
+    typeof total === 'number' && !Number.isNaN(total) ? total : rows.length;
+  return { data: rows, total: t };
+}
+
+/** Node-express admin template expects page, limit, sort_order (not _page/_limit). */
+function listQueryParams(resource: string, params: GetListParams): Record<string, string> {
+  const page = params.pagination?.page ?? 1;
+  const perPage = params.pagination?.perPage ?? 10;
+  const field = params.sort?.field ?? 'id';
+  const order = params.sort?.order ?? 'ASC';
+  const filter = fetchUtils.flattenObject(params.filter ?? {}) as Record<string, string>;
+  const out: Record<string, string> = { ...filter };
+
+  if (resource === 'users' || resource === 'actions') {
+    out.page = String(page);
+    out.limit = String(perPage);
+    out.sort_order = String(order).toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
+    return out;
+  }
+
+  out._page = String(page);
+  out._limit = String(perPage);
+  out._sort = String(field);
+  out._order = String(order);
+  return out;
+}
+
+const dataProviderImpl = {
+  getList: async (resource: string, params: GetListParams) => {
+    const query = listQueryParams(resource, params);
+    const url = `/api/admin/${resource}?${new URLSearchParams(query).toString()}`;
+
+    const { json } = await httpClient(url);
+
+    if (resource === 'users' && json && typeof json === 'object' && Array.isArray((json as { data?: unknown }).data)) {
+      const j = json as { data: unknown[]; total?: number };
+      return ensureListResult(j.data, j.total ?? j.data.length);
+    }
+
+    if (resource === 'actions' && json && typeof json === 'object' && Array.isArray((json as { data?: unknown }).data)) {
+      const j = json as { data: unknown[]; total?: number };
+      return ensureListResult(j.data, j.total ?? j.data.length);
+    }
+
+    if (resource === 'blocked-ips') {
+      const raw =
+        Array.isArray(json) ? json : (json as { data?: unknown; blocked_ips?: unknown })?.data ??
+          (json as { blocked_ips?: unknown })?.blocked_ips ??
+          [];
+      const rows = Array.isArray(raw) ? raw : [];
+      const data = rows.map((r: Record<string, unknown> & { id?: string | number; ip?: string }) => ({
+        ...r,
+        id: r.id ?? r.ip,
+      }));
+      const total =
+        typeof json === 'object' && json !== null && 'total' in json && typeof (json as { total: unknown }).total === 'number'
+          ? (json as { total: number }).total
+          : data.length;
+      return ensureListResult(data, total);
+    }
+
+    if (resource === 'settings') {
+      if (Array.isArray(json)) {
+        return ensureListResult(json, json.length);
+      }
+      if (
+        json &&
+        typeof json === 'object' &&
+        Array.isArray((json as { settings?: unknown }).settings)
+      ) {
+        const j = json as { settings: unknown[]; count?: number };
+        const rows = j.settings as Record<string, unknown>[];
+        const data = rows.map((r) => ({
+          ...r,
+          id: r.id ?? r.key,
+        }));
+        return ensureListResult(data, j.count ?? data.length);
+      }
+    }
+
+    const resourceKey = resource === 'users' ? 'users' : resource === 'actions' ? 'actions' : null;
+    if (
+      resourceKey &&
+      json &&
+      typeof json === 'object' &&
+      Array.isArray((json as Record<string, unknown>)[resourceKey])
+    ) {
+      const j = json as { count?: number } & Record<string, unknown[]>;
+      const arr = j[resourceKey]!;
+      return ensureListResult(arr, j.count ?? arr.length);
+    }
+
+    const j = json as { data?: unknown; total?: number; count?: number } | unknown[] | null;
+    if (j && typeof j === 'object' && !Array.isArray(j) && Array.isArray(j.data)) {
+      return ensureListResult(j.data, j.total ?? j.count ?? j.data.length);
+    }
+    if (Array.isArray(j)) {
+      return ensureListResult(j, j.length);
+    }
+
+    return ensureListResult([], 0);
   },
 
-  getOne: async (resource, params) => {
+  getOne: async (resource: string, params: GetOneParams) => {
     const { json } = await httpClient(`/api/admin/${resource}/${params.id}`);
-    
-    // Backend may return { user: {...} } or direct user object
+
     return {
-      data: json.user || json.data || json,
+      data: ((json as { user?: RaRecord; data?: RaRecord }).user ||
+        (json as { data?: RaRecord }).data ||
+        json) as RaRecord,
     };
   },
 
-  getMany: async (resource, params) => {
+  getMany: async (resource: string, params: GetManyParams) => {
     const query = `?id=${params.ids.join('&id=')}`;
     const { json } = await httpClient(`/api/admin/${resource}${query}`);
-    
-    // Backend may return { users: [...] } or direct array
+
+    const data = (json as { users?: RaRecord[]; data?: RaRecord[] }).users ||
+      (json as { data?: RaRecord[] }).data ||
+      json;
     return {
-      data: json.users || json.data || json,
+      data: Array.isArray(data) ? data : ([] as RaRecord[]),
     };
   },
 
-  getManyReference: async (resource, params) => {
-    const { page, perPage } = params.pagination!;
-    const { field, order } = params.sort!;
+  getManyReference: async (resource: string, params: GetManyReferenceParams) => {
     const query = {
-      ...fetchUtils.flattenObject(params.filter),
+      ...fetchUtils.flattenObject(params.filter ?? {}),
       [params.target]: params.id,
-      _page: page,
-      _limit: perPage,
-      _sort: field,
-      _order: order,
-    };
-    const url = `/api/admin/${resource}?${new URLSearchParams(query as any).toString()}`;
+      page: String(params.pagination?.page ?? 1),
+      limit: String(params.pagination?.perPage ?? 10),
+      sort_order: String(params.sort?.order ?? 'ASC').toUpperCase() === 'DESC' ? 'DESC' : 'ASC',
+    } as Record<string, string>;
+    const url = `/api/admin/${resource}?${new URLSearchParams(query).toString()}`;
     const { json } = await httpClient(url);
-    
-    // Transform backend response format
-    if (json.users && Array.isArray(json.users)) {
-      return {
-        data: json.users,
-        total: json.count || json.users.length,
-      };
+
+    if (json && typeof json === 'object' && Array.isArray((json as { users?: unknown }).users)) {
+      const j = json as { users: unknown[]; count?: number };
+      return ensureListResult(j.users, j.count ?? j.users.length);
     }
-    
-    return {
-      data: json.data || json,
-      total: json.total || json.count || (Array.isArray(json) ? json.length : 0),
-    };
+
+    const j = json as { data?: unknown[]; total?: number; count?: number };
+    if (j.data && Array.isArray(j.data)) {
+      return ensureListResult(j.data, j.total ?? j.count ?? j.data.length);
+    }
+
+    return ensureListResult([], 0);
   },
 
-  create: async (resource, params) => {
+  create: async (resource: string, params: CreateParams) => {
     const { json } = await httpClient(`/api/admin/${resource}`, {
       method: 'POST',
       body: JSON.stringify(params.data),
     });
-    
-    // Backend may return { user: {...} } or direct user object
+
     return {
-      data: json.user || json.data || json,
+      data: ((json as { user?: RaRecord; data?: RaRecord }).user ||
+        (json as { data?: RaRecord }).data ||
+        json) as RaRecord,
     };
   },
 
-  update: async (resource, params) => {
+  update: async (resource: string, params: UpdateParams) => {
     const { json } = await httpClient(`/api/admin/${resource}/${params.id}`, {
       method: 'PUT',
       body: JSON.stringify(params.data),
     });
-    
-    // Backend may return { user: {...} } or direct user object
+
     return {
-      data: json.user || json.data || json,
+      data: ((json as { user?: RaRecord; data?: RaRecord }).user ||
+        (json as { data?: RaRecord }).data ||
+        json) as RaRecord,
     };
   },
 
-  updateMany: async (resource, params) => {
+  updateMany: async (resource: string, params: UpdateManyParams) => {
     const responses = await Promise.all(
-      params.ids.map((id) =>
+      params.ids.map((id: string | number) =>
         httpClient(`/api/admin/${resource}/${id}`, {
           method: 'PUT',
           body: JSON.stringify(params.data),
@@ -152,22 +260,27 @@ export const dataProvider: DataProvider = {
       )
     );
     return {
-      data: responses.map(({ json }) => json.data || json.id || json),
+      data: responses.map(
+        ({ json: j }) =>
+          ((j as { data?: RaRecord; id?: RaRecord['id'] }).data ||
+            (j as { id?: RaRecord['id'] }).id ||
+            j) as RaRecord['id']
+      ),
     };
   },
 
-  delete: async (resource, params) => {
+  delete: async (resource: string, params: DeleteParams) => {
     await httpClient(`/api/admin/${resource}/${params.id}`, {
       method: 'DELETE',
     });
     return {
-      data: { id: params.id } as any,
+      data: { id: params.id } as never,
     };
   },
 
-  deleteMany: async (resource, params) => {
+  deleteMany: async (resource: string, params: DeleteManyParams) => {
     await Promise.all(
-      params.ids.map((id) =>
+      params.ids.map((id: string | number) =>
         httpClient(`/api/admin/${resource}/${id}`, {
           method: 'DELETE',
         })
@@ -179,3 +292,4 @@ export const dataProvider: DataProvider = {
   },
 };
 
+export const dataProvider = dataProviderImpl as unknown as DataProvider;

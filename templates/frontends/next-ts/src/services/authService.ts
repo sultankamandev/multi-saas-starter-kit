@@ -53,7 +53,7 @@ export async function login(credentials: LoginFormData): Promise<LoginResult> {
     refreshToken: data.refresh_token,
     user: toUser(data.user),
     requires2FA: !!needs2FA,
-    userId: data.user_id,
+    userId: data.user_id != null ? String(data.user_id) : undefined,
     twoFAType: data.two_fa_type,
     message: data.message,
   };

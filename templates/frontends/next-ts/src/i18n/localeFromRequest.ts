@@ -1,5 +1,6 @@
 import { DOMAIN_DEFAULT_LOCALES } from '@/i18n/constants';
 
+/** Resolve default locale from Host (optional helper; not a Next.js `proxy` handler). */
 export function getDefaultLocaleFromRequest(request: Request): string {
   const host = request.headers.get('host') || '';
   const domain = host.split(':')[0];

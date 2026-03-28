@@ -45,6 +45,7 @@
     "password": "Пароль",
     "confirmPassword": "Подтвердите пароль",
     "country": "Страна",
+    "selectCountry": "Выберите страну...",
     "submit": "Зарегистрироваться",
     "submitting": "Регистрация...",
     "hasAccount": "Уже есть аккаунт?",
@@ -53,6 +54,8 @@
     "failed": "Ошибка регистрации",
     "validationFailed": "Проверьте ошибки в форме",
     "validation": {
+      "usernameRequired": "Укажите имя пользователя",
+      "usernameMinLength": "Имя пользователя — не менее 3 символов",
       "firstNameRequired": "Укажите имя",
       "lastNameRequired": "Укажите фамилию",
       "emailRequired": "Укажите email",

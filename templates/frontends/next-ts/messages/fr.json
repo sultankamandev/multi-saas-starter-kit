@@ -45,6 +45,7 @@
     "password": "Mot de passe",
     "confirmPassword": "Confirmer le mot de passe",
     "country": "Pays",
+    "selectCountry": "Sélectionner un pays...",
     "submit": "S'inscrire",
     "submitting": "Inscription en cours...",
     "hasAccount": "Vous avez déjà un compte ?",

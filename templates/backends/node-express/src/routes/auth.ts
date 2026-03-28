@@ -174,9 +174,11 @@ router.get("/verify-email", async (req: Request, res: Response) => {
   res.json({ message: "Email verification not yet implemented" });
 });
 
-router.post("/google-login", async (req: Request, res: Response) => {
+const googleOAuthStub = async (_req: Request, res: Response) => {
   res.status(501).json({ error: "not_implemented", message: "Google OAuth not yet implemented" });
-});
+};
+router.post("/google-login", googleOAuthStub);
+router.post("/google", googleOAuthStub); // alias for Go-style clients
 
 // 2FA stubs
 router.post("/verify-2fa", async (_req: Request, res: Response) => {

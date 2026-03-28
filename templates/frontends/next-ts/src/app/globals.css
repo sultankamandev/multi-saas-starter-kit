@@ -1,7 +1,92 @@
 @import "tailwindcss";
 
+@source "../**/*.{js,ts,jsx,tsx,mdx}";
+
+@theme {
+  --font-sans: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-outfit), var(--font-plus-jakarta), sans-serif;
+
+  --color-canvas: oklch(0.978 0.012 95);
+  --color-elevated: oklch(0.995 0.006 95);
+  --color-border: oklch(0.90 0.018 260);
+  --color-border-strong: oklch(0.82 0.025 260);
+  --color-foreground: oklch(0.22 0.03 265);
+  --color-muted: oklch(0.48 0.024 265);
+  --color-subtle: oklch(0.95 0.015 260);
+  --color-accent: oklch(0.52 0.13 195);
+  --color-accent-hover: oklch(0.45 0.13 195);
+  --color-accent-soft: oklch(0.94 0.04 195);
+  --color-accent-glow: oklch(0.72 0.14 195);
+  --color-ink-inverse: oklch(0.98 0.01 95);
+  --radius-app: 1rem;
+}
+
 @layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
   body {
-    @apply antialiased;
+    @apply min-h-dvh bg-canvas text-foreground antialiased;
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background: oklch(0.88 0.07 195 / 0.45);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .bg-app-mesh {
+    background-color: var(--color-canvas);
+    background-image:
+      radial-gradient(ellipse 90% 70% at 15% -10%, oklch(0.78 0.12 195 / 0.22), transparent 55%),
+      radial-gradient(ellipse 60% 50% at 95% 15%, oklch(0.88 0.08 85 / 0.35), transparent 50%),
+      radial-gradient(ellipse 50% 40% at 70% 100%, oklch(0.82 0.1 260 / 0.15), transparent 55%);
+  }
+
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+
+  @keyframes float {
+              0%, 100% {
+                transform: translateY(0);
+              }
+              50% {
+                transform: translateY(-10px);
+              }
+            }
+
+  .animate-float {
+    animation: float 7s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+              0% {
+                background-position: 200% 50%;
+              }
+              100% {
+                background-position: -200% 50%;
+              }
+            }
+
+  .animate-shimmer {
+    background: linear-gradient(
+      105deg,
+      oklch(0.88 0.04 195 / 0) 0%,
+      oklch(0.88 0.06 195 / 0.5) 50%,
+      oklch(0.88 0.04 195 / 0) 100%
+    );
+    background-size: 200% auto;
+    animation: shimmer 4s linear infinite;
   }
 }

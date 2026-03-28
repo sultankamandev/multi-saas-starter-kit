@@ -13,6 +13,8 @@ import {
   TextInput,
   Create,
   SelectInput,
+  BooleanInput,
+  BooleanField,
   required,
   email,
   minLength,
@@ -25,21 +27,15 @@ import {
 } from 'react-admin';
 import { MenuItem, Select } from '@mui/material';
 
-/**
- * User filters - search and filter options
- */
 const userFilters = [
-  <TextInput 
-    label="Search" 
-    source="q" 
-    alwaysOn 
+  <TextInput
+    label="Search"
+    source="q"
+    alwaysOn
     placeholder="Search by name, email..."
   />,
 ];
 
-/**
- * Custom toolbar for User List with Create and Export buttons
- */
 const UserListActions = () => (
   <TopToolbar>
     <CreateButton />
@@ -47,9 +43,6 @@ const UserListActions = () => (
   </TopToolbar>
 );
 
-/**
- * Custom field component to display full name (first_name + last_name)
- */
 const FullNameField = ({ label }: { label?: string }) => {
   const record = useRecordContext();
   if (!record) return null;
@@ -57,10 +50,6 @@ const FullNameField = ({ label }: { label?: string }) => {
   return <span>{fullName || '-'}</span>;
 };
 
-/**
- * Inline editable role field for the list view
- * Allows admins to quickly change user roles without opening the edit page
- */
 const RoleFieldEditable = ({ label }: { label?: string }) => {
   const record = useRecordContext();
   const [update] = useUpdate();
@@ -96,7 +85,7 @@ const RoleFieldEditable = ({ label }: { label?: string }) => {
       onChange={handleChange}
       variant="standard"
       sx={{ minWidth: 120 }}
-      onClick={(e) => e.stopPropagation()} // Prevent row click when clicking dropdown
+      onClick={(e) => e.stopPropagation()}
     >
       <MenuItem value="user">User</MenuItem>
       <MenuItem value="admin">Admin</MenuItem>
@@ -104,33 +93,15 @@ const RoleFieldEditable = ({ label }: { label?: string }) => {
   );
 };
 
-/**
- * User List component - displays all users in a table
- * Features:
- * - Search functionality (q parameter)
- * - Pagination (handled automatically by React-Admin)
- * - Sorting (clickable column headers)
- * - Create and Export buttons
- */
 export const UserList = () => (
-  <List 
-    filters={userFilters}
-    actions={<UserListActions />}
-  >
+  <List filters={userFilters} actions={<UserListActions />}>
     <Datagrid rowClick="edit">
       <TextField source="id" sortable />
-      <TextField 
-        source="first_name" 
-        label="First Name"
-        sortable
-      />
-      <TextField 
-        source="last_name" 
-        label="Last Name"
-        sortable
-      />
+      <TextField source="first_name" label="First Name" sortable />
+      <TextField source="last_name" label="Last Name" sortable />
       <FullNameField label="Name" />
       <EmailField source="email" sortable />
+      <BooleanField source="two_fa_enabled" label="2FA" sortable />
       <RoleFieldEditable label="Role" />
       <EditButton />
       <DeleteButton />
@@ -138,27 +109,13 @@ export const UserList = () => (
   </List>
 );
 
-/**
- * User Edit component - form for editing existing users
- */
 export const UserEdit = () => (
   <Edit>
     <SimpleForm>
       <TextInput source="id" disabled />
-      <TextInput 
-        source="first_name" 
-        validate={[required()]}
-        label="First Name"
-      />
-      <TextInput 
-        source="last_name" 
-        validate={[required()]}
-        label="Last Name"
-      />
-      <TextInput 
-        source="email" 
-        validate={[required(), email()]}
-      />
+      <TextInput source="first_name" validate={[required()]} label="First Name" />
+      <TextInput source="last_name" validate={[required()]} label="Last Name" />
+      <TextInput source="email" validate={[required(), email()]} />
       <SelectInput
         source="role"
         choices={[
@@ -167,12 +124,11 @@ export const UserEdit = () => (
         ]}
         validate={[required()]}
       />
-      <TextInput 
-        source="password" 
-        type="password" 
+      <TextInput
+        source="password"
+        type="password"
         label="New Password (leave empty to keep current)"
         validate={(value) => {
-          // Only validate if password is provided
           if (value && value.length < 8) {
             return 'Password must be at least 8 characters';
           }
@@ -180,33 +136,24 @@ export const UserEdit = () => (
         }}
         helperText="Only fill this if you want to change the password"
       />
+      <BooleanInput
+        source="two_fa_enabled"
+        label="Two-factor authentication (2FA) enabled"
+        helperText="Turn off to disable 2FA for this user; any TOTP secret stored for them is cleared when disabled."
+      />
     </SimpleForm>
   </Edit>
 );
 
-/**
- * User Create component - form for creating new users
- */
 export const UserCreate = () => (
   <Create>
     <SimpleForm>
-      <TextInput 
-        source="first_name" 
-        validate={[required()]}
-        label="First Name"
-      />
-      <TextInput 
-        source="last_name" 
-        validate={[required()]}
-        label="Last Name"
-      />
-      <TextInput 
-        source="email" 
-        validate={[required(), email()]}
-      />
-      <TextInput 
-        source="password" 
-        type="password" 
+      <TextInput source="first_name" validate={[required()]} label="First Name" />
+      <TextInput source="last_name" validate={[required()]} label="Last Name" />
+      <TextInput source="email" validate={[required(), email()]} />
+      <TextInput
+        source="password"
+        type="password"
         validate={[required(), minLength(8, 'Password must be at least 8 characters')]}
       />
       <SelectInput
@@ -221,4 +168,3 @@ export const UserCreate = () => (
     </SimpleForm>
   </Create>
 );
-

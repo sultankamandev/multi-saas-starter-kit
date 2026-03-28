@@ -34,19 +34,25 @@ export const useGoogleSignIn = (options: UseGoogleSignInOptions = {}) => {
 
   const handleGoogleCallback = useCallback(async (response: { credential: string }) => {
     try {
-      const { data } = await api.post<GoogleLoginResponse>("/auth/google-login", {
+      const { data } = await api.post<GoogleLoginResponse>("/auth/google", {
         token: response.credential,
         remember_me: options.rememberMe || false,
       });
-      if ((data.requires_2fa || data.two_fa_type) && data.user_id) {
+      const pending2FA =
+        data.user_id != null &&
+        (data.requires_2fa === true || data.two_fa_type === "email" || data.two_fa_type === "totp");
+      if (pending2FA) {
         if (data.message) toast.success(data.message);
         const type = data.two_fa_type || "totp";
-        navigate(`${ROUTES.VERIFY_2FA}?user_id=${data.user_id}&remember_me=${options.rememberMe || false}&two_fa_type=${type}`);
+        navigate(
+          `${ROUTES.VERIFY_2FA}?user_id=${String(data.user_id)}&remember_me=${options.rememberMe || false}&two_fa_type=${type}`
+        );
         return;
       }
       const finalToken = data.token || data.access_token;
       if (!finalToken) throw new Error("No token received");
-      await login(finalToken, data.user || undefined, data.refresh_token, options.rememberMe);
+      const normalizedUser = data.user ? { ...data.user, id: String(data.user.id) } : undefined;
+      await login(finalToken, normalizedUser, data.refresh_token, options.rememberMe);
       toast.success(t("login.googleLoginSuccessGeneric"));
       options.onSuccess ? options.onSuccess() : navigate(ROUTES.DASHBOARD);
     } catch (error) {
