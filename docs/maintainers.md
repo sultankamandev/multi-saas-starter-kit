@@ -1,7 +1,7 @@
 # Maintainers Guide
 
 How to work **on this repository**. If you just generated a project with
-`npx create-saas-app`, you want [getting-started.md](./getting-started.md) instead.
+`npx create-authkit-app`, you want [getting-started.md](./getting-started.md) instead.
 
 ## The one thing to internalise
 

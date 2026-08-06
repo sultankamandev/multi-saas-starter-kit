@@ -12,7 +12,7 @@ function templateHint(t: TemplateEntry): string | undefined {
 export async function runPrompts(
   defaultName?: string
 ): Promise<ScaffoldOptions | null> {
-  p.intro(pc.bgCyan(pc.black(" create-saas-app ")));
+  p.intro(pc.bgCyan(pc.black(" create-authkit-app ")));
 
   const backends = getBackends();
   const frontends = getFrontends();

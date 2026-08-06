@@ -32,7 +32,7 @@ execSync("npm pack", { cwd: cliRoot, stdio: "inherit" });
 const tgz = readdirSync(cliRoot).find((f) => f.endsWith(".tgz"));
 assert(tgz, "no .tgz produced by npm pack");
 
-const extractDir = mkdtempSync(join(tmpdir(), "create-saas-app-pack-"));
+const extractDir = mkdtempSync(join(tmpdir(), "create-authkit-app-pack-"));
 const tarball = join(cliRoot, tgz);
 
 try {

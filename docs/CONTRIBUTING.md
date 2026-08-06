@@ -8,7 +8,7 @@ Scope note: this project covers authentication, sessions, 2FA, OAuth, the admin 
 
 ```
 saas-starter/
-├── cli/                  # CLI scaffolder (npx create-saas-app)
+├── cli/                  # CLI scaffolder (npx create-authkit-app)
 ├── contract/             # OpenAPI spec + generated types + compliance tests
 ├── templates/
 │   ├── _shared/          # Files included in every scaffolded project

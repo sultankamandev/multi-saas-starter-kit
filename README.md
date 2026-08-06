@@ -17,7 +17,7 @@ way a Python backend and a Next.js app do. That is the point of this project.
 > scope and what adding them would involve.
 
 ```bash
-npx create-saas-app my-project
+npx create-authkit-app my-project
 ```
 
 ```
@@ -116,10 +116,6 @@ want to change a template, add a stack, or edit the API contract, see
 | Contributing | [CONTRIBUTING.md](CONTRIBUTING.md) |
 | Security | [SECURITY.md](SECURITY.md) |
 | Changelog | [CHANGELOG.md](CHANGELOG.md) |
-
-Replace `your-org/saas-starter-kit` in [SECURITY.md](SECURITY.md) and
-[cli/package.json](cli/package.json) (`repository`, `homepage`, `bugs`) with your real
-GitHub org/repo before publishing.
 
 ## License
 

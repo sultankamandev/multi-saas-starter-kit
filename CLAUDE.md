@@ -14,7 +14,7 @@ this as a SaaS kit.
 
 It ships:
 
-- `cli/` — the `create-saas-app` scaffolder (TypeScript, ESM, `@clack/prompts` + `ejs`)
+- `cli/` — the `create-authkit-app` scaffolder (TypeScript, ESM, `@clack/prompts` + `ejs`)
 - `contract/openapi.yaml` — **source of truth** for every backend's HTTP surface
 - `templates/backends/*`, `templates/frontends/*`, `templates/infra/*` — what the CLI actually copies
 - `backend/`, `frontend/`, `docker/` — older **reference** copies kept for development; the CLI never reads them
@@ -119,4 +119,4 @@ Locales must cover all 7 of `en, tr, de, fr, es, it, ru`, with **identical key s
 - `backend/go-api` is a stale near-duplicate of `templates/backends/go-gin`. Fix the template; only mirror into `backend/` if the task explicitly asks.
 - `frontend/next-web/` is empty; the Next.js source lives in `templates/frontends/next-ts`.
 - There is **no admin bootstrap** — no seed, no env promotion. A fresh install has no admin; the account must be promoted with SQL. Documented in `docs/getting-started.md`.
-- Placeholder strings `your-org/...` in `SECURITY.md` and `cli/package.json` are intentional until publish.
+- The npm package is `create-authkit-app`. `create-saas-app` is a DIFFERENT package owned by someone else on npm — never reintroduce that name in install instructions.
