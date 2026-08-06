@@ -38,6 +38,7 @@ export interface RegisterFormData {
   email: string;
   password: string;
   confirmPassword: string;
+  country?: string;
 }
 
 export interface Verify2FAResponse {
@@ -94,4 +95,25 @@ export interface ProfileUpdatePayload {
 
 export interface ProfileResponse {
   user: ProfileUserData;
+}
+
+/** Row shape for the admin user table (contract User plus admin-only fields). */
+export interface AdminUser extends User {
+  username?: string;
+  country?: string;
+  address?: string;
+  phone?: string;
+  verified?: boolean;
+  two_fa_enabled?: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
+/** Row shape for the blocked-IP table. `id` is the IP itself. */
+export interface BlockedIP {
+  id: string;
+  ip?: string;
+  blocked_at?: string;
+  reason?: string;
+  attempts?: number;
 }

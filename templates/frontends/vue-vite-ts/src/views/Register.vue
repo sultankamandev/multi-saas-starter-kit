@@ -83,6 +83,7 @@ import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { api, getErrorMessage } from "@/lib/api";
 import type { RegisterFormData, RegisterResponse } from "@/types/auth";
+import { COUNTRIES } from "@/constants/countries";
 
 const { t } = useI18n();
 const router = useRouter();

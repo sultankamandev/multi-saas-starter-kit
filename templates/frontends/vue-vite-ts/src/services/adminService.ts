@@ -1,4 +1,5 @@
 import { api } from "@/lib/api";
+import type { AdminUser, BlockedIP } from "@/types/auth";
 import type {
   UserAnalyticsData,
   SummaryData,
@@ -47,7 +48,7 @@ export async function getAnalyticsCohort(params: DateRangeParams): Promise<unkno
 }
 
 export async function getUsers(params: { page?: number; limit?: number; sort_field?: string; sort_order?: string; search?: string }) {
-  const { data } = await api.get<{ data: unknown[]; total: number }>(ADMIN.users, { params });
+  const { data } = await api.get<{ data: AdminUser[]; total: number }>(ADMIN.users, { params });
   return data;
 }
 
@@ -76,7 +77,7 @@ export async function getActions(params: { page?: number; limit?: number }) {
 }
 
 export async function getBlockedIPs() {
-  const { data } = await api.get<unknown[]>(ADMIN.blockedIPs);
+  const { data } = await api.get<BlockedIP[]>(ADMIN.blockedIPs);
   return Array.isArray(data) ? data : [];
 }
 
