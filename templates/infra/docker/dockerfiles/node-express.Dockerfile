@@ -10,5 +10,8 @@ WORKDIR /app
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json .
+# Runtime data the compiled output reads relative to dist/ (see src/i18n.ts).
+COPY --from=builder /app/locales ./locales
+ENV NODE_ENV=production
 EXPOSE 8080
 CMD ["node", "dist/index.js"]

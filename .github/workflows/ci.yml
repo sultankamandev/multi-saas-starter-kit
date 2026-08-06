@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
-    branches: [main]
+    branches: [main, develop]
 
 jobs:
   cli:
@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
       - run: npm ci
         working-directory: cli
       - run: npm run build
@@ -27,10 +27,25 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
       - run: npm ci
         working-directory: contract
       - run: npm run generate
+        working-directory: contract
+      # Fail if the regenerated types differ from what is committed.
+      - name: Check generated types are up to date
+        run: git diff --exit-code generated/types.ts
+        working-directory: contract
+
+  locales:
+    name: Locale Consistency
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: node scripts/check-locales.mjs
         working-directory: contract
 
   node-express:
@@ -40,7 +55,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
       - run: npm ci
         working-directory: templates/backends/node-express
       - run: npx tsc --noEmit
@@ -54,7 +69,9 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version-file: templates/backends/go-gin/go.mod
-      - run: go build -o /dev/null .
+      - run: go build -o /dev/null ./cmd/server
+        working-directory: templates/backends/go-gin
+      - run: go vet ./...
         working-directory: templates/backends/go-gin
 
   python-fastapi-template:
@@ -77,7 +94,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
       - run: npm ci
         working-directory: templates/frontends/react-vite-ts
       - run: npm run build
@@ -90,11 +107,24 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
       - run: npm ci
         working-directory: templates/frontends/next-ts
       - run: npm run build
         working-directory: templates/frontends/next-ts
+
+  vue-vite-template:
+    name: Vue Vite Template
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+        working-directory: templates/frontends/vue-vite-ts
+      - run: npm run build
+        working-directory: templates/frontends/vue-vite-ts
 
   cli-pack-smoke:
     name: CLI Pack and Smoke
@@ -103,6 +133,39 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
-      - run: npm ci && npm run build && npm run bundle-pack-assets && npm run verify-pack && npm run smoke-scaffold
+          node-version: 24
+      - run: npm ci && npm run build && npm run bundle-pack-assets && npm run verify-pack && npm run smoke-scaffold && npm run verify-scaffold-docker
         working-directory: cli
+
+  # The templates above are built IN PLACE, which is not what users get.
+  # This job builds an actual scaffolded project, so drift between the
+  # Dockerfiles and the generated layout fails CI instead of the user's laptop.
+  scaffold-docker-build:
+    name: Scaffolded Project Docker Build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - backend: go-gin
+            frontend: react-vite-ts
+          - backend: python-fastapi
+            frontend: next-ts
+          - backend: node-express
+            frontend: vue-vite-ts
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci && npm run build
+        working-directory: cli
+      - name: Scaffold project
+        run: node scripts/scaffold-one.mjs "$RUNNER_TEMP/app" ${{ matrix.backend }} ${{ matrix.frontend }}
+        working-directory: cli
+      - name: Validate compose file
+        run: docker compose config
+        working-directory: ${{ runner.temp }}/app
+      - name: Build images
+        run: docker compose build
+        working-directory: ${{ runner.temp }}/app

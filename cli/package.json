@@ -1,7 +1,7 @@
 {
   "name": "create-saas-app",
   "version": "1.0.0",
-  "description": "Scaffold a production-ready SaaS application with your choice of backend and frontend",
+  "description": "Scaffold a production-ready auth and admin backend + frontend in the stack of your choice",
   "type": "module",
   "bin": {
     "create-saas-app": "./dist/index.js"
@@ -21,7 +21,8 @@
     "prepublishOnly": "npm run build && npm run bundle-pack-assets",
     "postpublish": "npm run clean-pack-assets",
     "verify-pack": "node scripts/verify-pack.mjs",
-    "smoke-scaffold": "node scripts/smoke-scaffold.mjs"
+    "smoke-scaffold": "node scripts/smoke-scaffold.mjs",
+    "verify-scaffold-docker": "node scripts/verify-scaffold-docker.mjs"
   },
   "keywords": [
     "saas",
@@ -51,7 +52,7 @@
     "url": "https://github.com/your-org/multi-saas-starter-kit/issues"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20.11"
   },
   "dependencies": {
     "@clack/prompts": "^0.9.1",

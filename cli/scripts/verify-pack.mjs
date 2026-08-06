@@ -3,7 +3,7 @@
  * Run from repo after: cd cli && npm ci && npm run build && npm run bundle-pack-assets
  */
 import { execSync } from "node:child_process";
-import { existsSync, readdirSync, rmSync } from "node:fs";
+import { existsSync, readdirSync, rmSync, copyFileSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { mkdtempSync } from "node:fs";
@@ -36,7 +36,16 @@ const extractDir = mkdtempSync(join(tmpdir(), "create-saas-app-pack-"));
 const tarball = join(cliRoot, tgz);
 
 try {
-  execSync(`tar -xf "${tarball}"`, { cwd: extractDir, stdio: "inherit" });
+  // GNU tar treats a leading "C:" as a remote host, so on Windows the tarball
+  // is copied next to the extraction dir and referenced by a relative name.
+  if (process.platform === "win32") {
+    const localCopy = join(extractDir, tgz);
+    copyFileSync(tarball, localCopy);
+    execSync(`tar -xf "${tgz}"`, { cwd: extractDir, stdio: "inherit" });
+    rmSync(localCopy, { force: true });
+  } else {
+    execSync(`tar -xf "${tarball}"`, { cwd: extractDir, stdio: "inherit" });
+  }
 } catch {
   console.error("verify-pack: tar extraction failed (tar required)");
   process.exit(1);

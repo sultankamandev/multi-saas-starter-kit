@@ -1,3 +1,9 @@
+<%
+  const fePort = frontend.prodPort || frontend.port;
+  // Browsers omit the default port in the Origin header, so an origin of
+  // "http://localhost:80" would never match and CORS would reject everything.
+  const feOrigin = fePort === 80 ? 'http://localhost' : `http://localhost:${fePort}`;
+-%>
 services:
   postgres:
     image: postgres:16-alpine
@@ -9,6 +15,11 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d saas_app"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   backend:
     build:
@@ -17,6 +28,7 @@ services:
     ports:
       - "<%= backend.port %>:<%= backend.port %>"
     environment:
+      PORT: "<%= backend.port %>"
 <% if (backend.id === 'go-gin') { -%>
       DATABASE_URL: "host=postgres user=postgres password=postgres dbname=saas_app port=5432 sslmode=disable"
 <% } else if (backend.id === 'python-fastapi') { -%>
@@ -24,22 +36,28 @@ services:
 <% } else { -%>
       DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/saas_app"
 <% } -%>
-      JWT_SECRET: change-me-in-production
-      FRONTEND_URL: http://localhost:<%= frontend.prodPort || frontend.port %>
-      CORS_ORIGINS: http://localhost:<%= frontend.prodPort || frontend.port %>
+      JWT_SECRET: "${JWT_SECRET:-change-me-in-production}"
+      FRONTEND_URL: "<%= feOrigin %>"
+      CORS_ORIGINS: "<%= feOrigin %>"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
   frontend:
     build:
       context: .
       dockerfile: docker/<%= frontend.dockerfile %>
-    ports:
-      - "<%= frontend.prodPort || frontend.port %>:<%= frontend.prodPort || frontend.port %>"
 <% if (frontend.apiUrlEnv) { -%>
-    environment:
-      <%= frontend.apiUrlEnv %>: http://backend:<%= backend.port %>
+      # These are BUILD args, not runtime env: both Vite and Next.js inline
+      # public env vars into the client bundle at build time. The value must be
+      # reachable from the user's browser, so it is localhost — not the
+      # "backend" compose hostname, which only resolves inside the network.
+      args:
+        <%= frontend.apiUrlEnv %>: "http://localhost:<%= backend.port %>"
+        <%= frontend.apiUrlEnv.replace('API_URL', 'GOOGLE_CLIENT_ID') %>: "${<%= frontend.apiUrlEnv.replace('API_URL', 'GOOGLE_CLIENT_ID') %>:-}"
 <% } -%>
+    ports:
+      - "<%= fePort %>:<%= fePort %>"
     depends_on:
       - backend
 
