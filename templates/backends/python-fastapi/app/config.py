@@ -10,11 +10,15 @@ class SMTPSettings(BaseSettings):
 
     @property
     def is_configured(self) -> bool:
-        return bool(self.SMTP_HOST and self.SMTP_USER and self.SMTP_PASS)
+        # Only the host is required. Auth is optional: internal relays and dev
+        # catchers like Mailpit accept mail with no credentials. Requiring
+        # USER/PASS here meant those setups silently sent nothing. Matches the
+        # Go and Node templates, which also gate on the host alone.
+        return bool(self.SMTP_HOST)
 
     @property
     def from_address(self) -> str:
-        return self.SMTP_FROM or self.SMTP_USER
+        return self.SMTP_FROM or self.SMTP_USER or "noreply@example.com"
 
 
 class Settings(BaseSettings):
