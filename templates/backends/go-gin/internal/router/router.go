@@ -25,6 +25,12 @@ type Handlers struct {
 func Setup(r *gin.Engine, jwtMgr *jwtPlatform.Manager, h Handlers) {
 	r.Use(middleware.LanguageMiddleware())
 
+	// Required by the contract and used as the container healthcheck. Kept
+	// outside the /auth group so it is never rate limited.
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{"message": "pong"})
+	})
+
 	auth := r.Group("/auth")
 	auth.Use(middleware.RateLimiter(100, 1*time.Minute, 5*time.Minute))
 	{
