@@ -21,14 +21,26 @@ Every backend must implement all endpoints defined in `contract/openapi.yaml`. T
 
 ### Database Schema
 
-All backends share the same PostgreSQL database. Required tables:
+Every backend targets the **same logical schema** — identical table and column
+names, so a project can switch from one backend to another and its data is
+portable. Required tables:
 
 - `users` - with `public_id` (UUID), `username`, `first_name`, `last_name`, `email`, `password_hash`, `role`, `verified`, `two_fa_enabled`, `two_fa_secret`, `language`, `country`, `address`, `phone`, `created_at`, `updated_at`, `deleted_at`
 - `refresh_tokens` - JWT refresh token storage
 - `login_events` - Login audit trail
 - `admin_actions` - Admin audit log
-- `app_settings` - Key-value app configuration
+- `app_settings` - Key-value app configuration (canonical keys: `require_email_verification`, `require_2fa` — do **not** invent per-backend variants)
 - `recovery_codes` - 2FA recovery codes
+- `password_reset_tokens`, `email_verification_tokens`, `two_factor_tokens` - short-lived auth tokens (stored hashed)
+
+**Scope of the guarantee.** "Same schema" means name-compatibility for data
+portability, not that two different backends may run against one live database
+simultaneously. Each backend creates its own tables on boot through its ORM
+(GORM `AutoMigrate`, SQLAlchemy `create_all`, explicit DDL for Drizzle), and
+those produce subtly different DDL — column defaults and `timestamp` vs
+`timestamptz` differ. Pick **one** backend as the schema owner for a given
+database. When adding a column, give it a DB-level default so a row inserted by
+another backend that does not set it still satisfies `NOT NULL`.
 
 ### Response Format
 
