@@ -7,6 +7,12 @@ import { requireRole } from "../middleware/auth.js";
 import { db } from "../config/database.js";
 import { users, adminActions, appSettings } from "../models/schema.js";
 import { hashPassword, userToResponse } from "../services/auth.js";
+import {
+  readToggle,
+  writeToggle,
+  REQUIRE_EMAIL_VERIFICATION_KEY,
+  REQUIRE_2FA_KEY,
+} from "../services/settings.js";
 import { v7 as uuidv7 } from "uuid";
 
 const router = Router();
@@ -234,33 +240,6 @@ router.get("/settings", async (_req: Request, res: Response) => {
   const rows = await db.select().from(appSettings);
   res.json(rows);
 });
-
-const REQUIRE_EMAIL_VERIFICATION_KEY = "require_email_verification";
-const REQUIRE_2FA_KEY = "require_2fa";
-
-function parseBoolSetting(value: string | null | undefined): boolean | null {
-  const raw = value?.toLowerCase() ?? "";
-  if (raw === "") return null;
-  return raw === "true" || raw === "1" || raw === "yes";
-}
-
-async function readToggle(key: string, fallback: boolean) {
-  const [row] = await db.select().from(appSettings).where(eq(appSettings.key, key)).limit(1);
-  const parsed = parseBoolSetting(row?.value);
-  return parsed === null
-    ? { value: fallback, source: "default" as const }
-    : { value: parsed, source: "database" as const };
-}
-
-async function writeToggle(key: string, enabled: boolean) {
-  const value = enabled ? "true" : "false";
-  const [existing] = await db.select().from(appSettings).where(eq(appSettings.key, key)).limit(1);
-  if (existing) {
-    await db.update(appSettings).set({ value, updatedAt: new Date() }).where(eq(appSettings.key, key));
-  } else {
-    await db.insert(appSettings).values({ key, value });
-  }
-}
 
 // NOTE: these literal routes must stay ABOVE /settings/:key, otherwise the
 // param route swallows "email-verification" and "2fa".

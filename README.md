@@ -72,9 +72,9 @@ Any backend can be paired with any frontend.
 | React SPA | React 19, Vite | React Router 7 | react-admin 5 | Stable |
 | Vue SPA | Vue 3, Vite | Vue Router 4 | custom (Vuetify 3) | Beta |
 
-> The Node/Express template is beta: password reset, email verification, Google OAuth and
-> all 2FA endpoints currently return `501 Not Implemented`. Auth, profile, admin and
-> analytics work. Use Go or Python if you need the full feature set today.
+> The Node/Express template implements the full contract — including 2FA, OAuth, password
+> reset and email verification — but has not yet been exercised against the compliance
+> suite, so it stays marked beta. Go and Python are the compliance-verified backends.
 
 ## Features
 

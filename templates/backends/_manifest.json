@@ -38,12 +38,11 @@
       "language": "typescript",
       "variants": ["ts"],
       "status": "beta",
-      "hint": "beta - no 2FA, OAuth, password reset or email",
+      "hint": "beta - full auth, not yet compliance-verified",
       "limitations": [
-        "Password reset, email verification, Google OAuth and all 2FA endpoints return 501 Not Implemented.",
-        "No email sending (no SMTP integration yet).",
-        "Register, login, token refresh, profile, admin and analytics all work.",
-        "Choose Go or Python if you need the full auth feature set today."
+        "Implements the whole contract, but has not yet been run against the compliance suite, so treat it as beta.",
+        "Google login validates ID tokens over Google's tokeninfo endpoint (one network call per login) rather than cached JWKS.",
+        "Go and Python are the compliance-verified backends today."
       ],
       "healthCheck": "/ping",
       "envFile": ".env.example",

@@ -104,10 +104,9 @@ with `{"require_email_verification": false}`.
 - **i18n** — 7 locales (en, tr, de, fr, es, it, ru)
 <% if (backend.id === 'node-express') { -%>
 
-> **Heads up:** the Node/Express backend is a beta template. Password reset, email
-> verification, Google OAuth, and all 2FA endpoints are currently stubs that return
-> `501 Not Implemented`. Registration, login, token refresh, profile, and the admin and
-> analytics endpoints are functional.
+> **Heads up:** the Node/Express backend implements the full contract, but has not yet
+> been run against the compliance suite, so it is marked beta. Google login verifies ID
+> tokens through Google's tokeninfo endpoint, which costs one network call per login.
 <% } -%>
 
 ## Layout

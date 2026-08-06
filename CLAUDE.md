@@ -101,7 +101,7 @@ Hard rules the compliance suite and templates assume:
 
 - **go-gin** — module `saas-starter/backend/go-api`. Single entrypoint `cmd/server/main.go`, layered config → platform → repository → service → handler → router, wired by hand in `main`. Real work goes in `internal/`. (The parallel legacy tree — root `main.go` plus `controllers/ routes/ models/ database/ utils/` — was deleted; don't reintroduce that shape.)
 - **python-fastapi** — mirrors the same layering under `app/` (`router/ service/ repository/ domain/ dto/ platform/`), assembled in `app/main.py:create_app` with dependencies stashed on `app.state` during `lifespan`.
-- **node-express** — flatter (`src/routes|services|models|config`), Drizzle ORM, beta. **Nine contract endpoints are `501` stubs**: password reset, email verification, Google OAuth, and every 2FA route. It has no email sending. Auth, profile, admin and analytics are real. Don't describe it as feature-complete.
+- **node-express** — flatter (`src/routes|services|models|config`), Drizzle ORM, beta. Implements the full contract including 2FA (email + TOTP), recovery codes, Google login, password reset and email verification. Still `beta` because it has not been run against the compliance suite — say "not yet compliance-verified", not "incomplete". Its schema mirrors the Go column names exactly, since TEMPLATE_SPEC says all backends target one PostgreSQL schema.
 
 Go errors flow as `domain.DomainError` sentinels mapped to HTTP status in `internal/handler/response.go`; add new cases there rather than returning raw status codes from handlers.
 
