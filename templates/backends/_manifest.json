@@ -38,11 +38,11 @@
       "language": "typescript",
       "variants": ["ts"],
       "status": "beta",
-      "hint": "beta - full auth, not yet compliance-verified",
+      "hint": "beta - the only backend passing compliance 25/25",
       "limitations": [
-        "Implements the whole contract, but has not yet been run against the compliance suite, so treat it as beta.",
-        "Google login validates ID tokens over Google's tokeninfo endpoint (one network call per login) rather than cached JWKS.",
-        "Go and Python are the compliance-verified backends today."
+        "Passes the compliance suite 25/25, which Go (21/25) and Python (14/25) currently do not.",
+        "Still beta because that suite is shallow: it does not exercise 2FA, OAuth or email delivery.",
+        "Google login validates ID tokens over Google's tokeninfo endpoint (one network call per login) rather than cached JWKS."
       ],
       "healthCheck": "/ping",
       "envFile": ".env.example",

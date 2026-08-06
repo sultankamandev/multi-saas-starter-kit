@@ -52,8 +52,10 @@ docker run --name saas-pg -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=saas_app 
 
 Or install PostgreSQL natively and create a database named `saas_app`.
 
-You do **not** need to run migrations by hand. Every backend creates its tables on
-startup (GORM automigrate / SQLAlchemy / Drizzle).
+You do **not** need to run migrations by hand. Every backend creates missing tables on
+startup: GORM `AutoMigrate` (Go), `Base.metadata.create_all` (Python), and explicit
+idempotent DDL in `src/config/migrate.ts` (Node, since Drizzle does not do this at
+runtime). None of them alter existing columns — that still needs a real migration.
 
 ### 2. Backend
 
