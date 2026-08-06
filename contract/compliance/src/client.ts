@@ -28,7 +28,11 @@ export function generateTestUser(): TestUser {
   counter++;
   const ts = Date.now();
   return {
-    email: `test${ts}${counter}@compliance.test`,
+    // example.com is reserved by RFC 2606 and accepted everywhere. Do NOT use
+    // a .test address here: it is a reserved special-use TLD, and strict
+    // validators (Pydantic/email-validator in the FastAPI template) reject it,
+    // which fails the suite for a reason that has nothing to do with the API.
+    email: `test${ts}${counter}@example.com`,
     password: "TestPass123!@#",
     username: `testuser${ts}${counter}`,
     firstName: "Test",

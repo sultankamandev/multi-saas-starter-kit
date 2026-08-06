@@ -5,7 +5,7 @@ import secrets
 from dataclasses import dataclass
 
 import httpx
-from passlib.hash import bcrypt
+from app.platform.password import hash_password, verify_password
 
 from app.domain.errors import ERR_INVALID_INPUT, ERR_UNAUTHORIZED, DomainError, TwoFARequiredError
 from app.domain.login_event import LoginEvent
@@ -75,7 +75,7 @@ class OAuthService:
                 await self._users.hard_delete_related_records(existing.id)
                 await self._users.hard_delete(existing.id)
 
-            random_pw = bcrypt.using(rounds=12).hash(secrets.token_hex(32))
+            random_pw = hash_password(secrets.token_hex(32))
             country = await self._geoip.resolve_country(client_ip)
 
             user = User(

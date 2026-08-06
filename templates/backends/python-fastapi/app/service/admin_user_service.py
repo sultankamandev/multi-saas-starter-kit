@@ -3,7 +3,7 @@ from __future__ import annotations
 import asyncio
 import logging
 
-from passlib.hash import bcrypt
+from app.platform.password import hash_password, verify_password
 
 from app.domain.admin_action import AdminAction
 from app.domain.errors import ERR_CONFLICT, ERR_INVALID_INPUT, DomainError
@@ -45,7 +45,7 @@ class AdminUserService:
             raise DomainError(ERR_INVALID_INPUT, "Invalid role")
 
         lang = req.language.lower() if req.language and is_language_supported(req.language.lower()) else "en"
-        password_hash = bcrypt.using(rounds=12).hash(req.password)
+        password_hash = hash_password(req.password)
 
         user = User(
             first_name=req.first_name,
@@ -83,7 +83,7 @@ class AdminUserService:
         if req.email is not None:
             user.email = req.email
         if req.password is not None:
-            user.password_hash = bcrypt.using(rounds=12).hash(req.password)
+            user.password_hash = hash_password(req.password)
         if req.role is not None:
             if req.role not in ("user", "admin"):
                 raise DomainError(ERR_INVALID_INPUT, "Invalid role")

@@ -6,7 +6,7 @@ import secrets
 from datetime import datetime, timedelta, timezone
 
 import pyotp
-from passlib.hash import bcrypt
+from app.platform.password import hash_password, verify_password
 
 from app.domain.errors import ERR_INVALID_INPUT, ERR_NOT_FOUND, ERR_UNAUTHORIZED, DomainError
 from app.domain.login_event import LoginEvent
@@ -142,7 +142,7 @@ class TwoFAService:
             recovery_codes.append(raw)
             rc = RecoveryCode(
                 user_id=user.id,
-                code_hash=bcrypt.using(rounds=12).hash(raw),
+                code_hash=hash_password(raw),
             )
             await self._twofa.create_recovery_code(rc)
 
@@ -181,7 +181,7 @@ class TwoFAService:
 
         matched: RecoveryCode | None = None
         for rc in unused_codes:
-            if bcrypt.verify(code, rc.code_hash):
+            if verify_password(code, rc.code_hash):
                 matched = rc
                 break
 

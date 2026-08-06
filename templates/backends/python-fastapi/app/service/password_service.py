@@ -3,7 +3,7 @@ from __future__ import annotations
 import asyncio
 import logging
 
-from passlib.hash import bcrypt
+from app.platform.password import hash_password, verify_password
 
 from app.domain.errors import ERR_INVALID_INPUT, ERR_TOKEN_INVALID, DomainError
 from app.domain.password import validate_password_complexity
@@ -61,7 +61,7 @@ class PasswordService:
             raise DomainError(ERR_INVALID_INPUT, err)
 
         user = await self._users.find_by_id(prt.user_id)
-        user.password_hash = bcrypt.using(rounds=12).hash(new_password)
+        user.password_hash = hash_password(new_password)
         await self._users.update(user)
         await self._tokens.mark_password_reset_token_used(prt.id)
         await self._token_svc.revoke_all_user_tokens(user.id)
