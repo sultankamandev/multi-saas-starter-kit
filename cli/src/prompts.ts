@@ -1,7 +1,13 @@
 import * as p from "@clack/prompts";
 import pc from "picocolors";
 import { getBackends, getFrontends } from "./registry.js";
-import type { ScaffoldOptions } from "./types.js";
+import type { ScaffoldOptions, TemplateEntry } from "./types.js";
+
+/** "beta" alone does not tell anyone what is missing; prefer the manifest hint. */
+function templateHint(t: TemplateEntry): string | undefined {
+  if (t.hint) return t.hint;
+  return t.status === "beta" ? "beta" : undefined;
+}
 
 export async function runPrompts(
   defaultName?: string
@@ -36,7 +42,7 @@ export async function runPrompts(
           options: backends.map((b) => ({
             value: b.id,
             label: b.name,
-            hint: b.status === "beta" ? "beta" : undefined,
+            hint: templateHint(b),
           })),
         }),
 
@@ -46,7 +52,7 @@ export async function runPrompts(
           options: frontends.map((f) => ({
             value: f.id,
             label: f.name,
-            hint: f.status === "beta" ? "beta" : undefined,
+            hint: templateHint(f),
           })),
         }),
 
@@ -76,6 +82,15 @@ export async function runPrompts(
 
   const backend = backends.find((b) => b.id === answers.backend)!;
   const frontend = frontends.find((f) => f.id === answers.frontend)!;
+
+  for (const t of [backend, frontend]) {
+    if (t.limitations?.length) {
+      p.log.warn(
+        `${pc.bold(t.name)} is incomplete:\n` +
+          t.limitations.map((l) => `  - ${l}`).join("\n")
+      );
+    }
+  }
 
   return {
     projectName: answers.projectName as string,

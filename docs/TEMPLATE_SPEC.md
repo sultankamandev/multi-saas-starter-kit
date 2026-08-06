@@ -1,6 +1,6 @@
 # Template Specification
 
-This document defines what every backend and frontend template must implement to be compatible with the SaaS Starter Kit ecosystem.
+This document defines what every backend and frontend template must implement to be compatible with the Multi-Stack Auth Kit ecosystem.
 
 ## Backend Requirements
 

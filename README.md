@@ -1,16 +1,24 @@
-# SaaS Starter Kit
+# Multi-Stack Auth Kit
 
-Production-ready **multi-stack SaaS boilerplate**: one shared API contract ([OpenAPI 3.1](contract/openapi.yaml)), multiple backend and frontend templates, and a CLI that scaffolds a full project in one command.
+Production-ready **authentication and admin boilerplate**, in more than one language. One
+shared API contract ([OpenAPI 3.1](contract/openapi.yaml)), interchangeable backend and
+frontend templates that all implement it, and a CLI that scaffolds a complete project in
+one command.
 
-**Monorepo vs generated app:** This repo holds templates, the `create-saas-app` CLI, contract, and **reference** apps under `backend/` and `frontend/`. End users typically run `npx create-saas-app` and work only inside the generated folder.
+**Pick your backend language and your frontend framework independently.** Every
+combination speaks the same API, so a Go backend and a React SPA fit together exactly the
+way a Python backend and a Next.js app do. That is the point of this project.
 
-## Quick Start
+> **Scope.** This is an auth kit, not a SaaS kit. It gives you users, sessions, 2FA, OAuth,
+> an admin console, and i18n — the layer nearly every app needs and nobody enjoys writing
+> twice. It deliberately does **not** include billing, subscriptions, organizations, or
+> teams. If you need those, build them on top; see
+> [docs/design/multi-tenancy.md](docs/design/multi-tenancy.md) for why they are out of
+> scope and what adding them would involve.
 
 ```bash
 npx create-saas-app my-project
 ```
-
-The CLI will prompt you to choose your stack:
 
 ```
 ? Backend framework:
@@ -27,141 +35,80 @@ The CLI will prompt you to choose your stack:
 ? CI/CD pipeline: GitHub Actions / GitLab CI / None
 ```
 
-Your scaffolded project will include the selected backend, frontend, Docker setup (optional), CI pipeline (optional), bundled API docs (`docs/openapi.yaml`), and generated TypeScript types under the frontend.
+You get the backend and frontend you picked, an optional Docker setup and CI pipeline,
+the API contract at `docs/openapi.yaml`, and generated TypeScript types wired into the
+frontend.
 
-### Example combinations
+## Why this over rolling your own
 
-| Backend | Frontend | Use case |
-| ------- | -------- | -------- |
-| Go (Gin) | React (Vite) | Fast API + SPA, classic BFF-style |
-| Python (FastAPI) | Next.js | Async Python + SSR/admin-heavy UI |
-| Node (Express) | Next.js | Full TypeScript stack (Express template is beta) |
+- **Auth is done, properly.** Refresh-token rotation, single-flight refresh on the client,
+  TOTP and email 2FA, recovery codes, rate limiting, and an audit trail — the details that
+  take weeks to get right and are embarrassing to get wrong.
+- **Your backend language, a modern frontend.** Written for people who want to write Go or
+  Python on the server without also hand-building a React or Vue app.
+- **Contract-enforced, not contract-hoped.** A backend-agnostic compliance suite proves a
+  template implements the API, and CI checks that generated types, locales, and the
+  scaffolded Docker setup all stay in sync.
+- **Seven locales that actually match.** en, tr, de, fr, es, it, ru, with key parity
+  enforced across every template in CI.
 
-Any manifest-backed backend can be paired with any frontend the CLI lists.
+**➡️ New project? Start with [docs/getting-started.md](docs/getting-started.md)** — running
+the stack, configuring `.env`, creating your first admin user, and receiving email in
+development.
 
-## Available Stacks
+## Available stacks
 
-### Backends
+Any backend can be paired with any frontend.
 
-| Stack | Framework | ORM | Status |
-| ----- | --------- | --- | ------ |
+| Backend | Framework | ORM | Status |
+| ------- | --------- | --- | ------ |
 | Go | Gin | GORM | Stable |
 | Python | FastAPI | SQLAlchemy 2.0 | Stable |
 | Node.js | Express 5 | Drizzle ORM | Beta |
 
-### Frontends
+| Frontend | Framework | Routing | Admin UI | Status |
+| -------- | --------- | ------- | -------- | ------ |
+| Next.js | React 19, App Router | next-intl (SSR) | react-admin 5 | Stable |
+| React SPA | React 19, Vite | React Router 7 | react-admin 5 | Stable |
+| Vue SPA | Vue 3, Vite | Vue Router 4 | custom (Vuetify 3) | Beta |
 
-| Stack | Framework | Router | Status |
-| ----- | --------- | ------ | ------ |
-| Next.js | React 19, App Router | next-intl (SSR) | Stable |
-| React SPA | React 19, Vite | React Router 7 | Stable |
-| Vue SPA | Vue 3, Vite | Vue Router 4 | Beta |
-
-### Shared Stack
-
-- Tailwind CSS 4, MUI 7 (React/Next.js), Vuetify 3 (Vue), react-admin 5 (React), custom admin UI (Vue), Axios, recharts (React), Chart.js (Vue)
-- 7 locales: en, tr, de, fr, es, it, ru
-- JWT auth, email 2FA, TOTP, Google OAuth, recovery codes
-- PostgreSQL 16
+> The Node/Express template is beta: password reset, email verification, Google OAuth and
+> all 2FA endpoints currently return `501 Not Implemented`. Auth, profile, admin and
+> analytics work. Use Go or Python if you need the full feature set today.
 
 ## Features
 
-- **Authentication** -- Register, login, JWT access/refresh tokens, secure logout, logout-all-sessions
-- **Two-Factor Auth** -- Email-based 2FA, TOTP (authenticator apps), recovery codes
-- **Google OAuth** -- Sign in with Google
-- **Password Management** -- Forgot password, reset via email token, email verification
-- **User Profile** -- View and update profile
-- **Admin Console** -- User CRUD, role management, audit log (react-admin)
-- **Analytics Dashboard** -- Registration trends, active users, retention, cohort heatmap
-- **App Settings** -- Email verification toggle, 2FA toggle, runtime configuration
-- **IP Blocking** -- View and unblock rate-limited IPs
-- **Internationalization** -- 7 locales (en, tr, de, fr, es, it, ru)
-- **Rate Limiting** -- Per-IP request throttling on auth endpoints
+- **Authentication** — register, login, JWT access/refresh tokens, logout, logout-all-sessions
+- **Two-factor auth** — email 2FA, TOTP (authenticator apps), recovery codes
+- **Google OAuth** — sign in with Google
+- **Password management** — forgot password, reset via emailed token, email verification
+- **User profile** — view and update
+- **Admin console** — user CRUD, role management, audit log
+- **Analytics** — registration trends, active users, retention, cohort heatmap
+- **App settings** — runtime toggles for email verification and 2FA enforcement
+- **Rate limiting** — per-IP throttling on auth endpoints, with admin unblock
+- **i18n** — 7 locales (en, tr, de, fr, es, it, ru), consistent across every template
 
-## Project Structure
-
-```
-saas-starter/
-├── cli/                  # CLI scaffolder (npx create-saas-app)
-├── contract/
-│   ├── openapi.yaml      # API contract (source of truth)
-│   ├── generated/        # Auto-generated TypeScript types
-│   └── compliance/       # Backend-agnostic API test suite
-├── templates/
-│   ├── backends/         # Backend templates
-│   │   ├── go-gin/
-│   │   ├── python-fastapi/
-│   │   └── node-express/
-│   ├── frontends/        # Frontend templates
-│   │   ├── next-ts/
-│   │   ├── react-vite-ts/
-│   │   └── vue-vite-ts/
-│   └── infra/            # Docker + CI templates
-├── docs/                 # API reference, contributing guide, template spec
-├── backend/              # Original backends (development)
-├── frontend/             # Original frontends (development)
-└── docker/               # Original docker-compose files
-```
-
-## Development
-
-### Working on the CLI
-
-```bash
-cd cli
-npm install
-npm run dev -- my-test-project
-```
-
-### Working on a backend template
-
-```bash
-cd templates/backends/node-express
-npm install
-npm run dev
-```
-
-### Regenerating types from OpenAPI
-
-```bash
-cd contract
-npm install
-npm run generate
-```
-
-### Running compliance tests
-
-```bash
-# Start any backend on its port, then:
-cd contract/compliance
-npm install
-API_URL=http://localhost:8080 npm test
-```
-
-### Docker (legacy, per-combination compose files)
-
-```bash
-docker compose -f docker/docker-compose.go-next.yml up --build
-docker compose -f docker/docker-compose.python-react.yml up --build
-```
-
-## Adding a New Stack
-
-See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) and [docs/TEMPLATE_SPEC.md](docs/TEMPLATE_SPEC.md) for the full guide on adding new backend or frontend templates.
+Shared stack: Tailwind CSS 4, MUI 7 (React/Next.js), Vuetify 3 (Vue), Axios,
+recharts / Chart.js, PostgreSQL 16.
 
 ## Documentation
 
-| File | Contents |
-| ---- | -------- |
-| [contract/openapi.yaml](contract/openapi.yaml) | API contract (OpenAPI 3.1) |
-| [docs/API_REFERENCE.md](docs/API_REFERENCE.md) | Human-readable API reference |
-| [docs/architecture.md](docs/architecture.md) | Monorepo layout, contract, and npm packaging |
-| [docs/authentication.md](docs/authentication.md) | Auth flows (JWT, 2FA, OAuth) at a high level |
-| [docs/deployment.md](docs/deployment.md) | Env vars, Docker, and production notes |
-| [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) | How to contribute and add templates |
-| [docs/TEMPLATE_SPEC.md](docs/TEMPLATE_SPEC.md) | Template author specification |
+| For | Read |
+| --- | ---- |
+| Running a generated project | [docs/getting-started.md](docs/getting-started.md) |
+| Endpoint reference | [docs/API_REFERENCE.md](docs/API_REFERENCE.md) · [contract/openapi.yaml](contract/openapi.yaml) |
+| Auth flows (JWT, 2FA, OAuth) | [docs/authentication.md](docs/authentication.md) |
+| Deploying | [docs/deployment.md](docs/deployment.md) |
+| How this repo is laid out | [docs/architecture.md](docs/architecture.md) |
+| Adding a template / contributing | [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) · [docs/TEMPLATE_SPEC.md](docs/TEMPLATE_SPEC.md) |
+| Working on this repo itself | [docs/maintainers.md](docs/maintainers.md) |
 
-## Project links
+## Contributing to this repo
+
+This repository holds the templates, the CLI, and the contract — not a running app. If you
+want to change a template, add a stack, or edit the API contract, see
+[docs/maintainers.md](docs/maintainers.md) for the development loop and the checks CI runs.
 
 | Resource | Link |
 | -------- | ---- |
@@ -170,22 +117,9 @@ See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) and [docs/TEMPLATE_SPEC.md](doc
 | Security | [SECURITY.md](SECURITY.md) |
 | Changelog | [CHANGELOG.md](CHANGELOG.md) |
 
-Replace `your-org/saas-starter-kit` in [SECURITY.md](SECURITY.md) and in [cli/package.json](cli/package.json) (`repository`, `homepage`, `bugs`) with your real GitHub org/repo before publishing.
-
-## Maintainers: CLI pack and smoke tests
-
-From `cli/` (Node 18+):
-
-```bash
-npm ci
-npm run build
-npm run bundle-pack-assets
-npm run smoke-scaffold
-npm run verify-pack
-npm run clean-pack-assets   # optional; removes bundled copies under cli/
-```
-
-`prepublishOnly` runs `build` + `bundle-pack-assets`; `postpublish` runs `clean-pack-assets`. Set `SCAFFOLD_SKIP_INSTALL=1` when invoking the CLI if you want to skip frontend `npm install` after scaffold (for example in automation).
+Replace `your-org/saas-starter-kit` in [SECURITY.md](SECURITY.md) and
+[cli/package.json](cli/package.json) (`repository`, `homepage`, `bugs`) with your real
+GitHub org/repo before publishing.
 
 ## License
 

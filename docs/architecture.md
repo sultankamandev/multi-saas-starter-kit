@@ -1,6 +1,6 @@
 # Architecture
 
-This repository is a **monorepo** for a multi-stack SaaS starter: shared API contract, scaffold templates, a CLI, and reference applications used during development.
+This repository is a **monorepo** for a multi-stack auth kit: shared API contract, scaffold templates, a CLI, and reference applications used during development.
 
 ## Layout
 
@@ -9,7 +9,7 @@ This repository is a **monorepo** for a multi-stack SaaS starter: shared API con
 | [cli/](../cli/) | `create-saas-app` — copies templates + contract snippets into a new project |
 | [templates/](../templates/) | Backend, frontend, and infra (Docker, CI) templates used by the CLI |
 | [contract/](../contract/) | [openapi.yaml](../contract/openapi.yaml) is the **source of truth** for HTTP APIs; [generated/](../contract/generated/) holds TypeScript types; [compliance/](../contract/compliance) holds backend-agnostic API tests |
-| [docs/](./) | API reference, contributing, template spec, and these guides |
+| [docs/](./) | API reference, [getting started](./getting-started.md), [maintainers guide](./maintainers.md), contributing, template spec |
 | [backend/](../backend/) | **Reference** Go and Python APIs for day-to-day development (not what `npx` scaffolds directly) |
 | [frontend/](../frontend/) | **Reference** Next.js and React/Vite apps |
 | [docker/](../docker/) | Legacy compose files pairing reference backends and frontends |

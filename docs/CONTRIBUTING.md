@@ -1,6 +1,8 @@
 # Contributing
 
-Thank you for contributing to the SaaS Starter Kit! This guide explains how to add new backend or frontend templates, fix bugs, and improve the project.
+Thank you for contributing to the Multi-Stack Auth Kit! This guide explains how to add new backend or frontend templates, fix bugs, and improve the project.
+
+Scope note: this project covers authentication, sessions, 2FA, OAuth, the admin console, and i18n. Billing, organizations, and teams are deliberately out of scope - see [design/multi-tenancy.md](./design/multi-tenancy.md).
 
 ## Repository Structure
 

@@ -6,6 +6,10 @@ export interface TemplateEntry {
   language: string;
   variants: string[];
   status: "stable" | "beta" | "experimental";
+  /** Short caveat shown next to the name in the picker, e.g. what is missing. */
+  hint?: string;
+  /** Longer warning shown after selection, so nobody discovers a gap post-scaffold. */
+  limitations?: string[];
   healthCheck?: string;
   envFile?: string;
   installCmd: string;

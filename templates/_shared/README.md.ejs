@@ -1,65 +1,141 @@
+<%
+  const bePort = backend.port;
+  const fePort = frontend.prodPort || frontend.port;
+  const feDevUrl = `http://localhost:${frontend.port}`;
+  const feDockerUrl = fePort === 80 ? 'http://localhost' : `http://localhost:${fePort}`;
+  const beUrl = `http://localhost:${bePort}`;
+  const isBeta = backend.status === 'beta' || frontend.status === 'beta';
+-%>
 # <%= projectName %>
 
-Built with [SaaS Starter Kit](https://github.com/your-org/saas-starter).
-
-## Tech Stack
+Authentication, admin console, and i18n, ready to build on.
 
 | Layer    | Choice |
 | -------- | ------ |
-| Backend  | **<%= backend.name %>** |
-| Frontend | **<%= frontend.name %>** |
+| Backend  | **<%= backend.name %>**<%= backend.status === 'beta' ? ' _(beta)_' : '' %> |
+| Frontend | **<%= frontend.name %>**<%= frontend.status === 'beta' ? ' _(beta)_' : '' %> |
 | Database | PostgreSQL 16 |
-| Auth     | JWT, 2FA (email + TOTP), Google OAuth, recovery codes |
-| i18n     | 7 locales (en, tr, de, fr, es, it, ru) |
+| API      | [`docs/openapi.yaml`](docs/openapi.yaml) (OpenAPI 3.1) |
 
-## Quick Start
-
-### Backend
-
-```bash
-cd backend/
-<% if (backend.language === 'python') { -%>
-python -m venv .venv
-# Windows: .venv\Scripts\activate | macOS/Linux: source .venv/bin/activate
-pip install -r requirements.txt
-<% } else if (backend.language === 'go') { -%>
-go mod download
-<% } else { -%>
-npm install
-<% } -%>
-cp .env.example .env
-<%= backend.devCmd %>
-```
-
-### Frontend
-
-```bash
-cd frontend/
-npm install
-npm run dev
-```
+## Quick start
 
 <% if (includeDocker) { -%>
-### Docker
+### With Docker
 
 ```bash
 docker compose up --build
 ```
+
+| Service  | URL |
+| -------- | --- |
+| Frontend | <%= feDockerUrl %> |
+| Backend  | <%= beUrl %> |
+| Postgres | localhost:5432 (`postgres` / `postgres`, db `saas_app`) |
+
 <% } -%>
+### Locally
+
+You need a PostgreSQL 16 database first:
+
+```bash
+docker run --name saas-pg -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=saas_app -p 5432:5432 -d postgres:16-alpine
+```
+
+**Backend** — serves <%= beUrl %>
+
+```bash
+cd backend
+cp .env.example .env
+<% if (backend.language === 'python') { -%>
+python -m venv .venv
+# Windows: .venv\Scripts\activate | macOS/Linux: source .venv/bin/activate
+<% } -%>
+<%= backend.installCmd %>
+<%= backend.devCmd %>
+```
+
+Edit `.env` before starting: set `JWT_SECRET` to a long random string, and make sure
+`DATABASE_URL` matches your database. Tables are created automatically on first boot.
+
+**Frontend** — serves <%= feDevUrl %>
+
+```bash
+cd frontend
+cp .env.example .env
+npm install
+npm run dev
+```
+
+`<%= frontend.apiUrlEnv %>` in `frontend/.env` must point at the backend (<%= beUrl %>).
+
+## Create your first admin user
+
+There is no seed script and no default admin. Every registration gets `role = 'user'`, so
+`/admin` stays inaccessible until you promote an account yourself:
+
+1. Register through the frontend.
+2. Promote it in the database:
+
+```bash
+docker exec -it saas-pg psql -U postgres -d saas_app -c "UPDATE users SET role = 'admin', verified = true WHERE email = 'you@example.com';"
+```
+
+3. Log out and back in — the role is carried in the JWT, so an old token still says `user`.
+
+## Sending email
+
+Email verification, password reset, and email 2FA all need SMTP. Without `SMTP_*` set in
+`backend/.env` those flows cannot complete. For local development either run a mail catcher
+(`docker run -p 1025:1025 -p 8025:8025 axllent/mailpit`, then `SMTP_HOST=localhost`,
+`SMTP_PORT=1025`) or turn verification off via `PUT /api/admin/settings/email-verification`
+with `{"require_email_verification": false}`.
 
 ## Features
 
-- **Authentication** -- Register, login, JWT access/refresh tokens, secure logout
-- **Two-Factor Auth** -- Email-based 2FA, TOTP (authenticator apps), recovery codes
-- **Google OAuth** -- Sign in with Google
-- **Password Management** -- Forgot/reset password, email verification
-- **User Profile** -- View and update profile
-- **Admin Console** -- User CRUD, role management, audit log
-- **Analytics Dashboard** -- Registration trends, active users, retention, cohort heatmap
-- **App Settings** -- Runtime configuration (email verification, 2FA toggles)
-- **IP Blocking** -- Rate limiting with admin unblock
-- **Internationalization** -- 7 locales (en, tr, de, fr, es, it, ru)
+- **Authentication** — register, login, JWT access/refresh tokens, logout, logout-all
+- **Two-Factor Auth** — email 2FA, TOTP (authenticator apps), recovery codes
+- **Google OAuth** — sign in with Google
+- **Password management** — forgot/reset password, email verification
+- **User profile** — view and update
+- **Admin console** — user CRUD, role management, audit log
+- **Analytics** — registration trends, active users, retention, cohort heatmap
+- **App settings** — runtime toggles for email verification and 2FA
+- **Rate limiting** — per-IP throttling on `/auth`, with admin unblock
+- **i18n** — 7 locales (en, tr, de, fr, es, it, ru)
+<% if (backend.id === 'node-express') { -%>
 
-## API Documentation
+> **Heads up:** the Node/Express backend is a beta template. Password reset, email
+> verification, Google OAuth, and all 2FA endpoints are currently stubs that return
+> `501 Not Implemented`. Registration, login, token refresh, profile, and the admin and
+> analytics endpoints are functional.
+<% } -%>
 
-See [docs/API_REFERENCE.md](docs/API_REFERENCE.md) for the full endpoint list.
+## Layout
+
+```
+<%= projectName %>/
+├── backend/            <%= backend.name %>
+├── frontend/           <%= frontend.name %>
+<% if (includeDocker) { -%>
+├── docker/             Dockerfiles
+├── docker-compose.yml
+<% } -%>
+└── docs/               API reference and openapi.yaml
+```
+
+## Common problems
+
+- **CORS errors** — `CORS_ORIGINS` in `backend/.env` must exactly match the frontend origin.
+  A frontend on port 80 has origin `http://localhost`, with no port.
+<% if (includeDocker) { -%>
+- **Frontend can't reach the API in Docker** — `<%= frontend.apiUrlEnv %>` is compiled into
+  the bundle at build time, so it must be reachable from your browser (`<%= beUrl %>`), not
+  the compose service name `http://backend:<%= bePort %>`. After changing it, rebuild with
+  `docker compose build --no-cache frontend`.
+<% } -%>
+- **Admin pages return 403** — log out and back in after promoting your account.
+
+## API documentation
+
+[`docs/API_REFERENCE.md`](docs/API_REFERENCE.md) for the endpoint list,
+[`docs/openapi.yaml`](docs/openapi.yaml) for the machine-readable contract.
