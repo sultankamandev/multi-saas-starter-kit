@@ -38,10 +38,10 @@
       "language": "typescript",
       "variants": ["ts"],
       "status": "beta",
-      "hint": "beta - the only backend passing compliance 25/25",
+      "hint": "beta - passes compliance 34/34, like Go and Python",
       "limitations": [
-        "Passes the compliance suite 25/25, which Go (21/25) and Python (14/25) currently do not.",
-        "Still beta because that suite is shallow: it does not exercise 2FA, OAuth or email delivery.",
+        "Passes the full compliance suite 34/34 (core + email/2FA flows), at parity with Go and Python.",
+        "Still beta pending broader real-world use; the schema is created by explicit DDL at boot (src/config/migrate.ts).",
         "Google login validates ID tokens over Google's tokeninfo endpoint (one network call per login) rather than cached JWKS."
       ],
       "healthCheck": "/ping",

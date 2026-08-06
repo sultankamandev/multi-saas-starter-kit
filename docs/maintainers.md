@@ -77,7 +77,26 @@ API_URL=http://localhost:8080 \
 ```
 
 Admin tests skip silently without `ADMIN_EMAIL` / `ADMIN_PASSWORD`. A template may only be
-marked `stable` once the whole suite passes against it.
+marked `stable` once the whole suite passes against it. All three backends currently pass
+**34/34**.
+
+### Email and 2FA flow tests
+
+`src/flows.test.ts` covers the end-to-end flows the core suite does not: email
+verification, password reset, and TOTP 2FA (setup, login, recovery-code login). They read
+the backend's outgoing mail, so they need a sink and skip unless `MAILPIT_URL` is set:
+
+```bash
+# a mail catcher the backend can reach
+docker run -d -p 1025:1025 -p 8025:8025 axllent/mailpit
+
+# point the backend's SMTP at it (host.docker.internal from a compose backend),
+# then run the suite with the mail sink's web API:
+API_URL=http://localhost:8080 MAILPIT_URL=http://localhost:8025 npm test
+```
+
+A backend gates email on `SMTP_HOST` alone (auth is optional), sends over plain SMTP to a
+non-TLS catcher, and STARTTLS is opportunistic — so a dev catcher just works.
 
 ## Changing the API contract
 
