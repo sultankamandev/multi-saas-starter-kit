@@ -40,9 +40,18 @@ func (s *smtpSender) send(to, subject, htmlBody string) error {
 		htmlBody
 
 	addr := s.cfg.Host + ":" + s.cfg.Port
-	auth := smtp.PlainAuth("", s.cfg.User, s.cfg.Pass, s.cfg.Host)
 
-	if err := smtp.SendMail(addr, auth, s.cfg.User, []string{to}, []byte(msg)); err != nil {
+	// Only authenticate when credentials are present. Go's smtp refuses
+	// PlainAuth over an unencrypted connection, so passing a non-nil auth to a
+	// plain server (an internal relay or a dev catcher like Mailpit) fails.
+	var auth smtp.Auth
+	if s.cfg.User != "" {
+		auth = smtp.PlainAuth("", s.cfg.User, s.cfg.Pass, s.cfg.Host)
+	}
+
+	// Envelope sender is the From address, not the SMTP username (empty for an
+	// auth-less relay).
+	if err := smtp.SendMail(addr, auth, s.cfg.From, []string{to}, []byte(msg)); err != nil {
 		log.Printf("SMTP error sending to %s: %v", to, err)
 		return err
 	}

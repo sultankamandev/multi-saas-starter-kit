@@ -32,7 +32,10 @@ type SMTPConfig struct {
 }
 
 func (c *SMTPConfig) IsConfigured() bool {
-	return c.Host != "" && c.Port != "" && c.User != "" && c.Pass != ""
+	// Only host and port are required. Auth is optional: internal relays and
+	// dev catchers like Mailpit accept mail with no credentials. Requiring
+	// USER/PASS meant those setups silently sent nothing.
+	return c.Host != "" && c.Port != ""
 }
 
 func Load() *Config {
