@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { v7 as uuidv7 } from "uuid";
@@ -20,7 +21,12 @@ export async function verifyPassword(password: string, hash: string): Promise<bo
 export function generateTokens(userId: number, publicId: string, role: string) {
   const payload: AuthPayload = { userId, publicId, role };
   const accessToken = jwt.sign(payload, env.jwtSecret, { expiresIn: 900 });
-  const refreshToken = jwt.sign(payload, env.jwtSecret, { expiresIn: 604800 });
+  // A random jti makes each refresh token unique. Without it, two logins in the
+  // same second produce byte-identical JWTs (same claims, same iat), and the
+  // second insert violates the refresh_tokens unique constraint with a 500.
+  const refreshToken = jwt.sign({ ...payload, jti: randomUUID() }, env.jwtSecret, {
+    expiresIn: 604800,
+  });
   return { accessToken, refreshToken, expiresIn: 900, tokenType: "Bearer" as const };
 }
 
