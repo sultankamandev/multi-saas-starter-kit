@@ -217,18 +217,6 @@ func (s *AdminUserService) UpdateRole(ctx context.Context, adminID, userID uint,
 	return user, nil
 }
 
-func (s *AdminUserService) Stats(ctx context.Context) (map[string]int64, error) {
-	total, _ := s.users.Count(ctx)
-	admins, _ := s.users.CountByRole(ctx, "admin")
-	regular, _ := s.users.CountByRole(ctx, "user")
-
-	return map[string]int64{
-		"total_users":   total,
-		"admin_users":   admins,
-		"regular_users": regular,
-	}, nil
-}
-
 func (s *AdminUserService) GetActions(ctx context.Context, page, limit int) ([]domain.AdminAction, int64, error) {
 	return s.auditLog.List(ctx, page, limit)
 }

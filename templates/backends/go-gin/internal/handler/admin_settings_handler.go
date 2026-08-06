@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"saas-starter/backend/go-api/internal/domain"
 	"saas-starter/backend/go-api/internal/service"
 	"saas-starter/backend/go-api/pkg/i18n"
 
@@ -25,7 +26,11 @@ func (h *AdminSettingsHandler) GetAll(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": i18n.T(lang, "DatabaseError")})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"settings": settings, "count": len(settings)})
+	// Contract: a bare array. Node and the react-admin provider expect this.
+	if settings == nil {
+		settings = []domain.AppSettings{}
+	}
+	c.JSON(http.StatusOK, settings)
 }
 
 func (h *AdminSettingsHandler) Get(c *gin.Context) {

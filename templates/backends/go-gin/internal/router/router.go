@@ -82,7 +82,8 @@ func Setup(r *gin.Engine, jwtMgr *jwtPlatform.Manager, h Handlers) {
 		admin.PUT("/users/:id", h.AdminUser.Update)
 		admin.DELETE("/users/:id", h.AdminUser.Delete)
 		admin.PUT("/users/:id/role", h.AdminUser.UpdateRole)
-		admin.GET("/user-stats", h.AdminUser.Stats)
+		// Contract maps user-stats to the same AdminSummary shape as /summary.
+		admin.GET("/user-stats", h.Analytics.Summary)
 		admin.GET("/actions", h.AdminUser.GetActions)
 
 		// Analytics
