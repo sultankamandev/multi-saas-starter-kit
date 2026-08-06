@@ -28,11 +28,11 @@ function SettingsPanel() {
         api.get<{
           require_email_verification: boolean;
           source: string;
-        }>('/api/admin/settings/verification/status'),
+        }>('/api/admin/settings/email-verification'),
         api.get<{
           require_2fa: boolean;
           source: string;
-        }>('/api/admin/settings/2fa/status'),
+        }>('/api/admin/settings/2fa'),
       ]);
 
       setRequireVerification(verificationRes.data.require_email_verification);
@@ -54,7 +54,7 @@ function SettingsPanel() {
     setSavingVerification(true);
 
     try {
-      await api.put('/api/admin/settings/verification', {
+      await api.put('/api/admin/settings/email-verification', {
         require_email_verification: newValue,
       });
 

@@ -133,7 +133,7 @@ class AnalyticsRepository:
         ]
 
     async def summary_stats(self) -> dict:
-        now = datetime.now(timezone.utc)
+        now = datetime.now(timezone.utc).replace(tzinfo=None)
         seven_days_ago = now - timedelta(days=7)
 
         total = await self._session.execute(

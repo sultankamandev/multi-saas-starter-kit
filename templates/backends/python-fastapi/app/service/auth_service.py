@@ -9,6 +9,7 @@ from app.platform.password import hash_password, verify_password
 
 from app.domain.errors import (
     ERR_CONFLICT,
+    ERR_FORBIDDEN,
     ERR_INVALID_INPUT,
     ERR_UNAUTHORIZED,
     DomainError,
@@ -148,7 +149,9 @@ class AuthService:
             raise DomainError(ERR_UNAUTHORIZED, "Invalid credentials")
 
         if not user.verified:
-            raise DomainError(ERR_UNAUTHORIZED, "Please verify your email address before logging in")
+            # 403, matching Go (ErrEmailNotVerified) and Node: the credentials
+            # are valid, the account is simply not yet allowed to sign in.
+            raise DomainError(ERR_FORBIDDEN, "Please verify your email address before logging in")
 
         if user.two_fa_enabled:
             if user.two_fa_secret:

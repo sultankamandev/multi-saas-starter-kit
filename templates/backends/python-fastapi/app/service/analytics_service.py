@@ -17,13 +17,13 @@ class AnalyticsService:
         language: str | None = None,
     ) -> list[dict]:
         if end is None:
-            end = datetime.now(timezone.utc)
+            end = datetime.now(timezone.utc).replace(tzinfo=None)
         if start is None:
             start = end - timedelta(days=30)
         return await self._analytics.user_registrations_by_day(start, end, country, language)
 
     async def active_users(self, start: datetime | None = None, end: datetime | None = None) -> dict:
-        now = datetime.now(timezone.utc)
+        now = datetime.now(timezone.utc).replace(tzinfo=None)
         if end is None:
             end = now
         if start is None:
@@ -37,7 +37,7 @@ class AnalyticsService:
 
     async def retention(self, start: datetime | None = None, end: datetime | None = None) -> dict:
         if end is None:
-            end = datetime.now(timezone.utc)
+            end = datetime.now(timezone.utc).replace(tzinfo=None)
         if start is None:
             start = end - timedelta(days=90)
 
@@ -49,7 +49,7 @@ class AnalyticsService:
 
     async def cohort_retention(self, start: datetime | None = None, end: datetime | None = None) -> list[dict]:
         if end is None:
-            end = datetime.now(timezone.utc)
+            end = datetime.now(timezone.utc).replace(tzinfo=None)
         if start is None:
             start = end - timedelta(days=90)
         return await self._analytics.cohort_retention(start, end)

@@ -19,15 +19,14 @@ async def list_blocked_ips(
 ):
     rate_limiter = request.app.state.rate_limiter
     blocked = rate_limiter.get_blocked_ips()
-    return {
-        "data": [
-            {
-                "ip": b.ip,
-                "blocked_at": datetime.fromtimestamp(b.blocked_at, tz=timezone.utc).isoformat() if b.blocked_at else None,
-            }
-            for b in blocked
-        ],
-    }
+    # Contract: a bare array.
+    return [
+        {
+            "ip": b.ip,
+            "blocked_at": datetime.fromtimestamp(b.blocked_at, tz=timezone.utc).isoformat() if b.blocked_at else None,
+        }
+        for b in blocked
+    ]
 
 
 @router.delete("/blocked-ips/{ip}")

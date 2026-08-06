@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends, Query
+from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database import get_session
-from app.deps import get_admin_user_service
+from app.deps import get_admin_user_service, get_analytics_service
 from app.domain.errors import DomainError
 from app.dto.admin import (
     AdminCreateUserRequest,
@@ -20,6 +21,7 @@ from app.middleware.role import require_role
 from app.platform.jwt import Claims
 from app.router.helpers import error_response
 from app.service.admin_user_service import AdminUserService
+from app.service.analytics_service import AnalyticsService
 
 router = APIRouter(prefix="/api/admin", tags=["admin"])
 
@@ -37,7 +39,10 @@ async def list_users(
 ):
     params = UserListParams(page=page, limit=limit, sort_field=sort_field, sort_order=sort_order, search=search)
     users, total = await admin_svc.list_users(params)
-    resp = JSONResponse(content={"data": [u.model_dump() for u in users_to_response(users)], "total": total})
+    # jsonable_encoder converts datetimes to ISO strings; JSONResponse's raw
+    # json.dumps does not, which previously 500'd the whole list endpoint.
+    body = jsonable_encoder({"data": users_to_response(users), "total": total, "page": page, "limit": limit})
+    resp = JSONResponse(content=body)
     resp.headers["X-Total-Count"] = str(total)
     return resp
 
@@ -120,12 +125,11 @@ async def update_role(
 
 @router.get("/user-stats")
 async def user_stats(
-    lang: str = Depends(get_language),
     claims: Claims = Depends(require_role("admin")),
-    admin_svc: AdminUserService = Depends(get_admin_user_service),
+    analytics_svc: AnalyticsService = Depends(get_analytics_service),
 ):
-    stats = await admin_svc.stats()
-    return {"message": t("AdminStats", lang), **stats}
+    # Contract maps user-stats to AdminSummary, identical to /summary.
+    return await analytics_svc.summary()
 
 
 @router.get("/actions")

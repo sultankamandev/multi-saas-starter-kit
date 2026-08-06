@@ -170,11 +170,5 @@ class AdminUserService:
         )
         return user
 
-    async def stats(self) -> dict:
-        total = await self._users.count()
-        admin_count = await self._users.count_by_role("admin")
-        user_count = await self._users.count_by_role("user")
-        return {"total_users": total, "admin_users": admin_count, "regular_users": user_count}
-
     async def get_actions(self, page: int, limit: int) -> tuple[list[AdminAction], int]:
         return await self._admin_actions.list_actions(page, limit)
