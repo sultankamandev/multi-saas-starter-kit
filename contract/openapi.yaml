@@ -1453,9 +1453,16 @@ paths:
             application/json:
               schema:
                 type: object
+                required: [require_email_verification, source]
                 properties:
-                  enabled:
+                  require_email_verification:
                     type: boolean
+                  source:
+                    type: string
+                    enum: [database, default]
+                    description: >-
+                      "default" when no row exists in app_settings yet, so
+                      clients can distinguish an explicit value from a fallback.
     put:
       tags: [Admin - Settings]
       summary: Update email verification setting
@@ -1468,9 +1475,9 @@ paths:
           application/json:
             schema:
               type: object
-              required: [enabled]
+              required: [require_email_verification]
               properties:
-                enabled:
+                require_email_verification:
                   type: boolean
       responses:
         "200":
@@ -1478,7 +1485,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/MessageResponse"
+                type: object
+                required: [message, require_email_verification]
+                properties:
+                  message:
+                    type: string
+                  require_email_verification:
+                    type: boolean
 
   /api/admin/settings/2fa:
     get:
@@ -1494,9 +1507,16 @@ paths:
             application/json:
               schema:
                 type: object
+                required: [require_2fa, source]
                 properties:
-                  enabled:
+                  require_2fa:
                     type: boolean
+                  source:
+                    type: string
+                    enum: [database, default]
+                    description: >-
+                      "default" when no row exists in app_settings yet, so
+                      clients can distinguish an explicit value from a fallback.
     put:
       tags: [Admin - Settings]
       summary: Update 2FA enforcement setting
@@ -1509,9 +1529,9 @@ paths:
           application/json:
             schema:
               type: object
-              required: [enabled]
+              required: [require_2fa]
               properties:
-                enabled:
+                require_2fa:
                   type: boolean
       responses:
         "200":
@@ -1519,4 +1539,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/MessageResponse"
+                type: object
+                required: [message, require_2fa]
+                properties:
+                  message:
+                    type: string
+                  require_2fa:
+                    type: boolean

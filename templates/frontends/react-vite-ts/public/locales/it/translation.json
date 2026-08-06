@@ -1,4 +1,4 @@
-﻿{
+{
   "title": "Benvenuto in SaaS Starter",
   "language": "Lingua",
   "nav": {
@@ -60,7 +60,8 @@
       "passwordRequired": "La password Ã¨ obbligatoria",
       "passwordMinLength": "La password deve avere almeno 8 caratteri",
       "confirmPasswordRequired": "Conferma la password",
-      "passwordsNotMatch": "Le password non coincidono"
+      "passwordsNotMatch": "Le password non coincidono",
+      "usernameRequired": "Il nome utente è obbligatorio"
     }
   },
   "dashboard": {
@@ -402,4 +403,3 @@
     "saveChanges": "Salva modifiche"
   }
 }
-

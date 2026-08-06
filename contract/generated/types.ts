@@ -1898,7 +1898,12 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        enabled?: boolean;
+                        require_email_verification: boolean;
+                        /**
+                         * @description "default" when no row exists in app_settings yet, so clients can distinguish an explicit value from a fallback.
+                         * @enum {string}
+                         */
+                        source: "database" | "default";
                     };
                 };
             };
@@ -1914,7 +1919,7 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    enabled: boolean;
+                    require_email_verification: boolean;
                 };
             };
         };
@@ -1925,7 +1930,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["MessageResponse"];
+                    "application/json": {
+                        message: string;
+                        require_email_verification: boolean;
+                    };
                 };
             };
         };
@@ -1946,7 +1954,12 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        enabled?: boolean;
+                        require_2fa: boolean;
+                        /**
+                         * @description "default" when no row exists in app_settings yet, so clients can distinguish an explicit value from a fallback.
+                         * @enum {string}
+                         */
+                        source: "database" | "default";
                     };
                 };
             };
@@ -1962,7 +1975,7 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    enabled: boolean;
+                    require_2fa: boolean;
                 };
             };
         };
@@ -1973,7 +1986,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["MessageResponse"];
+                    "application/json": {
+                        message: string;
+                        require_2fa: boolean;
+                    };
                 };
             };
         };

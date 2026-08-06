@@ -60,6 +60,7 @@
   "EmailFooterText": "SaaS Starter'in bir parçası olduğunuz için teşekkür ederiz",
   "EmailFooterNote": "Bu otomatik bir mesajdır. Lütfen bu e-postaya yanıt vermeyin.",
   "UserRegisteredPleaseVerify": "Kullanıcı başarıyla kaydedildi. Lütfen hesabınızı doğrulamak için e-postanızı kontrol edin.",
+  "UserRegisteredSuccess": "Kullanıcı başarıyla kaydedildi. Şimdi giriş yapabilirsiniz.",
   "EmailNotVerified": "Giriş yapmadan önce lütfen e-posta adresinizi doğrulayın. Doğrulama bağlantısı için gelen kutunuzu kontrol edin.",
   "EmailVerifiedSuccess": "E-posta başarıyla doğrulandı! Artık giriş yapabilirsiniz.",
   "InvalidToken": "Geçersiz veya eksik token.",

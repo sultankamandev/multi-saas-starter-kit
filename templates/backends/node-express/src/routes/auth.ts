@@ -1,5 +1,6 @@
 import { Router, type Request, type Response } from "express";
 import { z } from "zod";
+import { t } from "../i18n.js";
 import jwt from "jsonwebtoken";
 import { authMiddleware, type AuthPayload } from "../middleware/auth.js";
 import { authRateLimiter } from "../middleware/rateLimit.js";
@@ -41,7 +42,7 @@ router.post("/register", async (req: Request, res: Response) => {
   try {
     const existing = await findUserByEmail(parsed.data.email);
     if (existing) {
-      res.status(409).json({ error: "conflict", message: "Email already registered" });
+      res.status(409).json({ error: "conflict", message: t(req.lang, "UserAlreadyExists") });
       return;
     }
 
@@ -55,11 +56,11 @@ router.post("/register", async (req: Request, res: Response) => {
       country: parsed.data.country,
     });
 
-    res.status(201).json({ message: "Registration successful. Please verify your email." });
+    res.status(201).json({ message: t(req.lang, "UserRegisteredPleaseVerify") });
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : "Registration failed";
     if (msg.includes("unique") || msg.includes("duplicate")) {
-      res.status(409).json({ error: "conflict", message: "Email or username already exists" });
+      res.status(409).json({ error: "conflict", message: t(req.lang, "UserAlreadyExists") });
       return;
     }
     res.status(500).json({ error: "internal", message: msg });
@@ -82,13 +83,13 @@ router.post("/login", async (req: Request, res: Response) => {
 
   const user = await findUserByEmailOrUsername(parsed.data.email_or_username);
   if (!user) {
-    res.status(401).json({ error: "unauthorized", message: "Invalid credentials" });
+    res.status(401).json({ error: "unauthorized", message: t(req.lang, "InvalidCredentials") });
     return;
   }
 
   const valid = await verifyPassword(parsed.data.password, user.passwordHash);
   if (!valid) {
-    res.status(401).json({ error: "unauthorized", message: "Invalid credentials" });
+    res.status(401).json({ error: "unauthorized", message: t(req.lang, "InvalidCredentials") });
     return;
   }
 
@@ -108,7 +109,7 @@ router.post("/login", async (req: Request, res: Response) => {
   await storeRefreshToken(user.id, tokens.refreshToken, expiresAt);
 
   res.json({
-    message: "Login successful",
+    message: t(req.lang, "LoginSuccess"),
     user: userToResponse(user),
     access_token: tokens.accessToken,
     refresh_token: tokens.refreshToken,
@@ -128,13 +129,13 @@ router.post("/refresh-token", async (req: Request, res: Response) => {
 
   const row = await findAndDeleteRefreshToken(parsed.data.refresh_token);
   if (!row || row.expiresAt < new Date()) {
-    res.status(401).json({ error: "unauthorized", message: "Invalid or expired refresh token" });
+    res.status(401).json({ error: "unauthorized", message: t(req.lang, "TokenExpired") });
     return;
   }
 
   const user = await findUserById(row.userId);
   if (!user) {
-    res.status(401).json({ error: "unauthorized", message: "User not found" });
+    res.status(401).json({ error: "unauthorized", message: t(req.lang, "UserNotFound") });
     return;
   }
 
@@ -159,11 +160,11 @@ router.post("/logout", async (req: Request, res: Response) => {
     return;
   }
   await findAndDeleteRefreshToken(parsed.data.refresh_token);
-  res.json({ message: "Logged out successfully" });
+  res.json({ message: t(req.lang, "LoggedOutSuccess") });
 });
 
 router.post("/forgot-password", async (req: Request, res: Response) => {
-  res.json({ message: "If an account with that email exists, a reset link has been sent." });
+  res.json({ message: t(req.lang, "ResetLinkSent") });
 });
 
 router.post("/reset-password", async (req: Request, res: Response) => {
@@ -198,7 +199,7 @@ router.post("/verify-recovery-code", async (_req: Request, res: Response) => {
 router.get("/me", authMiddleware, async (req: Request, res: Response) => {
   const user = await findUserById(req.auth!.userId);
   if (!user) {
-    res.status(404).json({ error: "not_found", message: "User not found" });
+    res.status(404).json({ error: "not_found", message: t(req.lang, "UserNotFound") });
     return;
   }
   res.json({ user: userToResponse(user) });

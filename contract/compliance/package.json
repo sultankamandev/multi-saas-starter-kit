@@ -2,7 +2,7 @@
   "name": "@saas-starter/compliance-tests",
   "version": "1.0.0",
   "private": true,
-  "description": "Backend-agnostic API compliance test suite for SaaS Starter Kit",
+  "description": "Backend-agnostic API compliance test suite for the Multi-Stack Auth Kit",
   "type": "module",
   "scripts": {
     "test": "vitest run",

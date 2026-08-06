@@ -351,13 +351,19 @@
           "US": "USA",
           "GB": "UK",
           "DE": "Germany",
-          "FR": "France"
+          "FR": "France",
+          "ES": "Spain",
+          "IT": "Italy",
+          "RU": "Russia"
         },
         "languages": {
           "tr": "Turkish",
           "en": "English",
           "de": "German",
-          "fr": "French"
+          "fr": "French",
+          "es": "Spanish",
+          "it": "Italian",
+          "ru": "Russian"
         }
       }
     }

@@ -1,6 +1,7 @@
 import { Router, type Request, type Response } from "express";
 import { eq, sql, desc, asc, ilike, or, count, and, isNull } from "drizzle-orm";
 import { z } from "zod";
+import { t } from "../i18n.js";
 import { authMiddleware } from "../middleware/auth.js";
 import { requireRole } from "../middleware/auth.js";
 import { db } from "../config/database.js";
@@ -67,7 +68,7 @@ router.get("/users/:id", async (req: Request, res: Response) => {
   const id = paramId(req);
   const [user] = await db.select().from(users).where(eq(users.publicId, id)).limit(1);
   if (!user) {
-    res.status(404).json({ error: "not_found", message: "User not found" });
+    res.status(404).json({ error: "not_found", message: t(req.lang, "UserNotFound") });
     return;
   }
   res.json(userToResponse(user));
@@ -112,7 +113,7 @@ router.put("/users/:id", async (req: Request, res: Response) => {
   const id = paramId(req);
   const [existing] = await db.select().from(users).where(eq(users.publicId, id)).limit(1);
   if (!existing) {
-    res.status(404).json({ error: "not_found", message: "User not found" });
+    res.status(404).json({ error: "not_found", message: t(req.lang, "UserNotFound") });
     return;
   }
 
@@ -140,7 +141,7 @@ router.delete("/users/:id", async (req: Request, res: Response) => {
   const id = paramId(req);
   const [existing] = await db.select().from(users).where(eq(users.publicId, id)).limit(1);
   if (!existing) {
-    res.status(404).json({ error: "not_found", message: "User not found" });
+    res.status(404).json({ error: "not_found", message: t(req.lang, "UserNotFound") });
     return;
   }
   await db.update(users).set({ deletedAt: new Date() }).where(eq(users.id, existing.id));
@@ -156,7 +157,7 @@ router.put("/users/:id/role", async (req: Request, res: Response) => {
   const id = paramId(req);
   const [existing] = await db.select().from(users).where(eq(users.publicId, id)).limit(1);
   if (!existing) {
-    res.status(404).json({ error: "not_found", message: "User not found" });
+    res.status(404).json({ error: "not_found", message: t(req.lang, "UserNotFound") });
     return;
   }
   await db.update(users).set({ role, updatedAt: new Date() }).where(eq(users.id, existing.id));
@@ -172,13 +173,14 @@ router.get("/user-stats", async (_req: Request, res: Response) => {
     .from(users)
     .where(and(notDeleted, sql`${users.createdAt} >= ${sevenDaysAgo}`));
 
-  const t = total[0]?.count ?? 0;
-  const v = verified[0]?.count ?? 0;
+  const totalCount = total[0]?.count ?? 0;
+  const verifiedCount = verified[0]?.count ?? 0;
   res.json({
-    total_users: t,
-    verified_users: v,
+    total_users: totalCount,
+    verified_users: verifiedCount,
     new_users_7_days: newUsers[0]?.count ?? 0,
-    verified_percent: t > 0 ? Math.round((v / t) * 10000) / 100 : 0,
+    verified_percent:
+      totalCount > 0 ? Math.round((verifiedCount / totalCount) * 10000) / 100 : 0,
   });
 });
 
@@ -217,13 +219,14 @@ router.get("/summary", async (_req: Request, res: Response) => {
     .from(users)
     .where(and(notDeleted, sql`${users.createdAt} >= ${sevenDaysAgo}`));
 
-  const t = total[0]?.count ?? 0;
-  const v = verified[0]?.count ?? 0;
+  const totalCount = total[0]?.count ?? 0;
+  const verifiedCount = verified[0]?.count ?? 0;
   res.json({
-    total_users: t,
-    verified_users: v,
+    total_users: totalCount,
+    verified_users: verifiedCount,
     new_users_7_days: newUsers[0]?.count ?? 0,
-    verified_percent: t > 0 ? Math.round((v / t) * 10000) / 100 : 0,
+    verified_percent:
+      totalCount > 0 ? Math.round((verifiedCount / totalCount) * 10000) / 100 : 0,
   });
 });
 
@@ -233,46 +236,77 @@ router.get("/settings", async (_req: Request, res: Response) => {
 });
 
 const REQUIRE_EMAIL_VERIFICATION_KEY = "require_email_verification";
+const REQUIRE_2FA_KEY = "require_2fa";
 
-router.get("/settings/verification/status", async (_req: Request, res: Response) => {
-  const [row] = await db
-    .select()
-    .from(appSettings)
-    .where(eq(appSettings.key, REQUIRE_EMAIL_VERIFICATION_KEY))
-    .limit(1);
-  const raw = row?.value?.toLowerCase() ?? "";
-  const require_email_verification =
-    row == null || raw === "" ? true : raw === "true" || raw === "1" || raw === "yes";
-  res.json({
-    require_email_verification,
-    source: row ? "database" : "default",
-  });
-});
+function parseBoolSetting(value: string | null | undefined): boolean | null {
+  const raw = value?.toLowerCase() ?? "";
+  if (raw === "") return null;
+  return raw === "true" || raw === "1" || raw === "yes";
+}
 
-router.put("/settings/verification", async (req: Request, res: Response) => {
-  const bodySchema = z.object({ require_email_verification: z.boolean() });
-  const parsed = bodySchema.safeParse(req.body);
-  if (!parsed.success) {
-    res.status(400).json({ error: "validation_error", errors: parsed.error.flatten().fieldErrors });
-    return;
-  }
-  const value = parsed.data.require_email_verification ? "true" : "false";
-  const key = REQUIRE_EMAIL_VERIFICATION_KEY;
+async function readToggle(key: string, fallback: boolean) {
+  const [row] = await db.select().from(appSettings).where(eq(appSettings.key, key)).limit(1);
+  const parsed = parseBoolSetting(row?.value);
+  return parsed === null
+    ? { value: fallback, source: "default" as const }
+    : { value: parsed, source: "database" as const };
+}
+
+async function writeToggle(key: string, enabled: boolean) {
+  const value = enabled ? "true" : "false";
   const [existing] = await db.select().from(appSettings).where(eq(appSettings.key, key)).limit(1);
   if (existing) {
     await db.update(appSettings).set({ value, updatedAt: new Date() }).where(eq(appSettings.key, key));
   } else {
     await db.insert(appSettings).values({ key, value });
   }
-  const [updated] = await db.select().from(appSettings).where(eq(appSettings.key, key));
-  res.json(updated);
+}
+
+// NOTE: these literal routes must stay ABOVE /settings/:key, otherwise the
+// param route swallows "email-verification" and "2fa".
+router.get("/settings/email-verification", async (_req: Request, res: Response) => {
+  const { value, source } = await readToggle(REQUIRE_EMAIL_VERIFICATION_KEY, true);
+  res.json({ require_email_verification: value, source });
+});
+
+router.put("/settings/email-verification", async (req: Request, res: Response) => {
+  const bodySchema = z.object({ require_email_verification: z.boolean() });
+  const parsed = bodySchema.safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({ error: "validation_error", errors: parsed.error.flatten().fieldErrors });
+    return;
+  }
+  await writeToggle(REQUIRE_EMAIL_VERIFICATION_KEY, parsed.data.require_email_verification);
+  res.json({
+    message: t(req.lang, "SettingUpdatedSuccessfully"),
+    require_email_verification: parsed.data.require_email_verification,
+  });
+});
+
+router.get("/settings/2fa", async (_req: Request, res: Response) => {
+  const { value, source } = await readToggle(REQUIRE_2FA_KEY, false);
+  res.json({ require_2fa: value, source });
+});
+
+router.put("/settings/2fa", async (req: Request, res: Response) => {
+  const bodySchema = z.object({ require_2fa: z.boolean() });
+  const parsed = bodySchema.safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({ error: "validation_error", errors: parsed.error.flatten().fieldErrors });
+    return;
+  }
+  await writeToggle(REQUIRE_2FA_KEY, parsed.data.require_2fa);
+  res.json({
+    message: t(req.lang, "SettingUpdatedSuccessfully"),
+    require_2fa: parsed.data.require_2fa,
+  });
 });
 
 router.get("/settings/:key", async (req: Request, res: Response) => {
   const key = paramKey(req);
   const [row] = await db.select().from(appSettings).where(eq(appSettings.key, key)).limit(1);
   if (!row) {
-    res.status(404).json({ error: "not_found", message: "Setting not found" });
+    res.status(404).json({ error: "not_found", message: t(req.lang, "SettingNotFound") });
     return;
   }
   res.json(row);
@@ -295,8 +329,8 @@ router.get("/blocked-ips", async (_req: Request, res: Response) => {
   res.json([]);
 });
 
-router.delete("/blocked-ips/:ip", async (_req: Request, res: Response) => {
-  res.json({ message: "IP unblocked" });
+router.delete("/blocked-ips/:ip", async (req: Request, res: Response) => {
+  res.json({ message: t(req.lang, "IPUnblockedSuccessfully") });
 });
 
 export default router;

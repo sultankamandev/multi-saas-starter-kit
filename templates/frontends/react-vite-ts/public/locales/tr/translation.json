@@ -1,4 +1,4 @@
-﻿{
+{
   "title": "SaaS Starter'a HoÅŸ Geldiniz",
   "language": "Dil",
   "nav": {
@@ -61,10 +61,7 @@
       "passwordMinLength": "Åžifre en az 8 karakter olmalÄ±dÄ±r",
       "confirmPasswordRequired": "LÃ¼tfen ÅŸifrenizi onaylayÄ±n",
       "passwordsNotMatch": "Åžifreler eÅŸleÅŸmiyor",
-      "usernameRequired": "KullanÄ±cÄ± adÄ± gereklidir",
-      "usernameMinLength": "KullanÄ±cÄ± adÄ± en az 3 karakter olmalÄ±dÄ±r",
-      "usernameMaxLength": "KullanÄ±cÄ± adÄ± en fazla 30 karakter olmalÄ±dÄ±r",
-      "usernameInvalid": "KullanÄ±cÄ± adÄ± sadece harf, rakam, alt Ã§izgi ve tire iÃ§erebilir. Harf veya rakamla baÅŸlayÄ±p bitmelidir."
+      "usernameRequired": "KullanÄ±cÄ± adÄ± gereklidir"
     }
   },
   "dashboard": {
@@ -352,13 +349,19 @@
           "US": "ABD",
           "GB": "Ä°ngiltere",
           "DE": "Almanya",
-          "FR": "Fransa"
+          "FR": "Fransa",
+          "ES": "İspanya",
+          "IT": "İtalya",
+          "RU": "Rusya"
         },
         "languages": {
           "tr": "TÃ¼rkÃ§e",
           "en": "Ä°ngilizce",
           "de": "Almanca",
-          "fr": "FransÄ±zca"
+          "fr": "FransÄ±zca",
+          "es": "İspanyolca",
+          "it": "İtalyanca",
+          "ru": "Rusça"
         }
       }
     }
@@ -400,4 +403,3 @@
     "saveChanges": "DeÄŸiÅŸiklikleri Kaydet"
   }
 }
-
