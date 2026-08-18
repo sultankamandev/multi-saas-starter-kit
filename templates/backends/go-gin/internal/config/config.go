@@ -44,7 +44,7 @@ func Load() *Config {
 	cfg := &Config{
 		Port:            envOrDefault("PORT", "8080"),
 		DatabaseURL:     mustEnv("DATABASE_URL"),
-		JWTSecret:       mustEnv("JWT_SECRET"),
+		JWTSecret:       mustSecret("JWT_SECRET"),
 		JWTIssuer:       envOrDefault("JWT_ISSUER", "saas-api"),
 		JWTAudience:     envOrDefault("JWT_AUDIENCE", "saas-app"),
 		FrontendURL:     envOrDefault("FRONTEND_URL", "http://localhost:3000"),
@@ -90,6 +90,23 @@ func parseCORSOrigins(raw string) []string {
 		}
 	}
 	return origins
+}
+
+// minSecretLen is the shortest JWT_SECRET the server will start with. It is
+// long enough to reject every placeholder that ships in this repo — the
+// .env.example value, the compose default — so nobody boots a signing key that
+// was never actually chosen. Python and Node enforce the same number.
+const minSecretLen = 32
+
+func mustSecret(key string) string {
+	v := mustEnv(key)
+	if len(v) < minSecretLen {
+		log.Fatalf(
+			"%s must be at least %d characters (got %d) — generate one with: openssl rand -base64 48",
+			key, minSecretLen, len(v),
+		)
+	}
+	return v
 }
 
 func mustEnv(key string) string {

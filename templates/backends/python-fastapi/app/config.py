@@ -1,4 +1,11 @@
+from pydantic import field_validator
 from pydantic_settings import BaseSettings
+
+# The shortest JWT_SECRET the server will start with. Long enough to reject
+# every placeholder that ships in this repo — the .env.example value, the
+# compose default — so nobody boots a signing key that was never actually
+# chosen. Go and Node enforce the same number.
+MIN_SECRET_LEN = 32
 
 
 class SMTPSettings(BaseSettings):
@@ -39,6 +46,16 @@ class Settings(BaseSettings):
     SMTP_FROM: str = ""
 
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
+
+    @field_validator("JWT_SECRET")
+    @classmethod
+    def _secret_is_long_enough(cls, v: str) -> str:
+        if len(v) < MIN_SECRET_LEN:
+            raise ValueError(
+                f"JWT_SECRET must be at least {MIN_SECRET_LEN} characters "
+                f"(got {len(v)}) — generate one with: openssl rand -base64 48"
+            )
+        return v
 
     @property
     def cors_origins_list(self) -> list[str]:
