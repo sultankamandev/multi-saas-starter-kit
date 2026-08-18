@@ -8,8 +8,13 @@ import { db } from "./database.js";
  * build-time tool, so the DDL lives here explicitly.
  *
  * Every statement is IF NOT EXISTS, so this is safe to run on every start and
- * never touches existing data. It does not alter existing columns — use
- * drizzle-kit for real schema changes.
+ * never touches existing data. It does not alter or drop existing columns.
+ *
+ * That is deliberate for a starter: no migration tool to learn on day one.
+ * When the schema starts changing under real data, switch to versioned
+ * migrations — `npm run db:generate` writes them from src/models/schema.ts and
+ * `npm run db:migrate` applies them — then drop the autoMigrate() call in
+ * src/index.ts.
  *
  * Column names match the Go and Python templates: TEMPLATE_SPEC says all
  * backends target the same PostgreSQL schema. Keep in sync with models/schema.ts.

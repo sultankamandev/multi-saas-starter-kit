@@ -27,7 +27,11 @@ async def lifespan(app: FastAPI):
     # Create any missing tables, mirroring the Go template's AutoMigrate so a
     # fresh database works with no manual step. Importing app.domain populates
     # Base.metadata with every model. This only creates what is absent; it does
-    # not alter existing columns — use Alembic for real schema changes.
+    # not alter existing columns or drop them.
+    #
+    # That is deliberate for a starter: no migration tool to learn on day one.
+    # When the schema starts changing under real data, add one —
+    # `pip install alembic && alembic init alembic` — and drop this call.
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
