@@ -1,0 +1,48 @@
+version: 2
+
+# Six ecosystems live in this repo and none of them were being watched. Grouping
+# minor and patch bumps into one PR per ecosystem keeps the noise survivable —
+# majors still arrive separately, because those are the ones worth reading.
+updates:
+  - package-ecosystem: npm
+    directories:
+      - /cli
+      - /contract
+      - /contract/compliance
+      - /templates/backends/node-express
+      - /templates/frontends/next-ts
+      - /templates/frontends/react-vite-ts
+      - /templates/frontends/vue-vite-ts
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: gomod
+    directory: /templates/backends/go-gin
+    schedule:
+      interval: weekly
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: pip
+    directory: /templates/backends/python-fastapi
+    schedule:
+      interval: weekly
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: docker
+    directories:
+      - /templates/infra/docker/dockerfiles
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
