@@ -21,6 +21,19 @@ services:
       timeout: 5s
       retries: 10
 
+  # Development mail catcher. Every message the backend sends — email
+  # verification, password reset, email 2FA codes — is captured here instead of
+  # being delivered, and is readable in the web UI on port 8025. Replace this
+  # with real SMTP credentials on the backend service before deploying.
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: "1"
+      MP_SMTP_AUTH_ALLOW_INSECURE: "1"
+
   backend:
     build:
       context: .
@@ -36,12 +49,19 @@ services:
 <% } else { -%>
       DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/saas_app"
 <% } -%>
-      JWT_SECRET: "${JWT_SECRET:-change-me-in-production}"
+      JWT_SECRET: "${JWT_SECRET:-dev-only-insecure-secret-replace-before-you-deploy}"
       FRONTEND_URL: "<%= feOrigin %>"
       CORS_ORIGINS: "<%= feOrigin %>"
+      # Points at the mailpit service above. Unlike the frontend's API URL these
+      # are resolved by the backend container, so the compose hostname is right.
+      SMTP_HOST: "mailpit"
+      SMTP_PORT: "1025"
+      SMTP_FROM: "noreply@<%= projectName %>.local"
     depends_on:
       postgres:
         condition: service_healthy
+      mailpit:
+        condition: service_started
 
   frontend:
     build:
