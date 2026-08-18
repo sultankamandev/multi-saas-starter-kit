@@ -84,3 +84,10 @@ func (r *twofaRepo) MarkRecoveryCodeUsed(ctx context.Context, id uint) error {
 		Where("id = ?", id).
 		Updates(map[string]interface{}{"used": true, "used_at": gorm.Expr("NOW()")}).Error
 }
+
+// DeleteRecoveryCodes removes every code for a user, used when 2FA is turned
+// off. They are deleted rather than marked used so that re-enabling starts from
+// a clean set and an old code can never be replayed.
+func (r *twofaRepo) DeleteRecoveryCodes(ctx context.Context, userID uint) error {
+	return r.conn(ctx).Where("user_id = ?", userID).Delete(&domain.RecoveryCode{}).Error
+}

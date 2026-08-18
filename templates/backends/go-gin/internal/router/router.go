@@ -56,10 +56,12 @@ func Setup(r *gin.Engine, jwtMgr *jwtPlatform.Manager, h Handlers) {
 			authenticated.GET("/me", h.Auth.GetMe)
 			authenticated.GET("/dashboard", h.Auth.Dashboard)
 			authenticated.POST("/logout-all", h.Auth.LogoutAllSessions)
+			authenticated.POST("/change-password", h.Password.ChangePassword)
 
 			// 2FA setup (requires auth)
 			authenticated.POST("/2fa/setup", h.TwoFA.Setup2FA)
 			authenticated.POST("/2fa/verify-setup", h.TwoFA.Verify2FASetup)
+			authenticated.POST("/2fa/disable", h.TwoFA.Disable2FA)
 		}
 	}
 

@@ -66,3 +66,25 @@ func (h *PasswordHandler) VerifyEmail(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": i18n.T(lang, "EmailVerifiedSuccess")})
 }
+
+func (h *PasswordHandler) ChangePassword(c *gin.Context) {
+	lang := extractLanguageFromBody(c)
+	userID, ok := c.Get("userID")
+	if !ok {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": i18n.T(lang, "Unauthorized")})
+		return
+	}
+
+	var req dto.ChangePasswordRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"errors": formatValidationErrors(err, lang)})
+		return
+	}
+
+	if err := h.passwordSvc.ChangePassword(c.Request.Context(), userID.(uint), req.CurrentPassword, req.NewPassword); err != nil {
+		writeError(c, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": i18n.T(lang, "PasswordChangedSuccess")})
+}

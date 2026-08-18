@@ -103,6 +103,41 @@ func (s *PasswordService) ResetPassword(ctx context.Context, tokenStr, newPasswo
 	})
 }
 
+// ChangePassword rotates the password of a signed-in user. Unlike
+// ResetPassword there is no emailed token, so the current password is what
+// proves intent -- an access token alone is not enough.
+//
+// Every refresh token is revoked on success, exactly as ResetPassword does, so
+// changing the password signs the account out everywhere. That includes the
+// caller, who has to log in again.
+func (s *PasswordService) ChangePassword(ctx context.Context, userID uint, currentPassword, newPassword string) error {
+	user, err := s.users.FindByID(ctx, userID)
+	if err != nil {
+		return err
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(currentPassword)); err != nil {
+		return domain.NewError(domain.ErrUnauthorized, "current password is incorrect")
+	}
+
+	if err := domain.ValidatePasswordComplexity(newPassword); err != nil {
+		return domain.NewError(domain.ErrInvalidInput, err.Error())
+	}
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(newPassword), BcryptCost)
+	if err != nil {
+		return err
+	}
+	user.PasswordHash = string(hash)
+
+	return s.txManager.WithTx(ctx, func(txCtx context.Context) error {
+		if err := s.users.Update(txCtx, user); err != nil {
+			return err
+		}
+		return s.tokens.RevokeAllUserRefreshTokens(txCtx, user.ID)
+	})
+}
+
 func (s *PasswordService) VerifyEmail(ctx context.Context, tokenStr string) error {
 	vToken, err := s.tokens.FindEmailVerificationToken(ctx, tokenStr)
 	if err != nil {

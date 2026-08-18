@@ -98,6 +98,17 @@ class ResetPasswordRequest(BaseModel):
     new_password: str = Field(min_length=8)
 
 
+class ChangePasswordRequest(BaseModel):
+    current_password: str
+    new_password: str = Field(min_length=8)
+
+
+class Disable2FARequest(BaseModel):
+    # The account password, not just a valid access token: a stolen token
+    # should not be enough to remove the second factor.
+    password: str
+
+
 class GoogleLoginRequest(BaseModel):
     token: str
     remember_me: bool = False

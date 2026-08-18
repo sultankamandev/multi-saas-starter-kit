@@ -74,6 +74,13 @@ export function totpAuthUrl(email: string, secret: string, issuer = "SaaS Starte
   return authenticator.keyuri(email, issuer, secret);
 }
 
+// otplib accepts only the current 30-second step by default, so a code typed a
+// second before the window rolls over is rejected. RFC 6238 s5.2 recommends
+// allowing one step for network delay and clock drift, and the Go template's
+// totp.Validate already does (Skew 1) -- without this the three backends
+// disagree about whether the same code is valid.
+authenticator.options = { window: [1, 1] };
+
 export function verifyTotp(secret: string, code: string): boolean {
   try {
     return authenticator.check(code, secret);
@@ -124,4 +131,17 @@ export async function enableTwoFa(userId: number, secret: string) {
     .update(users)
     .set({ twoFaEnabled: true, twoFaSecret: secret, updatedAt: new Date() })
     .where(eq(users.id, userId));
+}
+
+export async function disableTwoFa(userId: number) {
+  await db
+    .update(users)
+    // Clearing the secret matters: leaving it would let a stale authenticator
+    // entry keep working if 2FA were re-enabled later.
+    .set({ twoFaEnabled: false, twoFaSecret: null, updatedAt: new Date() })
+    .where(eq(users.id, userId));
+
+  // Deleted rather than marked used, so re-enabling starts from a clean set and
+  // an old code can never be replayed.
+  await db.delete(recoveryCodes).where(eq(recoveryCodes.userId, userId));
 }

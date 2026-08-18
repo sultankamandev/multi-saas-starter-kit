@@ -194,6 +194,37 @@ func (s *TwoFAService) Verify2FASetup(ctx context.Context, userID uint, code str
 	}, nil
 }
 
+// Disable2FA turns TOTP off again. Without this an account that enabled it
+// could never turn it back off through the API.
+//
+// The account password is required: a stolen access token should not be enough
+// to strip the second factor, which is the whole point of having one.
+func (s *TwoFAService) Disable2FA(ctx context.Context, userID uint, password string) error {
+	user, err := s.users.FindByID(ctx, userID)
+	if err != nil {
+		return err
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(password)); err != nil {
+		return domain.NewError(domain.ErrUnauthorized, "password is incorrect")
+	}
+
+	if !user.TwoFAEnabled {
+		return domain.NewError(domain.ErrInvalidInput, "2FA is not enabled")
+	}
+
+	return s.txManager.WithTx(ctx, func(txCtx context.Context) error {
+		user.TwoFAEnabled = false
+		// Clearing the secret matters: leaving it would let a stale
+		// authenticator entry keep working if 2FA were re-enabled later.
+		user.TwoFASecret = ""
+		if err := s.users.Update(txCtx, user); err != nil {
+			return err
+		}
+		return s.twofa.DeleteRecoveryCodes(txCtx, user.ID)
+	})
+}
+
 func (s *TwoFAService) VerifyTOTPLogin(ctx context.Context, req dto.VerifyTOTPLoginRequest, clientIP, userAgent string) (*LoginResult, error) {
 	user, err := s.users.FindByPublicID(ctx, req.UserID)
 	if err != nil {

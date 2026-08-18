@@ -13,6 +13,8 @@ from app.deps import (
 )
 from app.domain.errors import DomainError, TwoFARequiredError
 from app.dto.auth import (
+    ChangePasswordRequest,
+    Disable2FARequest,
     ForgotPasswordRequest,
     GoogleLoginRequest,
     LogoutRequest,
@@ -292,6 +294,38 @@ async def verify_recovery_code(
     resp = _login_response(user, pair, lang)
     resp["message"] = t("RecoveryCodeUsed", lang)
     return resp
+
+
+@router.post("/change-password")
+async def change_password(
+    body: ChangePasswordRequest,
+    lang: str = Depends(get_language),
+    user_id: int = Depends(get_current_user_id),
+    session: AsyncSession = Depends(get_session),
+    password_svc: PasswordService = Depends(get_password_service),
+):
+    try:
+        await password_svc.change_password(
+            user_id, body.current_password, body.new_password, session
+        )
+    except DomainError as e:
+        return error_response(e)
+    return {"message": t("PasswordChangedSuccess", lang)}
+
+
+@router.post("/2fa/disable")
+async def disable_2fa(
+    body: Disable2FARequest,
+    lang: str = Depends(get_language),
+    user_id: int = Depends(get_current_user_id),
+    session: AsyncSession = Depends(get_session),
+    twofa_svc: TwoFAService = Depends(get_twofa_service),
+):
+    try:
+        await twofa_svc.disable_2fa(user_id, body.password, session)
+    except DomainError as e:
+        return error_response(e)
+    return {"message": t("TwoFADisabledSuccess", lang)}
 
 
 @router.post("/2fa/setup")

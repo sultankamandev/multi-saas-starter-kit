@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-from sqlalchemy import select, update
+from sqlalchemy import delete, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.twofa import RecoveryCode, TwoFactorToken
@@ -82,3 +82,13 @@ class TwoFARepository:
             .values(used=True, used_at=datetime.now(timezone.utc))
         )
         await self._session.flush()
+
+    async def delete_recovery_codes(self, user_id: int) -> None:
+        """Remove every code for a user, used when 2FA is turned off.
+
+        Deleted rather than marked used so re-enabling starts from a clean set
+        and an old code can never be replayed.
+        """
+        await self._session.execute(
+            delete(RecoveryCode).where(RecoveryCode.user_id == user_id)
+        )

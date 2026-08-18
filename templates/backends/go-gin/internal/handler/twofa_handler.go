@@ -156,3 +156,24 @@ func (h *TwoFAHandler) UseRecoveryCode(c *gin.Context) {
 	})
 }
 
+func (h *TwoFAHandler) Disable2FA(c *gin.Context) {
+	lang := extractLanguageFromBody(c)
+	userID, ok := c.Get("userID")
+	if !ok {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": i18n.T(lang, "Unauthorized")})
+		return
+	}
+
+	var req dto.Disable2FARequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"errors": formatValidationErrors(err, lang)})
+		return
+	}
+
+	if err := h.twofaSvc.Disable2FA(c.Request.Context(), userID.(uint), req.Password); err != nil {
+		writeError(c, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": i18n.T(lang, "TwoFADisabledSuccess")})
+}

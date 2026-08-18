@@ -25,6 +25,13 @@ TWO_FA_EXPIRY_MINUTES = 5
 RECOVERY_CODE_COUNT = 10
 
 
+# pyotp checks only the current 30-second step by default, so a code typed a
+# second before the window rolls over is rejected. RFC 6238 s5.2 recommends
+# allowing one step for network delay and clock drift, and the Go template's
+# totp.Validate already does (Skew 1).
+TOTP_SKEW_STEPS = 1
+
+
 class TwoFAService:
     def __init__(
         self,
@@ -130,7 +137,7 @@ class TwoFAService:
             raise DomainError(ERR_INVALID_INPUT, "2FA has not been set up")
 
         totp = pyotp.TOTP(user.two_fa_secret)
-        if not totp.verify(code):
+        if not totp.verify(code, valid_window=TOTP_SKEW_STEPS):
             raise DomainError(ERR_UNAUTHORIZED, "Invalid TOTP code")
 
         user.two_fa_enabled = True
@@ -154,6 +161,31 @@ class TwoFAService:
             "warning": "Save these recovery codes in a safe place. Each code can only be used once.",
         }
 
+    async def disable_2fa(self, user_id: int, password: str, session) -> dict:
+        """Turn TOTP off again.
+
+        Without this an account that enabled it could never turn it back off
+        through the API. The account password is required: a stolen access token
+        should not be enough to strip the second factor.
+        """
+        user = await self._users.find_by_id(user_id)
+
+        if not verify_password(password, user.password_hash):
+            raise DomainError(ERR_UNAUTHORIZED, "Password is incorrect")
+
+        if not user.two_fa_enabled:
+            raise DomainError(ERR_INVALID_INPUT, "2FA is not enabled")
+
+        user.two_fa_enabled = False
+        # Clearing the secret matters: leaving it would let a stale
+        # authenticator entry keep working if 2FA were re-enabled later.
+        user.two_fa_secret = None
+        await self._users.update(user)
+        await self._twofa.delete_recovery_codes(user.id)
+        await session.commit()
+
+        return {"message": "Two-factor authentication disabled successfully"}
+
     async def verify_totp_login(
         self, public_id: str, code: str, remember_me: bool, client_ip: str, user_agent: str, session
     ) -> tuple[User, TokenPair]:
@@ -163,7 +195,7 @@ class TwoFAService:
             raise DomainError(ERR_INVALID_INPUT, "TOTP is not set up")
 
         totp = pyotp.TOTP(user.two_fa_secret)
-        if not totp.verify(code):
+        if not totp.verify(code, valid_window=TOTP_SKEW_STEPS):
             raise DomainError(ERR_UNAUTHORIZED, "Invalid TOTP code")
 
         pair = await self._token_svc.issue_token_pair(user.id, user.role, remember_me)

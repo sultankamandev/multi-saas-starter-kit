@@ -31,6 +31,7 @@ import {
   verifyTotp,
   issueRecoveryCodes,
   consumeRecoveryCode,
+  disableTwoFa,
   enableTwoFa,
   TWO_FA_ERROR,
 } from "../services/twofa.js";
@@ -552,6 +553,75 @@ router.post("/2fa/verify-setup", authMiddleware, async (req: Request, res: Respo
     recovery_codes: codes,
     warning: t(req.lang, "RecoveryCodesWarning"),
   });
+});
+
+router.post("/change-password", authMiddleware, async (req: Request, res: Response) => {
+  const parsed = z
+    .object({
+      current_password: z.string().min(1),
+      new_password: z.string().min(8).max(255),
+    })
+    .safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({ error: "validation_error", errors: parsed.error.flatten().fieldErrors });
+    return;
+  }
+
+  const user = await findUserById(req.auth!.userId);
+  if (!user) {
+    res.status(404).json({ error: "not_found", message: t(req.lang, "UserNotFound") });
+    return;
+  }
+
+  // The current password is what proves intent -- an access token alone is not
+  // enough to rotate a password.
+  if (!(await verifyPassword(parsed.data.current_password, user.passwordHash))) {
+    res.status(401).json({
+      error: "invalid_credentials",
+      message: t(req.lang, "CurrentPasswordIncorrect"),
+    });
+    return;
+  }
+
+  await db
+    .update(users)
+    .set({ passwordHash: await hashPassword(parsed.data.new_password), updatedAt: new Date() })
+    .where(eq(users.id, user.id));
+  // Matches reset-password: a password change signs the account out everywhere,
+  // including this caller.
+  await deleteAllRefreshTokens(user.id);
+
+  res.json({ message: t(req.lang, "PasswordChangedSuccess") });
+});
+
+router.post("/2fa/disable", authMiddleware, async (req: Request, res: Response) => {
+  const parsed = z.object({ password: z.string().min(1) }).safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({ error: "validation_error", errors: parsed.error.flatten().fieldErrors });
+    return;
+  }
+
+  const user = await findUserById(req.auth!.userId);
+  if (!user) {
+    res.status(404).json({ error: "not_found", message: t(req.lang, "UserNotFound") });
+    return;
+  }
+
+  // The account password, not just a valid token: a stolen access token should
+  // not be enough to strip the second factor.
+  if (!(await verifyPassword(parsed.data.password, user.passwordHash))) {
+    res.status(401).json({ error: "invalid_credentials", message: t(req.lang, "InvalidCredentials") });
+    return;
+  }
+
+  if (!user.twoFaEnabled) {
+    res.status(400).json({ error: "not_enabled", message: t(req.lang, "TwoFANotSetup") });
+    return;
+  }
+
+  await disableTwoFa(user.id);
+
+  res.json({ message: t(req.lang, "TwoFADisabledSuccess") });
 });
 
 export default router;
