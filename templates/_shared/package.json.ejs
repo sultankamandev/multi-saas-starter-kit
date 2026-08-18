@@ -1,0 +1,43 @@
+<%
+  // A dependency-free root so `npm run <task>` is the one entry point for the
+  // whole project. Every script uses `cd x && y`, which behaves the same in
+  // POSIX shells and cmd.exe — npm picks the shell, and the developer should
+  // not have to care which one they are on.
+  const scripts = {};
+
+  scripts["dev:backend"] = `cd backend && ${backend.devCmd}`;
+  scripts["dev:frontend"] = "cd frontend && npm run dev";
+
+  scripts["install:backend"] = `cd backend && ${backend.installCmd}`;
+  scripts["install:frontend"] = "cd frontend && npm install";
+
+  if (includeDocker) {
+    scripts["up"] = "docker compose up --build";
+    scripts["down"] = "docker compose down";
+    scripts["logs"] = "docker compose logs -f backend";
+    scripts["psql"] = "docker compose exec postgres psql -U postgres -d saas_app";
+  }
+
+  // Promotes an account to admin. A fresh install has none, so this is the
+  // step between registering and being able to open /admin.
+  if (backend.adminCmd) {
+    scripts["admin"] = `cd backend && ${backend.adminCmd}`;
+  }
+  if (includeDocker && backend.adminDockerCmd) {
+    scripts["admin:docker"] = `docker compose exec backend ${backend.adminDockerCmd}`;
+  }
+
+  // Installs on every run so a fresh clone can go straight to `npm test`.
+  // npm is a no-op once the tree is already there.
+  scripts["test"] =
+    "cd tests/compliance && npm install --no-audit --no-fund --silent && npm test";
+
+  const pkg = {
+    name: projectName,
+    version: "0.1.0",
+    private: true,
+    description: "Auth kit: identity, sessions, 2FA, OAuth, admin console, i18n.",
+    scripts,
+  };
+-%>
+<%- JSON.stringify(pkg, null, 2) %>

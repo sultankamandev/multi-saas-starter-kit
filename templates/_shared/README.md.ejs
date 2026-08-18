@@ -4,7 +4,6 @@
   const feDevUrl = `http://localhost:${frontend.port}`;
   const feDockerUrl = fePort === 80 ? 'http://localhost' : `http://localhost:${fePort}`;
   const beUrl = `http://localhost:${bePort}`;
-  const isBeta = backend.status === 'beta' || frontend.status === 'beta';
 -%>
 # <%= projectName %>
 
@@ -23,14 +22,18 @@ Authentication, admin console, and i18n, ready to build on.
 ### With Docker
 
 ```bash
-docker compose up --build
+npm run up
 ```
 
 | Service  | URL |
 | -------- | --- |
 | Frontend | <%= feDockerUrl %> |
 | Backend  | <%= beUrl %> |
+| Mail (Mailpit) | http://localhost:8025 |
 | Postgres | localhost:5432 (`postgres` / `postgres`, db `saas_app`) |
+
+Nothing is emailed for real in this setup — every message the backend sends is caught by
+Mailpit and read at the URL above.
 
 <% } -%>
 ### Locally
@@ -50,23 +53,49 @@ cp .env.example .env
 python -m venv .venv
 # Windows: .venv\Scripts\activate | macOS/Linux: source .venv/bin/activate
 <% } -%>
-<%= backend.installCmd %>
-<%= backend.devCmd %>
+cd ..
+npm run install:backend
+npm run dev:backend
 ```
 
-Edit `.env` before starting: set `JWT_SECRET` to a long random string, and make sure
-`DATABASE_URL` matches your database. Tables are created automatically on first boot.
+Edit `backend/.env` before starting. `DATABASE_URL` must match your database, and
+`JWT_SECRET` must be at least 32 characters — the server refuses to start otherwise,
+rather than signing real tokens with a placeholder. Generate one with:
+
+```bash
+openssl rand -base64 48
+```
+
+Tables are created automatically on first boot.
 
 **Frontend** — serves <%= feDevUrl %>
 
 ```bash
-cd frontend
-cp .env.example .env
-npm install
-npm run dev
+cd frontend && cp .env.example .env && cd ..
+npm run install:frontend
+npm run dev:frontend
 ```
 
 `<%= frontend.apiUrlEnv %>` in `frontend/.env` must point at the backend (<%= beUrl %>).
+
+## Project scripts
+
+Every task has a root script, so you never have to remember which stack is underneath:
+
+| Command | What it does |
+| ------- | ------------ |
+| `npm run dev:backend` | Start the API in watch mode |
+| `npm run dev:frontend` | Start the web app in watch mode |
+| `npm run install:backend` | Install backend dependencies |
+| `npm run install:frontend` | Install frontend dependencies |
+| `npm run admin -- you@example.com` | Promote an account to admin |
+| `npm test` | Run the API compliance suite |
+<% if (includeDocker) { -%>
+| `npm run up` / `npm run down` | Start / stop the whole stack in Docker |
+| `npm run logs` | Tail the backend container logs |
+| `npm run psql` | Open a psql shell on the database |
+| `npm run admin:docker -- you@example.com` | Promote an account, against the running container |
+<% } -%>
 
 ## Create your first admin user
 
@@ -74,21 +103,60 @@ There is no seed script and no default admin. Every registration gets `role = 'u
 `/admin` stays inaccessible until you promote an account yourself:
 
 1. Register through the frontend.
-2. Promote it in the database:
+2. Promote it:
 
 ```bash
-docker exec -it saas-pg psql -U postgres -d saas_app -c "UPDATE users SET role = 'admin', verified = true WHERE email = 'you@example.com';"
+npm run admin -- you@example.com
+<% if (includeDocker) { -%>
+# or, if the stack is running in Docker:
+npm run admin:docker -- you@example.com
+<% } -%>
 ```
 
 3. Log out and back in — the role is carried in the JWT, so an old token still says `user`.
 
+## Testing against the contract
+
+`tests/compliance/` is a backend-agnostic suite that checks this API against
+[`docs/openapi.yaml`](docs/openapi.yaml): response shapes, status codes, `snake_case`
+keys, auth enforcement, and the full email and 2FA flows. Run it after changing an
+endpoint to confirm you did not break the contract.
+
+```bash
+npm test
+```
+
+It reads `tests/compliance/.env.defaults` (already pointed at <%= beUrl %>), so it works
+with no arguments. Some checks skip themselves until you give them more:
+
+- the **12 admin checks** need `ADMIN_EMAIL` and `ADMIN_PASSWORD`
+- the **9 email/2FA flow checks** need a reachable `MAILPIT_URL`<%= includeDocker ? ' — `npm run up` starts one' : '' %>
+
+Put credentials in `tests/compliance/.env` (git-ignored, overrides the defaults):
+
+```
+ADMIN_EMAIL=you@example.com
+ADMIN_PASSWORD=your-password
+```
+
 ## Sending email
 
 Email verification, password reset, and email 2FA all need SMTP. Without `SMTP_*` set in
-`backend/.env` those flows cannot complete. For local development either run a mail catcher
-(`docker run -p 1025:1025 -p 8025:8025 axllent/mailpit`, then `SMTP_HOST=localhost`,
-`SMTP_PORT=1025`) or turn verification off via `PUT /api/admin/settings/email-verification`
-with `{"require_email_verification": false}`.
+`backend/.env` those flows cannot complete.
+<% if (includeDocker) { -%>
+The Docker setup wires this up for you. For local development, run a mail catcher and
+point the backend at it:
+<% } else { -%>
+For local development, run a mail catcher and point the backend at it:
+<% } -%>
+
+```bash
+docker run -p 1025:1025 -p 8025:8025 axllent/mailpit
+# then in backend/.env: SMTP_HOST=localhost, SMTP_PORT=1025
+```
+
+Alternatively turn verification off via `PUT /api/admin/settings/email-verification` with
+`{"require_email_verification": false}`.
 
 ## Features
 
@@ -102,11 +170,12 @@ with `{"require_email_verification": false}`.
 - **App settings** — runtime toggles for email verification and 2FA
 - **Rate limiting** — per-IP throttling on `/auth`, with admin unblock
 - **i18n** — 7 locales (en, tr, de, fr, es, it, ru)
-<% if (backend.id === 'node-express') { -%>
+<% if (backend.limitations && backend.limitations.length) { -%>
 
-> **Heads up:** the Node/Express backend implements the full contract, but has not yet
-> been run against the compliance suite, so it is marked beta. Google login verifies ID
-> tokens through Google's tokeninfo endpoint, which costs one network call per login.
+> **Heads up:**
+<% backend.limitations.forEach(function (line) { -%>
+> - <%- line %>
+<% }); -%>
 <% } -%>
 
 ## Layout
@@ -115,6 +184,7 @@ with `{"require_email_verification": false}`.
 <%= projectName %>/
 ├── backend/            <%= backend.name %>
 ├── frontend/           <%= frontend.name %>
+├── tests/compliance/   API contract test suite
 <% if (includeDocker) { -%>
 ├── docker/             Dockerfiles
 ├── docker-compose.yml
@@ -124,6 +194,8 @@ with `{"require_email_verification": false}`.
 
 ## Common problems
 
+- **Backend won't start, complains about `JWT_SECRET`** — it must be at least 32
+  characters. The placeholder in `.env.example` is deliberately too short to use as-is.
 - **CORS errors** — `CORS_ORIGINS` in `backend/.env` must exactly match the frontend origin.
   A frontend on port 80 has origin `http://localhost`, with no port.
 <% if (includeDocker) { -%>
@@ -133,6 +205,7 @@ with `{"require_email_verification": false}`.
   `docker compose build --no-cache frontend`.
 <% } -%>
 - **Admin pages return 403** — log out and back in after promoting your account.
+- **No verification email arrives** — check Mailpit<%= includeDocker ? ' at http://localhost:8025' : '' %>, and confirm `SMTP_HOST` is set.
 
 ## API documentation
 
