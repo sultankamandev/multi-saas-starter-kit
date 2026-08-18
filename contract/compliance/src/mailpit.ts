@@ -22,6 +22,14 @@ interface MailpitMessage {
   Subject: string;
 }
 
+async function getAllMessages(): Promise<MailpitMessage[]> {
+  const res = await axios.get(`${MAILPIT_URL}/api/v1/messages`, {
+    params: { limit: 200 },
+    validateStatus: () => true,
+  });
+  return res.data?.messages ?? [];
+}
+
 async function getMessageIDsFor(email: string): Promise<string[]> {
   const res = await axios.get(`${MAILPIT_URL}/api/v1/messages`, {
     params: { limit: 200 },
@@ -44,11 +52,21 @@ async function getMessageBody(id: string): Promise<string> {
 /**
  * Poll until a message to `email` whose body matches `pattern` arrives, then
  * return the first capture group (the token). Throws after `timeoutMs`.
+ *
+ * This budget must stay strictly below `testTimeout` in vitest.config.ts. When
+ * the two were equal, Vitest always killed the test first and reported a bare
+ * "Test timed out", hiding the message below that says which mail never came.
+ *
+ * The number is deliberately generous. Warm, these mails arrive in well under a
+ * second; the failures came from running the suite immediately after building
+ * the backend image, with the disk still busy — which is exactly what CI does.
+ * A long ceiling costs nothing on the happy path, since the poll returns as soon
+ * as the mail lands.
  */
 export async function waitForToken(
   email: string,
   pattern: RegExp,
-  timeoutMs = 15_000
+  timeoutMs = 45_000
 ): Promise<string> {
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
@@ -59,7 +77,13 @@ export async function waitForToken(
     }
     await new Promise((r) => setTimeout(r, 500));
   }
-  throw new Error(`no matching mail to ${email} within ${timeoutMs}ms`);
+  const total = (await getAllMessages()).length;
+  throw new Error(
+    `no matching mail to ${email} within ${timeoutMs}ms ` +
+      `(${total} message(s) in the mailbox). An empty mailbox means the backend ` +
+      `never sent it — check SMTP_HOST and the backend log. A full one means it ` +
+      `went somewhere else, or the pattern did not match.`
+  );
 }
 
 /** Clear the mailbox so one test's mail cannot satisfy another's poll. */
