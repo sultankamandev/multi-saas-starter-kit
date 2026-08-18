@@ -4,11 +4,15 @@ COPY backend/go.mod backend/go.sum ./
 RUN go mod download
 COPY backend/ .
 RUN CGO_ENABLED=0 GOOS=linux go build -o /server ./cmd/server
+# The final image has no Go toolchain, so the admin promote command has to be
+# compiled here too or `docker compose exec backend ./admin` cannot work.
+RUN CGO_ENABLED=0 GOOS=linux go build -o /admin ./cmd/admin
 
 FROM alpine:3.20
 RUN apk --no-cache add ca-certificates
 WORKDIR /app
 COPY --from=builder /server .
+COPY --from=builder /admin .
 COPY backend/locales/ ./locales/
 COPY backend/templates/ ./templates/
 EXPOSE 8080

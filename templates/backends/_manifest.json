@@ -12,6 +12,8 @@
       "envFile": ".env.example",
       "installCmd": "go mod download",
       "devCmd": "go run ./cmd/server",
+      "adminCmd": "go run ./cmd/admin",
+      "adminDockerCmd": "./admin",
       "dockerfile": "go-api.Dockerfile",
       "dbUrlEnvFormat": "host=${DB_HOST} user=${DB_USER} password=${DB_PASS} dbname=${DB_NAME} port=${DB_PORT} sslmode=disable"
     },
@@ -27,6 +29,8 @@
       "envFile": ".env.example",
       "installCmd": "pip install -r requirements.txt",
       "devCmd": "uvicorn app.main:app --reload",
+      "adminCmd": "python -m app.cli promote",
+      "adminDockerCmd": "python -m app.cli promote",
       "dockerfile": "python-api.Dockerfile",
       "dbUrlEnvFormat": "postgresql+asyncpg://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
     },
@@ -36,7 +40,9 @@
       "dir": "node-express",
       "port": 8080,
       "language": "typescript",
-      "variants": ["ts"],
+      "variants": [
+        "ts"
+      ],
       "status": "beta",
       "hint": "beta - passes compliance 34/34, like Go and Python",
       "limitations": [
@@ -48,6 +54,8 @@
       "envFile": ".env.example",
       "installCmd": "npm install",
       "devCmd": "npm run dev",
+      "adminCmd": "npm run admin --",
+      "adminDockerCmd": "node dist/scripts/admin.js",
       "dockerfile": "node-express.Dockerfile",
       "dbUrlEnvFormat": "postgresql://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
     }
