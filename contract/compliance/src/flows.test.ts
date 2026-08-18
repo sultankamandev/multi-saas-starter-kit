@@ -89,6 +89,53 @@ maybe("Password reset flow", () => {
   });
 });
 
+maybe("Change password", () => {
+  it("rotates the password and revokes existing sessions", async () => {
+    const user = await registerAndVerify();
+    const session = await login(user);
+    expect(session.status).toBe(200);
+    const api = createClient(session.data.access_token);
+
+    const newPassword = "Rotated789!@#";
+    const res = await api.post("/auth/change-password", {
+      current_password: user.password,
+      new_password: newPassword,
+    });
+    expect(res.status).toBe(200);
+    expect(res.data).toHaveProperty("message");
+
+    // The new password works and the old one does not.
+    expect((await login(user, newPassword)).status).toBe(200);
+    expect((await login(user, user.password)).status).toBe(401);
+
+    // Every refresh token is revoked, matching reset-password.
+    const reuse = await createClient().post("/auth/refresh-token", {
+      refresh_token: session.data.refresh_token,
+    });
+    expect([400, 401]).toContain(reuse.status);
+  });
+
+  it("rejects a wrong current password", async () => {
+    const user = await registerAndVerify();
+    const session = await login(user);
+    const api = createClient(session.data.access_token);
+
+    const res = await api.post("/auth/change-password", {
+      current_password: "NotThePassword1!",
+      new_password: "Whatever789!@#",
+    });
+    expect(res.status).toBe(401);
+  });
+
+  it("requires authentication", async () => {
+    const res = await createClient().post("/auth/change-password", {
+      current_password: "irrelevant",
+      new_password: "Whatever789!@#",
+    });
+    expect(res.status).toBe(401);
+  });
+});
+
 maybe("TOTP 2FA flow", () => {
   let user: TestUser;
   let accessToken: string;
@@ -159,5 +206,48 @@ maybe("TOTP 2FA flow", () => {
       code,
     });
     expect(second.status).toBe(401);
+  });
+
+  // Runs last on purpose: it consumes the enabled state the tests above build
+  // up, and without it there would be no way to leave 2FA once enabled.
+  it("2fa/disable rejects a wrong password", async () => {
+    const api = createClient(accessToken);
+    const res = await api.post("/auth/2fa/disable", { password: "NotThePassword1!" });
+    expect(res.status).toBe(401);
+  });
+
+  it("2fa/disable turns 2FA off and login stops demanding a second factor", async () => {
+    const api = createClient(accessToken);
+    const res = await api.post("/auth/2fa/disable", { password: user.password });
+    expect(res.status).toBe(200);
+    expect(res.data).toHaveProperty("message");
+
+    const after = await login(user);
+    expect(after.status).toBe(200);
+    expect(after.data.requires_2fa).toBeFalsy();
+    expect(after.data).toHaveProperty("access_token");
+  });
+
+  it("2fa/disable is rejected when 2FA is not enabled", async () => {
+    const api = createClient(accessToken);
+    const res = await api.post("/auth/2fa/disable", { password: user.password });
+    expect(res.status).toBe(400);
+  });
+
+  it("a recovery code from before the disable no longer works", async () => {
+    // Re-enable so login issues a 2FA challenge we can attempt the old code on.
+    const api = createClient(accessToken);
+    const setup = await api.post("/auth/2fa/setup", {});
+    const freshSecret = setup.data.secret;
+    await api.post("/auth/2fa/verify-setup", {
+      code: authenticator.generate(freshSecret),
+    });
+
+    const challenge = await login(user);
+    const stale = await createClient().post("/auth/verify-recovery-code", {
+      user_id: challenge.data.user_id,
+      code: recoveryCodes[1],
+    });
+    expect(stale.status).toBe(401);
   });
 });

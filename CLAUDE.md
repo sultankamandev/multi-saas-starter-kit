@@ -62,7 +62,7 @@ cd cli && npm run bundle-pack-assets && npm run verify-pack && npm run smoke-sca
 
 ## What CI checks
 
-`.github/workflows/ci.yml` runs per-template jobs **and** the compliance suite (a matrix job that scaffolds a project, brings up postgres + mailpit + the backend, promotes an admin, and runs all 35 checks). Before pushing, the equivalents are:
+`.github/workflows/ci.yml` runs per-template jobs **and** the compliance suite (a matrix job that scaffolds a project, brings up postgres + mailpit + the backend, promotes an admin, and runs all 42 checks). Before pushing, the equivalents are:
 
 | Template | Check |
 | --- | --- |
@@ -105,7 +105,7 @@ Hard rules the compliance suite and templates assume:
 
 - **go-gin** — module `saas-starter/backend/go-api`. Single entrypoint `cmd/server/main.go`, layered config → platform → repository → service → handler → router, wired by hand in `main`. Real work goes in `internal/`. (The parallel legacy tree — root `main.go` plus `controllers/ routes/ models/ database/ utils/` — was deleted; don't reintroduce that shape.)
 - **python-fastapi** — mirrors the same layering under `app/` (`router/ service/ repository/ domain/ dto/ platform/`), assembled in `app/main.py:create_app` with dependencies stashed on `app.state` during `lifespan`.
-- **node-express** — flatter (`src/routes|services|models|config`), Drizzle ORM, beta. Implements the full contract including 2FA (email + TOTP), recovery codes, Google login, password reset and email verification, and passes compliance 35/35 like Go and Python (still `beta` pending broader use, not because anything is missing). Drizzle does not create tables at runtime, so the schema is explicit DDL in `src/config/migrate.ts`, with column names matching Go.
+- **node-express** — flatter (`src/routes|services|models|config`), Drizzle ORM, beta. Implements the full contract including 2FA (email + TOTP), recovery codes, Google login, password reset and email verification, and passes compliance 42/42 like Go and Python (still `beta` pending broader use, not because anything is missing). Drizzle does not create tables at runtime, so the schema is explicit DDL in `src/config/migrate.ts`, with column names matching Go.
 
 Go errors flow as `domain.DomainError` sentinels mapped to HTTP status in `internal/handler/response.go`; add new cases there rather than returning raw status codes from handlers.
 

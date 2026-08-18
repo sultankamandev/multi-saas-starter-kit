@@ -89,7 +89,7 @@ ADMIN_PASSWORD=...
 
 Admin tests skip silently without `ADMIN_EMAIL` / `ADMIN_PASSWORD`. A template may only be
 marked `stable` once the whole suite passes against it. All three backends currently pass
-**35/35**.
+**42/42**.
 
 To get an admin account, register through the API and then promote it with the backend's
 own command — no SQL needed:
