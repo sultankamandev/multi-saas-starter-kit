@@ -50,10 +50,11 @@ Run these before pushing — CI runs the same ones, on both `main` and `develop`
 | `cd cli && npm run verify-pack` | The published npm package contains `dist/`, `templates/`, `contract/`, `docs/` |
 | `cd contract && npm run generate` | `generated/types.ts` matches `openapi.yaml` (CI fails on a dirty diff) |
 | `cd contract && npm run check-locales` | All 6 templates have all 7 locales with identical key sets |
-| `cd templates/backends/go-gin && go build ./cmd/server && go vet ./...` | Go template compiles |
+| `cd templates/backends/go-gin && go build ./cmd/server ./cmd/admin && go vet ./...` | Go template and its admin command compile |
 | `cd templates/backends/node-express && npx tsc --noEmit` | Node template typechecks |
 
-CI additionally scaffolds three real projects and runs `docker compose build` on them.
+CI additionally scaffolds three real projects and runs `docker compose build` on them, and
+scaffolds three more to run the compliance suite against a live backend per stack.
 This exists because the Dockerfiles were authored against the monorepo layout while the
 scaffolder emits `backend/` and `frontend/` — the drift broke `docker compose up --build`
 for five of six stacks and nothing caught it, because every other job builds templates
@@ -61,38 +62,84 @@ for five of six stacks and nothing caught it, because every other job builds tem
 
 ## Compliance tests
 
-The contract suite is backend-agnostic and needs a **running** server; nothing starts one
-for you, and CI does not run it.
+CI runs this suite against all three backends on every push (the `compliance` job), so
+drift fails there rather than on someone's laptop. What follows is how to run it yourself.
+
+The suite is backend-agnostic and needs a **running** server; nothing starts one for you.
 
 ```bash
 # terminal 1
 cd templates/backends/go-gin && go run ./cmd/server
 
 # terminal 2
-cd contract/compliance && npm install
-API_URL=http://localhost:8080 \
-  ADMIN_EMAIL=admin@example.com \
-  ADMIN_PASSWORD=... \
-  npm test
+cd contract/compliance && npm install && npm test
+```
+
+Configuration comes from `.env.defaults` (committed, non-secret) and `.env` (local, not
+committed) next to `vitest.config.ts`. Real environment variables override both. Prefer
+the files over `API_URL=... npm test` — that syntax is POSIX-only and silently does
+nothing on Windows.
+
+```
+# contract/compliance/.env
+API_URL=http://localhost:8000
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=...
 ```
 
 Admin tests skip silently without `ADMIN_EMAIL` / `ADMIN_PASSWORD`. A template may only be
 marked `stable` once the whole suite passes against it. All three backends currently pass
-**34/34**.
+**35/35**.
+
+To get an admin account, register through the API and then promote it with the backend's
+own command — no SQL needed:
+
+```bash
+cd templates/backends/go-gin && go run ./cmd/admin admin@example.com
+```
+
+Each backend has an equivalent, listed as `adminCmd` in
+[templates/backends/_manifest.json](../templates/backends/_manifest.json).
+
+### One run per backend, not two
+
+A full run costs about **67 of the 100 requests/minute** the `/auth` group allows per IP
+(`RateLimiter(100, 1*time.Minute, 5*time.Minute)` in the Go router; the others match).
+Two runs inside the same minute cross that line, and the backend then blocks the IP for
+**five minutes** — after which every `/auth` test fails with 429 and the flow tests fail
+with "no matching mail", because registration never happened.
+
+If you see a wall of 429s, you are not looking at a regression. Wait five minutes, or
+restart the backend, which clears the in-memory limiter.
+
+The coverage check below accounts for roughly 18 of those 67, since it probes every path
+in the spec and most of them are under `/auth`.
+
+### Contract coverage
+
+`src/coverage.test.ts` reads `openapi.yaml` and sends an unauthenticated request to every
+path it declares. Anything that answers 404 or 405 is in the contract but not routed.
+
+This exists because only the TypeScript types are drift-checked. The Go and Python DTOs
+are hand-written and nothing compares them to the spec, so an endpoint could be dropped
+from one implementation and every other CI job would stay green. Probing a live server
+beats parsing three routers with three different regexes, and it also catches a route
+registered at the wrong path.
 
 ### Email and 2FA flow tests
 
 `src/flows.test.ts` covers the end-to-end flows the core suite does not: email
 verification, password reset, and TOTP 2FA (setup, login, recovery-code login). They read
-the backend's outgoing mail, so they need a sink and skip unless `MAILPIT_URL` is set:
+the backend's outgoing mail, so they need a sink and skip unless `MAILPIT_URL` is set.
+
+A scaffolded project's `docker compose` includes Mailpit and points the backend at it, so
+there `npm test` covers these with no setup. Against a template running in place, start
+one yourself:
 
 ```bash
-# a mail catcher the backend can reach
 docker run -d -p 1025:1025 -p 8025:8025 axllent/mailpit
-
-# point the backend's SMTP at it (host.docker.internal from a compose backend),
-# then run the suite with the mail sink's web API:
-API_URL=http://localhost:8080 MAILPIT_URL=http://localhost:8025 npm test
+# then in the backend's .env: SMTP_HOST=localhost, SMTP_PORT=1025
+# and in contract/compliance/.env: MAILPIT_URL=http://localhost:8025
 ```
 
 A backend gates email on `SMTP_HOST` alone (auth is optional), sends over plain SMTP to a
@@ -106,9 +153,12 @@ non-TLS catcher, and STARTTLS is opportunistic — so a dev catcher just works.
 4. Add or update tests in `contract/compliance/src/`.
 5. Update [API_REFERENCE.md](./API_REFERENCE.md).
 
-The contract is the source of truth, but it is not automatically enforced — it has drifted
-from the implementations before. When contract and two stable backends disagree, confirm
-which one the frontends actually call before deciding which side is wrong.
+The contract is the source of truth. Two things now enforce it: CI regenerates
+`generated/types.ts` and fails on a diff, and `coverage.test.ts` fails if any path in the
+spec is not routed by a backend. Neither checks request or response *shapes* for Go and
+Python — those DTOs are still hand-written — so the compliance assertions remain the only
+guard there. When contract and two stable backends disagree, confirm which one the
+frontends actually call before deciding which side is wrong.
 
 ## Invariants every backend must hold
 
@@ -133,6 +183,20 @@ Two things that are easy to miss:
   `frontend/`), not the monorepo paths. `npm run verify-scaffold-docker` checks this.
 
 ## Publishing the CLI
+
+Tagging is the normal path. `.github/workflows/release.yml` runs the packaging checks from
+a clean checkout and publishes with provenance; it refuses to publish when the tag and
+`cli/package.json` version disagree. It needs an `NPM_TOKEN` secret.
+
+```bash
+# bump cli/package.json first, then:
+git tag v1.1.0 && git push origin v1.1.0
+```
+
+`workflow_dispatch` runs the same job with `dry_run` on, which packs and verifies without
+publishing.
+
+To do it by hand:
 
 ```bash
 cd cli

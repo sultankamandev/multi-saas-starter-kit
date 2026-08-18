@@ -107,13 +107,22 @@ The one variable that matters is the API URL — `NEXT_PUBLIC_API_URL` for Next.
 account yourself.
 
 1. Register normally through the frontend (or `POST /auth/register`).
-2. Promote that account directly in the database:
+2. Promote that account:
+
+```bash
+npm run admin -- you@example.com
+```
+
+If the stack is running in Docker, use `npm run admin:docker -- you@example.com` instead,
+which runs the same command inside the backend container.
+
+The command sets `role = 'admin'` and `verified = true`, matching on the email
+case-insensitively. It only needs `DATABASE_URL`, so it works whether or not the server is
+running. If you would rather do it by hand:
 
 ```bash
 docker exec -it saas-pg psql -U postgres -d saas_app -c "UPDATE users SET role = 'admin', verified = true WHERE email = 'you@example.com';"
 ```
-
-If you are not using Docker for Postgres, run the same `UPDATE` in `psql` or any SQL client.
 
 Log out and back in — the new role is embedded in the JWT, so an existing token still
 says `user` until you get a fresh one.
@@ -124,7 +133,11 @@ Registration, email verification, password reset, and email-based 2FA all send m
 SMTP. With no `SMTP_*` values configured, those sends fail and the flows that depend on
 them will not complete.
 
-Two ways to unblock local development:
+If you started the project with `npm run up`, this is already handled: `docker-compose.yml`
+includes a Mailpit service and points the backend's `SMTP_*` at it, so every message the
+app sends is caught and readable at http://localhost:8025 with nothing delivered for real.
+
+Running the backend outside Docker, you have two ways to unblock local development:
 
 - **Turn email verification off.** Once you have an admin, `PUT /api/admin/settings/email-verification`
   with `{"require_email_verification": false}`, or set the `require_email_verification` row

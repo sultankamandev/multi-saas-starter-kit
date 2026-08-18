@@ -72,8 +72,10 @@ Any backend can be paired with any frontend.
 | React SPA | React 19, Vite | React Router 7 | react-admin 5 | Stable |
 | Vue SPA | Vue 3, Vite | Vue Router 4 | custom (Vuetify 3) | Beta |
 
-> All three backends pass the compliance suite 34/34 (core endpoints plus end-to-end email
-> verification, password reset, and TOTP 2FA flows). Node/Express stays marked beta pending
+> All three backends pass the compliance suite 35/35 (core endpoints, end-to-end email
+> verification, password reset and TOTP 2FA flows, plus a check that every path in
+> `openapi.yaml` is actually routed). CI runs it against all three on every push, so the
+> number above is measured rather than claimed. Node/Express stays marked beta pending
 > broader real-world use, but it is at feature parity with Go and Python.
 
 ## Features

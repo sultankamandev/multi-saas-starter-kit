@@ -43,10 +43,14 @@ cd contract && npm run check-locales
 Compliance suite (vitest, hits a live server — no backend is started for you):
 
 ```bash
-cd contract/compliance && API_URL=http://localhost:8080 npm test
+cd contract/compliance && npm install && npm test
 ```
 
-Admin tests additionally need `ADMIN_EMAIL` / `ADMIN_PASSWORD`.
+Configured by `contract/compliance/.env.defaults` (committed) and `.env` (local, not
+committed); real env vars override both. Do not use `API_URL=... npm test` — that syntax
+does nothing on Windows. Admin tests need `ADMIN_EMAIL` / `ADMIN_PASSWORD`; the flow tests
+need a reachable `MAILPIT_URL`. Get an admin with the backend's own command, e.g.
+`cd templates/backends/go-gin && go run ./cmd/admin you@example.com`.
 
 CLI packaging (`prepublishOnly` = `build` + `bundle-pack-assets`; `postpublish` = `clean-pack-assets`):
 
@@ -58,11 +62,11 @@ cd cli && npm run bundle-pack-assets && npm run verify-pack && npm run smoke-sca
 
 ## What CI checks
 
-`.github/workflows/ci.yml` runs per-template jobs and does **not** run the compliance suite. Before pushing, the equivalents are:
+`.github/workflows/ci.yml` runs per-template jobs **and** the compliance suite (a matrix job that scaffolds a project, brings up postgres + mailpit + the backend, promotes an admin, and runs all 35 checks). Before pushing, the equivalents are:
 
 | Template | Check |
 | --- | --- |
-| `templates/backends/go-gin` | `go build -o /dev/null ./cmd/server && go vet ./...` |
+| `templates/backends/go-gin` | `go build -o /dev/null ./cmd/server ./cmd/admin && go vet ./...` |
 | `templates/backends/python-fastapi` | `pip install -r requirements.txt && python -m compileall app` |
 | `templates/backends/node-express` | `npx tsc --noEmit` |
 | `templates/frontends/*` | `npm ci && npm run build` (all three) |
@@ -101,7 +105,7 @@ Hard rules the compliance suite and templates assume:
 
 - **go-gin** — module `saas-starter/backend/go-api`. Single entrypoint `cmd/server/main.go`, layered config → platform → repository → service → handler → router, wired by hand in `main`. Real work goes in `internal/`. (The parallel legacy tree — root `main.go` plus `controllers/ routes/ models/ database/ utils/` — was deleted; don't reintroduce that shape.)
 - **python-fastapi** — mirrors the same layering under `app/` (`router/ service/ repository/ domain/ dto/ platform/`), assembled in `app/main.py:create_app` with dependencies stashed on `app.state` during `lifespan`.
-- **node-express** — flatter (`src/routes|services|models|config`), Drizzle ORM, beta. Implements the full contract including 2FA (email + TOTP), recovery codes, Google login, password reset and email verification, and passes compliance 34/34 like Go and Python (still `beta` pending broader use, not because anything is missing). Drizzle does not create tables at runtime, so the schema is explicit DDL in `src/config/migrate.ts`, with column names matching Go.
+- **node-express** — flatter (`src/routes|services|models|config`), Drizzle ORM, beta. Implements the full contract including 2FA (email + TOTP), recovery codes, Google login, password reset and email verification, and passes compliance 35/35 like Go and Python (still `beta` pending broader use, not because anything is missing). Drizzle does not create tables at runtime, so the schema is explicit DDL in `src/config/migrate.ts`, with column names matching Go.
 
 Go errors flow as `domain.DomainError` sentinels mapped to HTTP status in `internal/handler/response.go`; add new cases there rather than returning raw status codes from handlers.
 
@@ -118,5 +122,5 @@ Locales must cover all 7 of `en, tr, de, fr, es, it, ru`, with **identical key s
 - `cli/templates`, `cli/contract`, `cli/docs` are gitignored build artifacts created by `bundle-pack-assets`. Never edit or commit them — edit the real dirs at the repo root.
 - `backend/go-api` is a stale near-duplicate of `templates/backends/go-gin`. Fix the template; only mirror into `backend/` if the task explicitly asks.
 - `frontend/next-web/` is empty; the Next.js source lives in `templates/frontends/next-ts`.
-- There is **no admin bootstrap** — no seed, no env promotion. A fresh install has no admin; the account must be promoted with SQL. Documented in `docs/getting-started.md`.
+- There is **no seed and no env promotion** — a fresh install has no admin. Register, then promote with the backend's own command (`adminCmd` in the manifest; `npm run admin -- <email>` from a scaffolded project's root). Documented in `docs/getting-started.md`.
 - The npm package is `create-authkit-app`. `create-saas-app` is a DIFFERENT package owned by someone else on npm — never reintroduce that name in install instructions.
