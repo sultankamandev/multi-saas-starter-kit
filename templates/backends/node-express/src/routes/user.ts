@@ -1,6 +1,7 @@
 import { Router, type Request, type Response } from "express";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
+import { t } from "../i18n.js";
 import { authMiddleware } from "../middleware/auth.js";
 import { db } from "../config/database.js";
 import { users } from "../models/schema.js";
@@ -12,7 +13,7 @@ router.use(authMiddleware);
 router.get("/profile", async (req: Request, res: Response) => {
   const user = await findUserById(req.auth!.userId);
   if (!user) {
-    res.status(404).json({ error: "not_found", message: "User not found" });
+    res.status(404).json({ error: "not_found", message: t(req.lang, "UserNotFound") });
     return;
   }
   res.json({ user: userToResponse(user) });

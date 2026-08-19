@@ -1,4 +1,4 @@
-﻿{
+{
   "title": "Bienvenue sur SaaS Starter",
   "language": "Langue",
   "nav": {
@@ -62,10 +62,9 @@
       "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
       "passwordsNotMatch": "Les mots de passe ne correspondent pas",
       "usernameRequired": "Le nom d'utilisateur est requis",
-      "usernameMinLength": "Le nom d'utilisateur doit contenir au moins 3 caractÃ¨res",
-      "usernameMaxLength": "Le nom d'utilisateur ne doit pas dÃ©passer 30 caractÃ¨res",
-      "usernameInvalid": "Le nom d'utilisateur ne peut contenir que des lettres, chiffres, underscores et tirets. Doit commencer et se terminer par une lettre ou un chiffre."
-    }
+      "usernameMin": "Le nom d'utilisateur doit contenir au moins 3 caractères"
+    },
+    "selectCountry": "Sélectionner un pays..."
   },
   "dashboard": {
     "title": "Tableau de bord",
@@ -78,7 +77,9 @@
       "title": "FonctionnalitÃ©s de la plateforme",
       "description": "Votre tableau de bord personnel. AccÃ©dez Ã  la gestion des utilisateurs, aux analyses et aux paramÃ¨tres."
     },
-    "logout": "DÃ©connexion"
+    "logout": "DÃ©connexion",
+    "welcomeBackName": "Bon retour, {name} !",
+    "adminPanel": "Panneau d'administration"
   },
   "landing": {
     "hero": {
@@ -118,7 +119,16 @@
   },
   "common": {
     "loading": "Chargement...",
-    "logoutSuccess": "DÃ©connexion rÃ©ussie"
+    "logoutSuccess": "DÃ©connexion rÃ©ussie",
+    "unauthorized": "Veuillez vous connecter pour accéder à cette page",
+    "adminOnly": "Accès administrateur requis",
+    "loginRequired": "Veuillez vous connecter pour accéder à cette page",
+    "create": "Créer",
+    "edit": "Modifier",
+    "search": "Rechercher",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer"
   },
   "errors": {
     "title": "Quelque chose s'est mal passÃ©",
@@ -158,7 +168,9 @@
       "passwordMinLength": "Le mot de passe doit contenir au moins 8 caractÃ¨res",
       "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
       "passwordsNotMatch": "Les mots de passe ne correspondent pas"
-    }
+    },
+    "invalidToken": "Jeton de réinitialisation invalide ou expiré.",
+    "requestNewLink": "Demander un nouveau lien"
   },
   "verifyEmail": {
     "title": "VÃ©rifier l'e-mail",
@@ -171,7 +183,8 @@
     "failedMessage": "Veuillez vÃ©rifier votre lien ou rÃ©essayer de vous inscrire.",
     "missingToken": "Jeton de vÃ©rification invalide ou manquant.",
     "goToLogin": "Aller Ã  la connexion",
-    "registerAgain": "S'inscrire Ã  nouveau"
+    "registerAgain": "S'inscrire Ã  nouveau",
+    "invalidToken": "Jeton de vérification invalide ou manquant."
   },
   "verify2FA": {
     "title": "Authentification Ã  deux facteurs",
@@ -199,7 +212,9 @@
       "codeRequired": "Le code de vÃ©rification est requis",
       "codeLength": "Le code doit contenir exactement 6 chiffres",
       "codeInvalid": "Le code ne doit contenir que des chiffres"
-    }
+    },
+    "verify": "Vérifier",
+    "resendSuccess": "Un nouveau code a été envoyé à votre adresse e-mail."
   },
   "setup2FA": {
     "title": "Activer l'authentification Ã  deux facteurs",
@@ -231,7 +246,16 @@
       "codeRequired": "Le code de vÃ©rification est requis",
       "codeLength": "Le code doit contenir exactement 6 chiffres",
       "codeInvalid": "Le code ne doit contenir que des chiffres"
-    }
+    },
+    "generate": "Générer le code QR",
+    "backupSecret": "Clé de secours (à conserver en lieu sûr)",
+    "enterCode": "Saisissez le code à 6 chiffres de votre application d'authentification",
+    "verify": "Vérifier et activer",
+    "enabled": "2FA activée avec succès",
+    "copied": "Codes de récupération copiés dans le presse-papiers",
+    "copyFailed": "Échec de la copie",
+    "saveRecoveryCodes": "Conservez ces codes de récupération en lieu sûr. Chacun ne peut être utilisé qu'une seule fois.",
+    "copyAll": "Copier tous les codes"
   },
   "recoveryLogin": {
     "title": "Se connecter avec un code de rÃ©cupÃ©ration",
@@ -249,7 +273,8 @@
     "validation": {
       "codeRequired": "Le code de rÃ©cupÃ©ration est requis",
       "codeMinLength": "Le code de rÃ©cupÃ©ration est trop court"
-    }
+    },
+    "codePlaceholder": "Saisissez le code de récupération"
   },
   "admin": {
     "auditLog": "Journal d'audit",
@@ -348,15 +373,22 @@
           "US": "Ã‰tats-Unis",
           "GB": "Royaume-Uni",
           "DE": "Allemagne",
-          "FR": "France"
+          "FR": "France",
+          "ES": "Espagne",
+          "IT": "Italie",
+          "RU": "Russie"
         },
         "languages": {
           "tr": "Turc",
           "en": "Anglais",
           "de": "Allemand",
-          "fr": "FranÃ§ais"
+          "fr": "FranÃ§ais",
+          "es": "Espagnol",
+          "it": "Italien",
+          "ru": "Russe"
         }
-      }
+      },
+      "last30Days": "30 derniers jours"
     }
   },
   "profile": {
@@ -393,7 +425,11 @@
     "twoFADisabledDescription": "Activez 2FA pour ajouter une couche de sÃ©curitÃ© supplÃ©mentaire Ã  votre compte.",
     "cancel": "Annuler",
     "saving": "Enregistrement...",
-    "saveChanges": "Enregistrer les modifications"
+    "saveChanges": "Enregistrer les modifications",
+    "required": "Ce champ est obligatoire",
+    "saved": "Profil mis à jour avec succès",
+    "save": "Enregistrer",
+    "twoFactorAuth": "Authentification à deux facteurs",
+    "twoFactorDescription": "Activez la 2FA pour ajouter une couche de sécurité supplémentaire à votre compte."
   }
 }
-

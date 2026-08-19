@@ -26,7 +26,7 @@
       :items-length="total"
       @update:options="onOptionsUpdate"
     >
-      <template #item.actions="{ item }">
+      <template #item.actions="{ item }: { item: AdminUser }">
         <v-btn
           size="small"
           variant="text"
@@ -41,12 +41,13 @@
 </template>
 
 <script setup lang="ts">
+import type { AdminUser } from "@/types/auth";
 import { ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { getUsers } from "@/services/adminService";
 
 const { t } = useI18n();
-const users = ref<unknown[]>([]);
+const users = ref<AdminUser[]>([]);
 const total = ref(0);
 const loading = ref(false);
 const page = ref(1);

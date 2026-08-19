@@ -20,20 +20,39 @@ func NewAdminUserHandler(adminSvc *service.AdminUserService) *AdminUserHandler {
 	return &AdminUserHandler{adminSvc: adminSvc}
 }
 
+// firstQuery returns the first non-empty of two query keys, else def.
+func firstQuery(c *gin.Context, primary, fallback, def string) string {
+	if v := c.Query(primary); v != "" {
+		return v
+	}
+	if v := c.Query(fallback); v != "" {
+		return v
+	}
+	return def
+}
+
 func (h *AdminUserHandler) List(c *gin.Context) {
 	lang := getLang(c)
 
-	page, _ := strconv.Atoi(c.DefaultQuery("_page", "1"))
-	limit, _ := strconv.Atoi(c.DefaultQuery("_limit", "10"))
+	// The react-admin data provider sends page/limit/sort_field/sort_order/q
+	// (and search). Read those; fall back to the react-admin v3 `_`-prefixed
+	// names so an older client still paginates instead of silently getting page 1.
+	page, _ := strconv.Atoi(firstQuery(c, "page", "_page", "1"))
+	limit, _ := strconv.Atoi(firstQuery(c, "limit", "_limit", "10"))
 	if page < 1 { page = 1 }
 	if limit < 1 { limit = 10 }
+
+	search := c.Query("q")
+	if search == "" {
+		search = c.Query("search")
+	}
 
 	params := dto.UserListParams{
 		Page:        page,
 		Limit:       limit,
-		SortField:   c.DefaultQuery("_sort", "id"),
-		SortOrder:   c.DefaultQuery("_order", "asc"),
-		SearchQuery: c.Query("q"),
+		SortField:   firstQuery(c, "sort_field", "_sort", "id"),
+		SortOrder:   firstQuery(c, "sort_order", "_order", "asc"),
+		SearchQuery: search,
 	}
 
 	users, total, err := h.adminSvc.List(c.Request.Context(), params)
@@ -42,9 +61,17 @@ func (h *AdminUserHandler) List(c *gin.Context) {
 		return
 	}
 
+	// X-Total-Count is kept for the react-admin data provider, but the body is
+	// the contract's paginated envelope so the compliance suite and any plain
+	// client see { data, total, page, limit }.
 	c.Header("X-Total-Count", fmt.Sprintf("%d", total))
 	c.Header("Access-Control-Expose-Headers", "X-Total-Count")
-	c.JSON(http.StatusOK, dto.UsersToResponse(users))
+	c.JSON(http.StatusOK, gin.H{
+		"data":  dto.UsersToResponse(users),
+		"total": total,
+		"page":  page,
+		"limit": limit,
+	})
 }
 
 func (h *AdminUserHandler) Get(c *gin.Context) {
@@ -157,21 +184,6 @@ func (h *AdminUserHandler) UpdateRole(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": i18n.T(lang, "UserRoleUpdated"),
 		"user":    dto.UserToResponse(user),
-	})
-}
-
-func (h *AdminUserHandler) Stats(c *gin.Context) {
-	lang := getLang(c)
-
-	stats, err := h.adminSvc.Stats(c.Request.Context())
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": i18n.T(lang, "DatabaseError")})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"message": i18n.T(lang, "AdminStats"),
-		"stats":   stats,
 	})
 }
 

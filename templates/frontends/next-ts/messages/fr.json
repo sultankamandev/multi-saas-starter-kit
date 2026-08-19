@@ -63,9 +63,7 @@
       "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
       "passwordsNotMatch": "Les mots de passe ne correspondent pas",
       "usernameRequired": "Le nom d'utilisateur est requis",
-      "usernameMinLength": "Le nom d'utilisateur doit contenir au moins 3 caractères",
-      "usernameMaxLength": "Le nom d'utilisateur ne doit pas dépasser 30 caractères",
-      "usernameInvalid": "Le nom d'utilisateur ne peut contenir que des lettres, chiffres, underscores et tirets. Doit commencer et se terminer par une lettre ou un chiffre."
+      "usernameMinLength": "Le nom d'utilisateur doit contenir au moins 3 caractères"
     }
   },
   "dashboard": {
@@ -79,7 +77,8 @@
       "title": "Fonctionnalités de la plateforme",
       "description": "Votre tableau de bord personnel. Accédez à la gestion des utilisateurs, aux analyses et aux paramètres."
     },
-    "logout": "Déconnexion"
+    "logout": "Déconnexion",
+    "adminPanel": "Panneau d'administration"
   },
   "landing": {
     "hero": {
@@ -119,7 +118,10 @@
   },
   "common": {
     "loading": "Chargement...",
-    "logoutSuccess": "Déconnexion réussie"
+    "logoutSuccess": "Déconnexion réussie",
+    "unauthorized": "Veuillez vous connecter pour accéder à cette page",
+    "adminOnly": "Accès administrateur requis",
+    "loginRequired": "Veuillez vous connecter pour accéder à cette page"
   },
   "errors": {
     "title": "Quelque chose s'est mal passé",
@@ -349,13 +351,19 @@
           "US": "États-Unis",
           "GB": "Royaume-Uni",
           "DE": "Allemagne",
-          "FR": "France"
+          "FR": "France",
+          "ES": "Espagne",
+          "IT": "Italie",
+          "RU": "Russie"
         },
         "languages": {
           "tr": "Turc",
           "en": "Anglais",
           "de": "Allemand",
-          "fr": "Français"
+          "fr": "Français",
+          "es": "Espagnol",
+          "it": "Italien",
+          "ru": "Russe"
         }
       }
     }

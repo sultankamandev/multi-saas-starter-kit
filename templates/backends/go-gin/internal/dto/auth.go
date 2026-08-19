@@ -95,6 +95,15 @@ type ResetPasswordRequest struct {
 	NewPassword string `json:"new_password" binding:"required,min=8,max=255"`
 }
 
+type ChangePasswordRequest struct {
+	CurrentPassword string `json:"current_password" binding:"required"`
+	NewPassword     string `json:"new_password" binding:"required,min=8,max=255"`
+}
+
+type Disable2FARequest struct {
+	Password string `json:"password" binding:"required"`
+}
+
 type GoogleLoginRequest struct {
 	Token      string `json:"token" binding:"required"`
 	RememberMe bool   `json:"remember_me"`

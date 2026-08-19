@@ -1,4 +1,11 @@
+from pydantic import field_validator
 from pydantic_settings import BaseSettings
+
+# The shortest JWT_SECRET the server will start with. Long enough to reject
+# every placeholder that ships in this repo — the .env.example value, the
+# compose default — so nobody boots a signing key that was never actually
+# chosen. Go and Node enforce the same number.
+MIN_SECRET_LEN = 32
 
 
 class SMTPSettings(BaseSettings):
@@ -10,11 +17,15 @@ class SMTPSettings(BaseSettings):
 
     @property
     def is_configured(self) -> bool:
-        return bool(self.SMTP_HOST and self.SMTP_USER and self.SMTP_PASS)
+        # Only the host is required. Auth is optional: internal relays and dev
+        # catchers like Mailpit accept mail with no credentials. Requiring
+        # USER/PASS here meant those setups silently sent nothing. Matches the
+        # Go and Node templates, which also gate on the host alone.
+        return bool(self.SMTP_HOST)
 
     @property
     def from_address(self) -> str:
-        return self.SMTP_FROM or self.SMTP_USER
+        return self.SMTP_FROM or self.SMTP_USER or "noreply@example.com"
 
 
 class Settings(BaseSettings):
@@ -35,6 +46,16 @@ class Settings(BaseSettings):
     SMTP_FROM: str = ""
 
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
+
+    @field_validator("JWT_SECRET")
+    @classmethod
+    def _secret_is_long_enough(cls, v: str) -> str:
+        if len(v) < MIN_SECRET_LEN:
+            raise ValueError(
+                f"JWT_SECRET must be at least {MIN_SECRET_LEN} characters "
+                f"(got {len(v)}) — generate one with: openssl rand -base64 48"
+            )
+        return v
 
     @property
     def cors_origins_list(self) -> list[str]:

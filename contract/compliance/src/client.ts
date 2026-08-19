@@ -24,13 +24,27 @@ export interface TestUser {
 
 let counter = 0;
 
-export function generateTestUser(): TestUser {
+// Vitest runs each test file in its own module instance, so `counter` restarts
+// at 1 per file and is not unique across the suite. Timestamp plus counter alone
+// therefore collides whenever two files call this in the same millisecond, and
+// the loser gets a 409 on a registration it expected to succeed. The random
+// suffix is what actually makes these unique; base 36 keeps `username` inside
+// its 30-character column.
+function uniqueSuffix(): string {
   counter++;
-  const ts = Date.now();
+  return `${Date.now().toString(36)}${counter}${Math.random().toString(36).slice(2, 8)}`;
+}
+
+export function generateTestUser(): TestUser {
+  const unique = uniqueSuffix();
   return {
-    email: `test${ts}${counter}@compliance.test`,
+    // example.com is reserved by RFC 2606 and accepted everywhere. Do NOT use
+    // a .test address here: it is a reserved special-use TLD, and strict
+    // validators (Pydantic/email-validator in the FastAPI template) reject it,
+    // which fails the suite for a reason that has nothing to do with the API.
+    email: `test${unique}@example.com`,
     password: "TestPass123!@#",
-    username: `testuser${ts}${counter}`,
+    username: `testuser${unique}`,
     firstName: "Test",
     lastName: "User",
   };

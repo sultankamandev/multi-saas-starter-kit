@@ -40,30 +40,36 @@ export async function postScaffold(
     }
   }
 
-  // Print getting-started instructions
-  p.note(
-    [
-      `${pc.bold("Backend")} (${options.backend.name}):`,
-      `  cd ${options.projectName}/backend`,
-      options.backend.envFile
-        ? `  cp ${options.backend.envFile} .env`
-        : null,
-      `  ${options.backend.installCmd}`,
-      `  ${options.backend.devCmd}`,
+  // Print getting-started instructions. Everything goes through the root
+  // scripts so the note is the same shape whichever stack was picked.
+  const steps: (string | null)[] = [`  cd ${options.projectName}`, ""];
+
+  if (options.includeDocker) {
+    steps.push(
+      `${pc.bold("Everything at once")} (Docker):`,
+      "  npm run up",
       "",
-      `${pc.bold("Frontend")} (${options.frontend.name}):`,
-      `  cd ${options.projectName}/frontend`,
-      `  npm install`,
-      `  npm run dev`,
-      "",
-      options.includeDocker
-        ? `${pc.bold("Docker")}:\n  cd ${options.projectName}\n  docker compose up --build`
-        : null,
-    ]
-      .filter(Boolean)
-      .join("\n"),
-    "Getting started"
+      `${pc.bold("Or run the pieces yourself")}:`
+    );
+  } else {
+    steps.push(`${pc.bold("Run it")}:`);
+  }
+
+  steps.push(
+    `  cp backend/${options.backend.envFile ?? ".env.example"} backend/.env`,
+    "  # set JWT_SECRET (32+ chars) and DATABASE_URL",
+    "  npm run install:backend && npm run dev:backend",
+    "  npm run install:frontend && npm run dev:frontend",
+    "",
+    `${pc.bold("Then, to reach /admin")}:`,
+    "  # register through the app first, then:",
+    "  npm run admin -- you@example.com",
+    "",
+    `${pc.bold("To check the API against the contract")}:`,
+    "  npm test"
   );
+
+  p.note(steps.filter((s) => s !== null).join("\n"), "Getting started");
 
   p.outro(
     pc.green(`Done! Your project is ready at ./${options.projectName}`)

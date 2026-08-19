@@ -47,8 +47,8 @@ for (const { name, backend, frontend } of scenarios) {
     projectName: name,
     backend,
     frontend,
-    includeDocker: false,
-    includeCi: "none",
+    includeDocker: true,
+    includeCi: "github",
   });
 
   assert(
@@ -62,6 +62,32 @@ for (const { name, backend, frontend } of scenarios) {
   assert(
     existsSync(join(targetDir, "backend")),
     `${name}: missing backend/`
+  );
+  assert(
+    existsSync(join(targetDir, "docker-compose.yml")),
+    `${name}: missing docker-compose.yml`
+  );
+  assert(
+    existsSync(join(targetDir, "docker", backend.dockerfile)),
+    `${name}: missing docker/${backend.dockerfile}`
+  );
+  assert(
+    existsSync(join(targetDir, "docker", frontend.dockerfile)),
+    `${name}: missing docker/${frontend.dockerfile}`
+  );
+  assert(
+    existsSync(join(targetDir, ".github", "workflows", "ci.yml")),
+    `${name}: missing .github/workflows/ci.yml`
+  );
+  // Every template must ship an env example, or the generated project has no
+  // documented way to point the frontend at the backend.
+  assert(
+    existsSync(join(targetDir, "backend", backend.envFile ?? ".env.example")),
+    `${name}: missing backend env example`
+  );
+  assert(
+    existsSync(join(targetDir, "frontend", ".env.example")),
+    `${name}: missing frontend/.env.example`
   );
   console.log(`smoke-scaffold: OK ${name}`);
 }

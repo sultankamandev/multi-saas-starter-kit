@@ -3,9 +3,9 @@ from __future__ import annotations
 import asyncio
 import logging
 
-from passlib.hash import bcrypt
+from app.platform.password import hash_password, verify_password
 
-from app.domain.errors import ERR_INVALID_INPUT, ERR_TOKEN_INVALID, DomainError
+from app.domain.errors import ERR_INVALID_INPUT, ERR_TOKEN_INVALID, ERR_UNAUTHORIZED, DomainError
 from app.domain.password import validate_password_complexity
 from app.domain.token import PasswordResetToken, generate_secure_token, token_expiry
 from app.platform.email import EmailSender
@@ -61,9 +61,34 @@ class PasswordService:
             raise DomainError(ERR_INVALID_INPUT, err)
 
         user = await self._users.find_by_id(prt.user_id)
-        user.password_hash = bcrypt.using(rounds=12).hash(new_password)
+        user.password_hash = hash_password(new_password)
         await self._users.update(user)
         await self._tokens.mark_password_reset_token_used(prt.id)
+        await self._token_svc.revoke_all_user_tokens(user.id)
+        await session.commit()
+
+    async def change_password(
+        self, user_id: int, current_password: str, new_password: str, session
+    ) -> None:
+        """Rotate the password of a signed-in user.
+
+        Unlike reset_password there is no emailed token, so the current password
+        is what proves intent -- an access token alone is not enough.
+
+        Every refresh token is revoked on success, exactly as reset_password
+        does, so a change signs the account out everywhere including the caller.
+        """
+        user = await self._users.find_by_id(user_id)
+
+        if not verify_password(current_password, user.password_hash):
+            raise DomainError(ERR_UNAUTHORIZED, "Current password is incorrect")
+
+        err = validate_password_complexity(new_password)
+        if err:
+            raise DomainError(ERR_INVALID_INPUT, err)
+
+        user.password_hash = hash_password(new_password)
+        await self._users.update(user)
         await self._token_svc.revoke_all_user_tokens(user.id)
         await session.commit()
 

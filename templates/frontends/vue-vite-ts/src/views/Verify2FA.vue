@@ -76,7 +76,9 @@ const auth = useAuthStore();
 
 const userId = computed(() => (route.query.user_id as string) ?? "");
 const rememberMe = computed(() => route.query.remember_me === "true");
-const twoFAType = computed(() => (route.query.two_fa_type as string) ?? "email") as "email" | "totp";
+const twoFAType = computed<"email" | "totp">(() =>
+  route.query.two_fa_type === "totp" ? "totp" : "email"
+);
 
 const digits = ref<string[]>(Array(CODE_LENGTH).fill(""));
 const inputRefs = ref<(HTMLInputElement | null)[]>(Array(CODE_LENGTH).fill(null));

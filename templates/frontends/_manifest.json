@@ -36,6 +36,11 @@
       "language": "typescript",
       "variants": ["ts"],
       "status": "beta",
+      "hint": "beta - hand-rolled admin UI",
+      "limitations": [
+        "The admin console is a hand-written Vuetify UI, not react-admin, so it has fewer features than the React and Next.js templates (no bulk actions or saved filters).",
+        "Everything else - auth, 2FA, profile, analytics and all 7 locales - is at parity."
+      ],
       "apiUrlEnv": "VITE_API_URL",
       "installCmd": "npm install",
       "devCmd": "npm run dev",

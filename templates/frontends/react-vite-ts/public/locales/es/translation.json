@@ -1,4 +1,4 @@
-﻿{
+{
   "title": "Bienvenido a SaaS Starter",
   "language": "Idioma",
   "nav": {
@@ -60,7 +60,8 @@
       "passwordRequired": "La contraseÃ±a es obligatoria",
       "passwordMinLength": "La contraseÃ±a debe tener al menos 8 caracteres",
       "confirmPasswordRequired": "Confirma tu contraseÃ±a",
-      "passwordsNotMatch": "Las contraseÃ±as no coinciden"
+      "passwordsNotMatch": "Las contraseÃ±as no coinciden",
+      "usernameRequired": "El nombre de usuario es obligatorio"
     }
   },
   "dashboard": {
@@ -402,4 +403,3 @@
     "saveChanges": "Guardar cambios"
   }
 }
-

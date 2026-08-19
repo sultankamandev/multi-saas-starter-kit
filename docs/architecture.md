@@ -1,15 +1,15 @@
 # Architecture
 
-This repository is a **monorepo** for a multi-stack SaaS starter: shared API contract, scaffold templates, a CLI, and reference applications used during development.
+This repository is a **monorepo** for a multi-stack auth kit: shared API contract, scaffold templates, a CLI, and reference applications used during development.
 
 ## Layout
 
 | Path | Role |
 | ---- | ---- |
-| [cli/](../cli/) | `create-saas-app` — copies templates + contract snippets into a new project |
+| [cli/](../cli/) | `create-authkit-app` — copies templates + contract snippets into a new project |
 | [templates/](../templates/) | Backend, frontend, and infra (Docker, CI) templates used by the CLI |
 | [contract/](../contract/) | [openapi.yaml](../contract/openapi.yaml) is the **source of truth** for HTTP APIs; [generated/](../contract/generated/) holds TypeScript types; [compliance/](../contract/compliance) holds backend-agnostic API tests |
-| [docs/](./) | API reference, contributing, template spec, and these guides |
+| [docs/](./) | API reference, [getting started](./getting-started.md), [maintainers guide](./maintainers.md), contributing, template spec |
 | [backend/](../backend/) | **Reference** Go and Python APIs for day-to-day development (not what `npx` scaffolds directly) |
 | [frontend/](../frontend/) | **Reference** Next.js and React/Vite apps |
 | [docker/](../docker/) | Legacy compose files pairing reference backends and frontends |
@@ -39,4 +39,4 @@ See [TEMPLATE_SPEC.md](./TEMPLATE_SPEC.md) for template author requirements.
 
 ## Published CLI package
 
-The npm package `create-saas-app` ships `dist/`, `templates/`, `contract/`, and `docs/` together so `npx create-saas-app` works without the full monorepo. Bundling is handled by [cli/scripts/bundle-pack-assets.mjs](../cli/scripts/bundle-pack-assets.mjs) during `prepublishOnly`.
+The npm package `create-authkit-app` ships `dist/`, `templates/`, `contract/`, and `docs/` together so `npx create-authkit-app` works without the full monorepo. Bundling is handled by [cli/scripts/bundle-pack-assets.mjs](../cli/scripts/bundle-pack-assets.mjs) during `prepublishOnly`.

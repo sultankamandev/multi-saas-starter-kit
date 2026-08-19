@@ -1,4 +1,4 @@
-﻿{
+{
   "title": "Welcome to SaaS Starter",
   "language": "Language",
   "nav": {
@@ -60,7 +60,8 @@
       "passwordRequired": "Password is required",
       "passwordMinLength": "Password must be at least 8 characters",
       "confirmPasswordRequired": "Please confirm your password",
-      "passwordsNotMatch": "Passwords do not match"
+      "passwordsNotMatch": "Passwords do not match",
+      "usernameRequired": "Username is required"
     }
   },
   "dashboard": {
@@ -348,13 +349,19 @@
           "US": "USA",
           "GB": "UK",
           "DE": "Germany",
-          "FR": "France"
+          "FR": "France",
+          "ES": "Spain",
+          "IT": "Italy",
+          "RU": "Russia"
         },
         "languages": {
           "tr": "Turkish",
           "en": "English",
           "de": "German",
-          "fr": "French"
+          "fr": "French",
+          "es": "Spanish",
+          "it": "Italian",
+          "ru": "Russian"
         }
       }
     }
@@ -396,4 +403,3 @@
     "saveChanges": "Save Changes"
   }
 }
-

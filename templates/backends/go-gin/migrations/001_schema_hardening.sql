@@ -1,8 +1,14 @@
 -- =============================================================================
 -- Migration 001: Schema Hardening
 -- =============================================================================
--- This migration is applied automatically by RunManualMigrations() in Go.
--- It is kept here as a reference for DBAs or manual application.
+-- Nothing reads this file at runtime. RunManualMigrations() in
+-- internal/platform/database/postgres.go is the authoritative list and applies
+-- on every boot; this is a copy kept readable for DBAs who need to apply the
+-- same hardening by hand, or review it before it runs.
+--
+-- Because it is a copy, it can drift. Section 1 below is an example: GORM's
+-- uniqueIndex tag handles public_id, so the Go list only carries the backfill.
+-- Change postgres.go first, then mirror it here.
 --
 -- All statements are idempotent and safe to re-run.
 -- =============================================================================

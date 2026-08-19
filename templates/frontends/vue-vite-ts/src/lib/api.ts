@@ -58,7 +58,7 @@ api.interceptors.response.use(
         return Promise.reject(error);
       }
       if (!refreshPromise) {
-        refreshPromise = (async () => {
+        refreshPromise = (async (): Promise<string> => {
           try {
             const r = await axios.post<{ access_token: string; refresh_token?: string }>(
               `${API_URL}/auth/refresh-token`,

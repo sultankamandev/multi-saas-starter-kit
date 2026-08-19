@@ -6,6 +6,8 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
+from app.database import engine
+from app.domain import Base
 from app.deps import get_analytics_service
 from app.i18n.loader import load_locales
 from app.middleware.rate_limiter import RateLimiter
@@ -21,6 +23,17 @@ from app.service.analytics_service import AnalyticsService
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     load_locales()
+
+    # Create any missing tables, mirroring the Go template's AutoMigrate so a
+    # fresh database works with no manual step. Importing app.domain populates
+    # Base.metadata with every model. This only creates what is absent; it does
+    # not alter existing columns or drop them.
+    #
+    # That is deliberate for a starter: no migration tool to learn on day one.
+    # When the schema starts changing under real data, add one —
+    # `pip install alembic && alembic init alembic` — and drop this call.
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
 
     app.state.jwt_manager = JWTManager(settings.JWT_SECRET, settings.JWT_ISSUER, settings.JWT_AUDIENCE)
     app.state.email_sender = EmailSender(settings)

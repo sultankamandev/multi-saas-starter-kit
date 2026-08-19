@@ -310,6 +310,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/change-password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Change the password of the logged-in user
+         * @description Requires the current password. On success every refresh token for the user is revoked, matching reset-password, so a password change signs the account out everywhere including the caller.
+         */
+        post: operations["changePassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/2fa/disable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Turn off TOTP 2FA
+         * @description Clears the stored secret and deletes any unused recovery codes, so re-enabling starts a fresh setup.
+         */
+        post: operations["disable2FA"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/user/profile": {
         parameters: {
             query?: never;
@@ -729,6 +769,14 @@ export interface components {
         ResetPasswordRequest: {
             token: string;
             new_password: string;
+        };
+        ChangePasswordRequest: {
+            current_password: string;
+            new_password: string;
+        };
+        Disable2FARequest: {
+            /** @description The account password. Required so that a stolen access token is not on its own enough to remove the second factor. */
+            password: string;
         };
         GoogleLoginRequest: {
             token: string;
@@ -1380,6 +1428,90 @@ export interface operations {
             };
         };
     };
+    changePassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChangePasswordRequest"];
+            };
+        };
+        responses: {
+            /** @description Password changed */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MessageResponse"];
+                };
+            };
+            /** @description New password fails the complexity rules */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Current password is wrong */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    disable2FA: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Disable2FARequest"];
+            };
+        };
+        responses: {
+            /** @description 2FA disabled */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MessageResponse"];
+                };
+            };
+            /** @description 2FA is not currently enabled */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Password is wrong */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     getProfile: {
         parameters: {
             query?: never;
@@ -1898,7 +2030,12 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        enabled?: boolean;
+                        require_email_verification: boolean;
+                        /**
+                         * @description "default" when no row exists in app_settings yet, so clients can distinguish an explicit value from a fallback.
+                         * @enum {string}
+                         */
+                        source: "database" | "default";
                     };
                 };
             };
@@ -1914,7 +2051,7 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    enabled: boolean;
+                    require_email_verification: boolean;
                 };
             };
         };
@@ -1925,7 +2062,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["MessageResponse"];
+                    "application/json": {
+                        message: string;
+                        require_email_verification: boolean;
+                    };
                 };
             };
         };
@@ -1946,7 +2086,12 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        enabled?: boolean;
+                        require_2fa: boolean;
+                        /**
+                         * @description "default" when no row exists in app_settings yet, so clients can distinguish an explicit value from a fallback.
+                         * @enum {string}
+                         */
+                        source: "database" | "default";
                     };
                 };
             };
@@ -1962,7 +2107,7 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    enabled: boolean;
+                    require_2fa: boolean;
                 };
             };
         };
@@ -1973,7 +2118,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["MessageResponse"];
+                    "application/json": {
+                        message: string;
+                        require_2fa: boolean;
+                    };
                 };
             };
         };

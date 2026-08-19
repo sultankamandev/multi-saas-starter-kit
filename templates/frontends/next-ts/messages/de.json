@@ -63,9 +63,7 @@
       "confirmPasswordRequired": "Bitte bestätige dein Passwort",
       "passwordsNotMatch": "Passwörter stimmen nicht überein",
       "usernameRequired": "Benutzername ist erforderlich",
-      "usernameMinLength": "Benutzername muss mindestens 3 Zeichen lang sein",
-      "usernameMaxLength": "Benutzername darf höchstens 30 Zeichen lang sein",
-      "usernameInvalid": "Benutzername darf nur Buchstaben, Zahlen, Unterstriche und Bindestriche enthalten. Muss mit einem Buchstaben oder einer Zahl beginnen und enden."
+      "usernameMinLength": "Benutzername muss mindestens 3 Zeichen lang sein"
     }
   },
   "dashboard": {
@@ -79,7 +77,8 @@
       "title": "Plattform-Funktionen",
       "description": "Ihr persönliches Dashboard. Zugriff auf Benutzerverwaltung, Analysen und Plattformeinstellungen."
     },
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "adminPanel": "Admin-Bereich"
   },
   "landing": {
     "hero": {
@@ -119,7 +118,10 @@
   },
   "common": {
     "loading": "Lädt...",
-    "logoutSuccess": "Erfolgreich abgemeldet"
+    "logoutSuccess": "Erfolgreich abgemeldet",
+    "unauthorized": "Bitte melden Sie sich an, um auf diese Seite zuzugreifen",
+    "adminOnly": "Administratorzugriff erforderlich",
+    "loginRequired": "Bitte melden Sie sich an, um auf diese Seite zuzugreifen"
   },
   "errors": {
     "title": "Etwas ist schief gelaufen",
@@ -349,13 +351,19 @@
           "US": "USA",
           "GB": "Großbritannien",
           "DE": "Deutschland",
-          "FR": "Frankreich"
+          "FR": "Frankreich",
+          "ES": "Spanien",
+          "IT": "Italien",
+          "RU": "Russland"
         },
         "languages": {
           "tr": "Türkisch",
           "en": "Englisch",
           "de": "Deutsch",
-          "fr": "Französisch"
+          "fr": "Französisch",
+          "es": "Spanisch",
+          "it": "Italienisch",
+          "ru": "Russisch"
         }
       }
     }

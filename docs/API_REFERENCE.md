@@ -62,6 +62,8 @@ Requires valid JWT access token.
 | POST   | `/auth/logout-all`         | Invalidate all sessions        |
 | POST   | `/auth/2fa/setup`          | Start TOTP 2FA setup (returns QR + secret) |
 | POST   | `/auth/2fa/verify-setup`   | Confirm TOTP setup with a valid code |
+| POST   | `/auth/2fa/disable`        | Turn TOTP 2FA off (requires the account password) |
+| POST   | `/auth/change-password`    | Change password while signed in (revokes all sessions) |
 
 ---
 

@@ -25,6 +25,12 @@ type Handlers struct {
 func Setup(r *gin.Engine, jwtMgr *jwtPlatform.Manager, h Handlers) {
 	r.Use(middleware.LanguageMiddleware())
 
+	// Required by the contract and used as the container healthcheck. Kept
+	// outside the /auth group so it is never rate limited.
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{"message": "pong"})
+	})
+
 	auth := r.Group("/auth")
 	auth.Use(middleware.RateLimiter(100, 1*time.Minute, 5*time.Minute))
 	{
@@ -50,10 +56,12 @@ func Setup(r *gin.Engine, jwtMgr *jwtPlatform.Manager, h Handlers) {
 			authenticated.GET("/me", h.Auth.GetMe)
 			authenticated.GET("/dashboard", h.Auth.Dashboard)
 			authenticated.POST("/logout-all", h.Auth.LogoutAllSessions)
+			authenticated.POST("/change-password", h.Password.ChangePassword)
 
 			// 2FA setup (requires auth)
 			authenticated.POST("/2fa/setup", h.TwoFA.Setup2FA)
 			authenticated.POST("/2fa/verify-setup", h.TwoFA.Verify2FASetup)
+			authenticated.POST("/2fa/disable", h.TwoFA.Disable2FA)
 		}
 	}
 
@@ -76,7 +84,8 @@ func Setup(r *gin.Engine, jwtMgr *jwtPlatform.Manager, h Handlers) {
 		admin.PUT("/users/:id", h.AdminUser.Update)
 		admin.DELETE("/users/:id", h.AdminUser.Delete)
 		admin.PUT("/users/:id/role", h.AdminUser.UpdateRole)
-		admin.GET("/user-stats", h.AdminUser.Stats)
+		// Contract maps user-stats to the same AdminSummary shape as /summary.
+		admin.GET("/user-stats", h.Analytics.Summary)
 		admin.GET("/actions", h.AdminUser.GetActions)
 
 		// Analytics

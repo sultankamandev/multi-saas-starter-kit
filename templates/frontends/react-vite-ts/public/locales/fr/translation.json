@@ -1,4 +1,4 @@
-﻿{
+{
   "title": "Bienvenue sur SaaS Starter",
   "language": "Langue",
   "nav": {
@@ -61,10 +61,7 @@
       "passwordMinLength": "Le mot de passe doit contenir au moins 8 caractÃ¨res",
       "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
       "passwordsNotMatch": "Les mots de passe ne correspondent pas",
-      "usernameRequired": "Le nom d'utilisateur est requis",
-      "usernameMinLength": "Le nom d'utilisateur doit contenir au moins 3 caractÃ¨res",
-      "usernameMaxLength": "Le nom d'utilisateur ne doit pas dÃ©passer 30 caractÃ¨res",
-      "usernameInvalid": "Le nom d'utilisateur ne peut contenir que des lettres, chiffres, underscores et tirets. Doit commencer et se terminer par une lettre ou un chiffre."
+      "usernameRequired": "Le nom d'utilisateur est requis"
     }
   },
   "dashboard": {
@@ -78,7 +75,8 @@
       "title": "FonctionnalitÃ©s de la plateforme",
       "description": "Votre tableau de bord personnel. AccÃ©dez Ã  la gestion des utilisateurs, aux analyses et aux paramÃ¨tres."
     },
-    "logout": "DÃ©connexion"
+    "logout": "DÃ©connexion",
+    "adminPanel": "Panneau d'administration"
   },
   "landing": {
     "hero": {
@@ -118,7 +116,10 @@
   },
   "common": {
     "loading": "Chargement...",
-    "logoutSuccess": "DÃ©connexion rÃ©ussie"
+    "logoutSuccess": "DÃ©connexion rÃ©ussie",
+    "unauthorized": "Veuillez vous connecter pour accéder à cette page",
+    "adminOnly": "Accès administrateur requis",
+    "loginRequired": "Veuillez vous connecter pour accéder à cette page"
   },
   "errors": {
     "title": "Quelque chose s'est mal passÃ©",
@@ -348,13 +349,19 @@
           "US": "Ã‰tats-Unis",
           "GB": "Royaume-Uni",
           "DE": "Allemagne",
-          "FR": "France"
+          "FR": "France",
+          "ES": "Espagne",
+          "IT": "Italie",
+          "RU": "Russie"
         },
         "languages": {
           "tr": "Turc",
           "en": "Anglais",
           "de": "Allemand",
-          "fr": "FranÃ§ais"
+          "fr": "FranÃ§ais",
+          "es": "Espagnol",
+          "it": "Italien",
+          "ru": "Russe"
         }
       }
     }
@@ -396,4 +403,3 @@
     "saveChanges": "Enregistrer les modifications"
   }
 }
-

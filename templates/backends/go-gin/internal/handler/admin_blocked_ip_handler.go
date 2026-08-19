@@ -22,10 +22,8 @@ func (h *AdminBlockedIPHandler) GetBlockedIPs(c *gin.Context) {
 		blockedIPs = []middleware.BlockedIP{}
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"blocked_ips": blockedIPs,
-		"count":       len(blockedIPs),
-	})
+	// Contract: a bare array.
+	c.JSON(http.StatusOK, blockedIPs)
 }
 
 func (h *AdminBlockedIPHandler) UnblockIP(c *gin.Context) {

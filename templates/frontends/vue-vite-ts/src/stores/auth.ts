@@ -16,7 +16,7 @@ function applyUserLanguage(userData: { language?: string }) {
 
 export const useAuthStore = defineStore("auth", () => {
   const user = ref<User | null>(null);
-  const token = ref<string | null>(tokenCookie.get());
+  const token = ref<string | null>(tokenCookie.get() ?? null);
   const loading = ref(true);
 
   const isAuthenticated = computed(() => !!token.value);

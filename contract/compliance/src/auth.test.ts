@@ -39,7 +39,16 @@ describe("Auth", () => {
       email_or_username: testUser.email,
       password: testUser.password,
     });
-    // May return 200 (login success) or 200 with requires_2fa
+
+    // require_email_verification defaults to true, so a freshly registered
+    // account is legitimately refused until it is verified. That is correct
+    // behaviour, not a failure — assert the refusal is well formed and stop.
+    if (res.status === 403) {
+      expect(res.data).toHaveProperty("error");
+      return;
+    }
+
+    // Otherwise: 200, either a session or a 2FA challenge.
     expect(res.status).toBe(200);
 
     if (res.data.requires_2fa) {

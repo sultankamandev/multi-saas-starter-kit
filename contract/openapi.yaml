@@ -291,6 +291,27 @@ components:
           minLength: 8
           maxLength: 255
 
+    ChangePasswordRequest:
+      type: object
+      required: [current_password, new_password]
+      properties:
+        current_password:
+          type: string
+        new_password:
+          type: string
+          minLength: 8
+          maxLength: 255
+
+    Disable2FARequest:
+      type: object
+      required: [password]
+      properties:
+        password:
+          type: string
+          description: >-
+            The account password. Required so that a stolen access token is not
+            on its own enough to remove the second factor.
+
     GoogleLoginRequest:
       type: object
       required: [token]
@@ -973,6 +994,79 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
 
   # ── User Profile ──────────────────────────────────────
+  /auth/change-password:
+    post:
+      tags: [Auth (Protected)]
+      summary: Change the password of the logged-in user
+      description: >-
+        Requires the current password. On success every refresh token for the
+        user is revoked, matching reset-password, so a password change signs the
+        account out everywhere including the caller.
+      operationId: changePassword
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangePasswordRequest"
+      responses:
+        "200":
+          description: Password changed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: New password fails the complexity rules
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Current password is wrong
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/2fa/disable:
+    post:
+      tags: [Auth (Protected)]
+      summary: Turn off TOTP 2FA
+      description: >-
+        Clears the stored secret and deletes any unused recovery codes, so
+        re-enabling starts a fresh setup.
+      operationId: disable2FA
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Disable2FARequest"
+      responses:
+        "200":
+          description: 2FA disabled
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: 2FA is not currently enabled
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Password is wrong
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
   /api/user/profile:
     get:
       tags: [User]
@@ -1453,9 +1547,16 @@ paths:
             application/json:
               schema:
                 type: object
+                required: [require_email_verification, source]
                 properties:
-                  enabled:
+                  require_email_verification:
                     type: boolean
+                  source:
+                    type: string
+                    enum: [database, default]
+                    description: >-
+                      "default" when no row exists in app_settings yet, so
+                      clients can distinguish an explicit value from a fallback.
     put:
       tags: [Admin - Settings]
       summary: Update email verification setting
@@ -1468,9 +1569,9 @@ paths:
           application/json:
             schema:
               type: object
-              required: [enabled]
+              required: [require_email_verification]
               properties:
-                enabled:
+                require_email_verification:
                   type: boolean
       responses:
         "200":
@@ -1478,7 +1579,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/MessageResponse"
+                type: object
+                required: [message, require_email_verification]
+                properties:
+                  message:
+                    type: string
+                  require_email_verification:
+                    type: boolean
 
   /api/admin/settings/2fa:
     get:
@@ -1494,9 +1601,16 @@ paths:
             application/json:
               schema:
                 type: object
+                required: [require_2fa, source]
                 properties:
-                  enabled:
+                  require_2fa:
                     type: boolean
+                  source:
+                    type: string
+                    enum: [database, default]
+                    description: >-
+                      "default" when no row exists in app_settings yet, so
+                      clients can distinguish an explicit value from a fallback.
     put:
       tags: [Admin - Settings]
       summary: Update 2FA enforcement setting
@@ -1509,9 +1623,9 @@ paths:
           application/json:
             schema:
               type: object
-              required: [enabled]
+              required: [require_2fa]
               properties:
-                enabled:
+                require_2fa:
                   type: boolean
       responses:
         "200":
@@ -1519,4 +1633,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/MessageResponse"
+                type: object
+                required: [message, require_2fa]
+                properties:
+                  message:
+                    type: string
+                  require_2fa:
+                    type: boolean

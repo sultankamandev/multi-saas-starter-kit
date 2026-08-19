@@ -63,9 +63,7 @@
       "confirmPasswordRequired": "Lütfen şifrenizi onaylayın",
       "passwordsNotMatch": "Şifreler eşleşmiyor",
       "usernameRequired": "Kullanıcı adı gereklidir",
-      "usernameMinLength": "Kullanıcı adı en az 3 karakter olmalıdır",
-      "usernameMaxLength": "Kullanıcı adı en fazla 30 karakter olmalıdır",
-      "usernameInvalid": "Kullanıcı adı sadece harf, rakam, alt çizgi ve tire içerebilir. Harf veya rakamla başlayıp bitmelidir."
+      "usernameMinLength": "Kullanıcı adı en az 3 karakter olmalıdır"
     }
   },
   "dashboard": {
@@ -353,13 +351,19 @@
           "US": "ABD",
           "GB": "İngiltere",
           "DE": "Almanya",
-          "FR": "Fransa"
+          "FR": "Fransa",
+          "ES": "İspanya",
+          "IT": "İtalya",
+          "RU": "Rusya"
         },
         "languages": {
           "tr": "Türkçe",
           "en": "İngilizce",
           "de": "Almanca",
-          "fr": "Fransızca"
+          "fr": "Fransızca",
+          "es": "İspanyolca",
+          "it": "İtalyanca",
+          "ru": "Rusça"
         }
       }
     }

@@ -1,4 +1,4 @@
-﻿{
+{
   "title": "SaaS Starter'a HoÅŸ Geldiniz",
   "language": "Dil",
   "nav": {
@@ -62,10 +62,9 @@
       "confirmPasswordRequired": "LÃ¼tfen ÅŸifrenizi onaylayÄ±n",
       "passwordsNotMatch": "Åžifreler eÅŸleÅŸmiyor",
       "usernameRequired": "KullanÄ±cÄ± adÄ± gereklidir",
-      "usernameMinLength": "KullanÄ±cÄ± adÄ± en az 3 karakter olmalÄ±dÄ±r",
-      "usernameMaxLength": "KullanÄ±cÄ± adÄ± en fazla 30 karakter olmalÄ±dÄ±r",
-      "usernameInvalid": "KullanÄ±cÄ± adÄ± sadece harf, rakam, alt Ã§izgi ve tire iÃ§erebilir. Harf veya rakamla baÅŸlayÄ±p bitmelidir."
-    }
+      "usernameMin": "Kullanıcı adı en az 3 karakter olmalıdır"
+    },
+    "selectCountry": "Bir ülke seçin..."
   },
   "dashboard": {
     "title": "Kontrol Paneli",
@@ -79,7 +78,8 @@
       "description": "KiÅŸisel kontrol paneliniz. KullanÄ±cÄ± yÃ¶netimi, analitik ve platform ayarlarÄ±na eriÅŸin."
     },
     "logout": "Ã‡Ä±kÄ±ÅŸ Yap",
-    "adminPanel": "YÃ¶netici Paneli"
+    "adminPanel": "YÃ¶netici Paneli",
+    "welcomeBackName": "Tekrar hoş geldiniz, {name}!"
   },
   "landing": {
     "hero": {
@@ -122,7 +122,13 @@
     "logoutSuccess": "BaÅŸarÄ±yla Ã§Ä±kÄ±ÅŸ yapÄ±ldÄ±",
     "unauthorized": "Bu sayfaya eriÅŸmek iÃ§in lÃ¼tfen giriÅŸ yapÄ±n",
     "adminOnly": "YÃ¶netici eriÅŸimi gerekli",
-    "loginRequired": "Bu sayfaya eriÅŸmek iÃ§in lÃ¼tfen giriÅŸ yapÄ±n"
+    "loginRequired": "Bu sayfaya eriÅŸmek iÃ§in lÃ¼tfen giriÅŸ yapÄ±n",
+    "create": "Oluştur",
+    "edit": "Düzenle",
+    "search": "Ara",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "delete": "Sil"
   },
   "errors": {
     "title": "Bir ÅŸeyler yanlÄ±ÅŸ gitti",
@@ -162,7 +168,9 @@
       "passwordMinLength": "Åžifre en az 8 karakter olmalÄ±dÄ±r",
       "confirmPasswordRequired": "LÃ¼tfen ÅŸifrenizi onaylayÄ±n",
       "passwordsNotMatch": "Åžifreler eÅŸleÅŸmiyor"
-    }
+    },
+    "invalidToken": "Geçersiz veya süresi dolmuş sıfırlama bağlantısı.",
+    "requestNewLink": "Yeni bağlantı isteyin"
   },
   "verifyEmail": {
     "title": "E-posta DoÄŸrula",
@@ -175,7 +183,8 @@
     "failedMessage": "LÃ¼tfen baÄŸlantÄ±nÄ±zÄ± kontrol edin veya tekrar kayÄ±t olmayÄ± deneyin.",
     "missingToken": "GeÃ§ersiz veya eksik doÄŸrulama baÄŸlantÄ±sÄ±.",
     "goToLogin": "GiriÅŸ SayfasÄ±na Git",
-    "registerAgain": "Tekrar KayÄ±t Ol"
+    "registerAgain": "Tekrar KayÄ±t Ol",
+    "invalidToken": "Geçersiz veya eksik doğrulama bağlantısı."
   },
   "verify2FA": {
     "title": "Ä°ki FaktÃ¶rlÃ¼ Kimlik DoÄŸrulama",
@@ -203,7 +212,9 @@
       "codeRequired": "DoÄŸrulama kodu gereklidir",
       "codeLength": "Kod tam olarak 6 haneli olmalÄ±dÄ±r",
       "codeInvalid": "Kod sadece rakam iÃ§ermelidir"
-    }
+    },
+    "verify": "Doğrula",
+    "resendSuccess": "E-postanıza yeni bir kod gönderildi."
   },
   "setup2FA": {
     "title": "Ä°ki FaktÃ¶rlÃ¼ Kimlik DoÄŸrulamayÄ± EtkinleÅŸtir",
@@ -235,7 +246,16 @@
       "codeRequired": "DoÄŸrulama kodu gereklidir",
       "codeLength": "Kod tam olarak 6 haneli olmalÄ±dÄ±r",
       "codeInvalid": "Kod sadece rakam iÃ§ermelidir"
-    }
+    },
+    "generate": "QR Kodu Oluştur",
+    "backupSecret": "Yedek anahtar (güvenli bir yerde saklayın)",
+    "enterCode": "Kimlik doğrulama uygulamanızdaki 6 haneli kodu girin",
+    "verify": "Doğrula ve Etkinleştir",
+    "enabled": "2FA başarıyla etkinleştirildi",
+    "copied": "Kurtarma kodları panoya kopyalandı",
+    "copyFailed": "Kopyalanamadı",
+    "saveRecoveryCodes": "Bu kurtarma kodlarını güvenli bir yerde saklayın. Her biri yalnızca bir kez kullanılabilir.",
+    "copyAll": "Tüm Kodları Kopyala"
   },
   "recoveryLogin": {
     "title": "Yedek Kod ile GiriÅŸ Yap",
@@ -253,7 +273,8 @@
     "validation": {
       "codeRequired": "Yedek kod gereklidir",
       "codeMinLength": "Yedek kod Ã§ok kÄ±sa"
-    }
+    },
+    "codePlaceholder": "Kurtarma kodunu girin"
   },
   "admin": {
     "auditLog": "Denetim GÃ¼nlÃ¼ÄŸÃ¼",
@@ -352,15 +373,22 @@
           "US": "ABD",
           "GB": "Ä°ngiltere",
           "DE": "Almanya",
-          "FR": "Fransa"
+          "FR": "Fransa",
+          "ES": "İspanya",
+          "IT": "İtalya",
+          "RU": "Rusya"
         },
         "languages": {
           "tr": "TÃ¼rkÃ§e",
           "en": "Ä°ngilizce",
           "de": "Almanca",
-          "fr": "FransÄ±zca"
+          "fr": "FransÄ±zca",
+          "es": "İspanyolca",
+          "it": "İtalyanca",
+          "ru": "Rusça"
         }
-      }
+      },
+      "last30Days": "Son 30 Gün"
     }
   },
   "profile": {
@@ -397,7 +425,11 @@
     "twoFADisabledDescription": "HesabÄ±nÄ±za ekstra bir gÃ¼venlik katmanÄ± eklemek iÃ§in 2FA'yÄ± etkinleÅŸtirin.",
     "cancel": "Ä°ptal",
     "saving": "Kaydediliyor...",
-    "saveChanges": "DeÄŸiÅŸiklikleri Kaydet"
+    "saveChanges": "DeÄŸiÅŸiklikleri Kaydet",
+    "required": "Bu alan zorunludur",
+    "saved": "Profil başarıyla güncellendi",
+    "save": "Kaydet",
+    "twoFactorAuth": "İki Faktörlü Kimlik Doğrulama",
+    "twoFactorDescription": "Hesabınıza ek bir güvenlik katmanı eklemek için 2FA'yı etkinleştirin."
   }
 }
-

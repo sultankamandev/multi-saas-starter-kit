@@ -5,10 +5,11 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
-from passlib.hash import bcrypt
+from app.platform.password import hash_password, verify_password
 
 from app.domain.errors import (
     ERR_CONFLICT,
+    ERR_FORBIDDEN,
     ERR_INVALID_INPUT,
     ERR_UNAUTHORIZED,
     DomainError,
@@ -93,7 +94,7 @@ class AuthService:
 
         lang = self._normalize_lang(req.language)
         country = await self._resolve_country(req.country, client_ip, lang)
-        password_hash = bcrypt.using(rounds=12).hash(req.password)
+        password_hash = hash_password(req.password)
 
         require_verification = await self._is_verification_required()
 
@@ -144,11 +145,13 @@ class AuthService:
         except DomainError:
             raise DomainError(ERR_UNAUTHORIZED, "Invalid credentials")
 
-        if not bcrypt.verify(req.password, user.password_hash):
+        if not verify_password(req.password, user.password_hash):
             raise DomainError(ERR_UNAUTHORIZED, "Invalid credentials")
 
         if not user.verified:
-            raise DomainError(ERR_UNAUTHORIZED, "Please verify your email address before logging in")
+            # 403, matching Go (ErrEmailNotVerified) and Node: the credentials
+            # are valid, the account is simply not yet allowed to sign in.
+            raise DomainError(ERR_FORBIDDEN, "Please verify your email address before logging in")
 
         if user.two_fa_enabled:
             if user.two_fa_secret:

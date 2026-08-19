@@ -9,7 +9,7 @@ This document summarizes how scaffolded projects are intended to be run in produ
 
 ## Docker
 
-When you choose Docker during `create-saas-app`, the CLI renders `docker-compose.yml` and copies Dockerfiles from `templates/infra/docker/`. Typical flow from the generated project root:
+When you choose Docker during `create-authkit-app`, the CLI renders `docker-compose.yml` and copies Dockerfiles from `templates/infra/docker/`. Typical flow from the generated project root:
 
 ```bash
 docker compose up --build

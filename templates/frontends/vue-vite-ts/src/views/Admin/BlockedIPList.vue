@@ -7,7 +7,7 @@
       :items="blockedIPs"
       :loading="loading"
     >
-      <template #item.actions="{ item }">
+      <template #item.actions="{ item }: { item: BlockedIP }">
         <v-btn
           size="small"
           color="error"
@@ -23,12 +23,13 @@
 </template>
 
 <script setup lang="ts">
+import type { BlockedIP } from "@/types/auth";
 import { ref, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { getBlockedIPs, unblockIP } from "@/services/adminService";
 
 const { t } = useI18n();
-const blockedIPs = ref<unknown[]>([]);
+const blockedIPs = ref<BlockedIP[]>([]);
 const loading = ref(false);
 const unblocking = ref<string | null>(null);
 

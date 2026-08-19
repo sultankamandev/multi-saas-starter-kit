@@ -59,6 +59,7 @@ type TwoFARepository interface {
 	CreateRecoveryCode(ctx context.Context, code *domain.RecoveryCode) error
 	FindUnusedRecoveryCodes(ctx context.Context, userID uint) ([]domain.RecoveryCode, error)
 	MarkRecoveryCodeUsed(ctx context.Context, id uint) error
+	DeleteRecoveryCodes(ctx context.Context, userID uint) error
 }
 
 type LoginEventRepository interface {

@@ -1,4 +1,4 @@
-import { join, relative } from "node:path";
+import { join, relative, basename } from "node:path";
 import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import fse from "fs-extra";
 import ejs from "ejs";
@@ -15,7 +15,15 @@ const SKIP_DIRS = new Set([
   ".git",
 ]);
 
-const SKIP_FILES = new Set(["server.exe", ".DS_Store", "Thumbs.db"]);
+const MAINTAINER_DOCS = new Set([
+  "CONTRIBUTING.md",
+  "TEMPLATE_SPEC.md",
+  "maintainers.md",
+  "architecture.md",
+  "design",
+]);
+
+const SKIP_FILES = new Set(["server.exe", ".DS_Store", "Thumbs.db", ".env"]);
 
 function walkDir(dir: string): string[] {
   const results: string[] = [];
@@ -83,10 +91,12 @@ export async function scaffold(
   const frontendDest = join(targetDir, "frontend");
   await copyTemplate(frontendSrc, frontendDest);
 
-  // 4. Copy API docs
+  // 4. Copy API docs, minus the ones addressed to maintainers of this repo.
   const docsDir = join(root, "..", "docs");
   if (existsSync(docsDir)) {
-    await fse.copy(docsDir, join(targetDir, "docs"));
+    await fse.copy(docsDir, join(targetDir, "docs"), {
+      filter: (src) => !MAINTAINER_DOCS.has(basename(src)),
+    });
   }
 
   // 5. Copy OpenAPI contract and generated types
@@ -103,7 +113,49 @@ export async function scaffold(
     await fse.copy(generatedTypes, join(typesDir, "api-generated.ts"));
   }
 
-  // 6. Docker setup
+  // 6. Copy the compliance suite so the contract stays checkable after the
+  // project is handed over. node_modules and .env are filtered by walkDir.
+  const complianceSrc = join(root, "..", "contract", "compliance");
+  if (existsSync(complianceSrc)) {
+    const complianceDest = join(targetDir, "tests", "compliance");
+    await copyTemplate(complianceSrc, complianceDest);
+
+    // Point it at the backend that was actually chosen. Written as a file
+    // because `API_URL=... npm test` is POSIX-only and silently does nothing
+    // on Windows.
+    const defaults = [
+      "# Non-secret defaults for the compliance suite. Committed on purpose.",
+      "# Real environment variables override anything set here.",
+      "",
+      "# The backend under test.",
+      `API_URL=http://localhost:${options.backend.port}`,
+      "",
+      "# Mail sink used by the email/2FA flow checks. Those 9 checks skip",
+      "# themselves when this is unreachable.",
+      ...(options.includeDocker
+        ? ["# `npm run up` starts one at this address."]
+        : [
+            "# Start one with:",
+            "#   docker run -p 1025:1025 -p 8025:8025 axllent/mailpit",
+          ]),
+      "MAILPIT_URL=http://localhost:8025",
+      "",
+      "# The 12 admin checks skip themselves unless these are set. Put them in",
+      "# a local .env (not committed) next to this file, after running",
+      "# `npm run admin -- you@example.com`:",
+      "#   ADMIN_EMAIL=you@example.com",
+      "#   ADMIN_PASSWORD=...",
+      "",
+    ].join("\n");
+
+    await fse.writeFile(
+      join(complianceDest, ".env.defaults"),
+      defaults,
+      "utf-8"
+    );
+  }
+
+  // 7. Docker setup
   if (options.includeDocker) {
     const dockerDir = join(targetDir, "docker");
     await fse.ensureDir(dockerDir);
@@ -155,7 +207,7 @@ export async function scaffold(
     }
   }
 
-  // 7. CI/CD setup
+  // 8. CI/CD setup
   if (options.includeCi !== "none") {
     const ciTemplate = join(
       root,
